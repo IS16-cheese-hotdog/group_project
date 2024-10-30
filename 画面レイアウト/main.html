@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ホテルサイト</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body, html {
+            overflow: hidden; /* Prevent scrolling */
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #000; /* Changed background color to black */
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        nav ul li a:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+            box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin: 0;
+        }
+
+        ul {
+            padding: 0;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        main {
+            background-color: #fff;
+            padding: 0; /* Removed padding */
+            text-align: center;
+        }
+
+        main img {
+            width: 100vw; /* Stretch image to full viewport width */
+            height: 100vh; /* Stretch image to full viewport height */
+            object-fit: cover; /* Ensure image covers the area without distortion */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>チーズハットグ</h1>
+        <nav>
+            <ul>
+                <li><a href="main.html">ホーム</a></li>
+                <li><a href="claim.html">お問い合わせ</a></li>
+                <li><a href="search.html">検索</a></li>
+                <li><a href="login.html">ログイン</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section>
+            <img src="IMG_0119.JPG" alt="ホテルの画像">
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2023 ホテル名. All rights reserved.</p>
+    </footer>
+</body>
+</html>
