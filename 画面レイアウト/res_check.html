@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ホテルマイページ - 予約状況</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .date-picker {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .reservations {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        .reservations th, .reservations td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        .reservations th {
+            background-color: #f2f2f2;
+            text-align: left;
+        }
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
+        .back-button a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+        .back-button a:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="back-button">
+        <a href="hotel.html">
+            &larr; 戻る
+        </a>
+    </div>
+    <div class="container">
+        <div class="header">
+            <h1>予約状況</h1>
+        </div>
+        <div class="date-picker">
+            <label for="reservation-date">日付を選択してください: </label>
+            <input type="date" id="reservation-date" name="reservation-date">
+        </div>
+        <table class="reservations">
+            <thead>
+                <tr>
+                    <th>予約ID</th>
+                    <th>お客様名</th>
+                    <th>部屋番号</th>
+                    <th>チェックイン</th>
+                    <th>チェックアウト</th>
+                </tr>
+            </thead>
+            <tbody id="reservation-list">
+                <!-- 予約情報がここに表示されます -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        document.getElementById('reservation-date').addEventListener('change', function() {
+            const selectedDate = this.value;
+            // ここでサーバーから予約情報を取得する処理を追加します
+            // 例として、ダミーデータを使用します
+            const reservations = [
+                { id: 1, name: '山田 太郎', room:'101', checkin: '14:00', checkout: '10:00' },
+                { id: 2, name: '鈴木 花子', room:'301', checkin: '15:00', checkout: '11:00' }
+            ];
+
+            const reservationList = document.getElementById('reservation-list');
+            reservationList.innerHTML = '';
+
+            reservations.forEach(reservation => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${reservation.id}</td>
+                    <td>${reservation.name}</td>
+                    <td>${reservation.room}</td>
+                    <td>${reservation.checkin}</td>
+                    <td>${reservation.checkout}</td>
+                `;
+                reservationList.appendChild(row);
+            });
+        });
+
+        // Set the default date to today and trigger the change event
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = new Date().toISOString().split('T')[0];
+            const dateInput = document.getElementById('reservation-date');
+            dateInput.value = today;
+            dateInput.dispatchEvent(new Event('change'));
+        });
+    </script>
+</body>
+</html>

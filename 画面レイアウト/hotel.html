@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ホテル マイページ</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .link-container {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 30px;
+        }
+        .link-container a {
+            text-decoration: none;
+            color: #fff;
+            background-color: #007BFF;
+            padding: 15px 30px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .link-container a:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>ホテル マイページ</h1>
+        <div class="link-container">
+            <a href="res_check.html">予約状況の確認</a>
+            <a href="#hotel-info-update">ホテル情報登録更新</a>
+            <a href="#contact-admin">管理者への連絡</a>
+        </div>
+        <div class="link-container">
+            <a href="login.html">ログアウト</a>
+        </div>
+    </div>
+</body>
+</html>
