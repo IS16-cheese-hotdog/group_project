@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>口コミを書く</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .rating {
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: center;
+        }
+        .rating input {
+            display: none;
+        }
+        .rating label {
+            font-size: 2em;
+            color: #ddd;
+            cursor: pointer;
+        }
+        .rating input:checked ~ label {
+            color: #f5b301;
+        }
+        .rating label:hover,
+        .rating label:hover ~ label {
+            color: #f5b301;
+        }
+        .review-input {
+            display: block;
+            width: 100%;
+            margin-top: 20px;
+            padding: 10px;
+            font-size: 1em;
+        }
+        .submit-button {
+            display: block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>口コミを書く</h1>
+    <form action="/submit_review" method="post">
+        <div class="rating">
+            <input type="radio" id="star5" name="rating" value="5"><label for="star5">★</label>
+            <input type="radio" id="star4" name="rating" value="4"><label for="star4">★</label>
+            <input type="radio" id="star3" name="rating" value="3"><label for="star3">★</label>
+            <input type="radio" id="star2" name="rating" value="2"><label for="star2">★</label>
+            <input type="radio" id="star1" name="rating" value="1"><label for="star1">★</label>
+        </div>
+        <textarea class="review-input" name="review" rows="4" placeholder="口コミを入力してください"></textarea>
+        <button type="submit" class="submit-button">送信</button>
+    </form>
+    <script>
+        document.querySelector('form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            alert('送信しました');
+            document.querySelector('.submit-button').disabled = true;
+            window.location.href = 'mypage.html';
+        });
+    </script>
+</body>
+</html>
