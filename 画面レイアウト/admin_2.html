@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ホテル管理ページ</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .search-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px;
+        }
+        .search-container input {
+            width: 300px;
+            padding: 10px;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+        .search-container button {
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+        .list-container {
+            margin: 20px;
+            display: none;
+        }
+        .list-container ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .list-container li {
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+        .admin-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .admin-button:hover {
+            background-color: #45a049;
+        }
+        .add-hotel-button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .add-hotel-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center; margin-top: 20px;">ホテル管理ページ</h1>
+    <button class="admin-button" onclick="location.href='admin.html'">戻る</button>
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="ホテルを検索...">
+        <button id="searchButton">検索</button>
+    </div>
+    <button class="add-hotel-button" onclick="location.href='add_hotel.html'">ホテルを追加</button>
+    <div class="list-container" id="hotelList">
+        <h2>ホテルリスト</h2>
+        <ul id="hotelListItems">
+            <!-- 検索結果がここに表示されます -->
+        </ul>
+    </div>
+
+    <script>
+        const hotels = [
+            'ホテルやりますねえ',
+            '野獣ホテル',
+            'ホテルニューセンパイ',
+            'リッツカールトン下北沢',
+            'パークハイアット拓也'
+        ];
+
+        document.getElementById('searchButton').addEventListener('click', function() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const filteredHotels = hotels.filter(hotel => hotel.toLowerCase().includes(query));
+            const hotelList = document.getElementById('hotelList');
+            const hotelListItems = document.getElementById('hotelListItems');
+            hotelListItems.innerHTML = '';
+
+            if (filteredHotels.length > 0) {
+                filteredHotels.forEach(hotel => {
+                    const li = document.createElement('li');
+                    li.textContent = hotel;
+                    hotelListItems.appendChild(li);
+                });
+                hotelList.style.display = 'block';
+            } else {
+                hotelList.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

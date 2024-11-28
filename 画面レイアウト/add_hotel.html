@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>会員登録</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        form {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            margin: 0;
+            flex-grow: 1;
+            text-align: center;
+        }
+
+        .header button {
+            width: auto;
+            padding: 10px 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <button onclick="location.href='admin.html'">戻る</button>
+        <h1>ホテル登録</h1>
+    </div>
+    <form action="/submit_registration" method="post">
+        <label for="name">氏名:</label>
+        <input type="text" id="name" name="name" required><br><br>
+
+        <label for="kana">カナ:</label>
+        <input type="text" id="kana" name="kana" required><br><br>
+
+        <label for="postal_code">郵便番号:</label>
+        <input type="text" id="postal_code" name="postal_code" required><br><br>
+
+        <label for="address">住所:</label>
+        <input type="text" id="address" name="address" required><br><br>
+
+        <label for="dob">生年月日:</label>
+        <input type="date" id="dob" name="dob" required><br><br>
+
+        <label for="gender">性別:</label>
+        <select id="gender" name="gender" required>
+            <option value="male">男性</option>
+            <option value="female">女性</option>
+        </select><br><br>
+
+        <label for="email">メールアドレス:</label>
+        <input type="email" id="email" name="email" required><br><br>
+
+        <label for="phone">電話番号:</label>
+        <input type="tel" id="phone" name="phone" required><br><br>
+
+        <button type="submit">送信</button>
+    </form>
+    
+    <script>
+        document.getElementById('postal_code').addEventListener('input', function (e) {
+            this.value = this.value.replace(/[^0-9]/g, '');
+        });
+    </script>
+</body>
+</html>

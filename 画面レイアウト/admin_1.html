@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>会員管理ページ</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .search-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px;
+        }
+        .search-container input {
+            width: 300px;
+            padding: 10px;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+        .search-container button {
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+        .member-list {
+            margin: 20px;
+            display: none;
+        }
+        .member-list ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .member-list li {
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+        .admin-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .admin-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center; margin-top: 20px;">会員管理画面</h1>
+    <button class="admin-button" onclick="location.href='admin.html'">戻る</button>
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="会員を検索...">
+        <button id="searchButton">検索</button>
+    </div>
+    <div class="member-list" id="memberList">
+        <h2>会員リスト</h2>
+        <ul id="memberListItems">
+            <!-- 検索結果がここに表示されます -->
+        </ul>
+    </div>
+
+    <script>
+        const members = [
+            '山田 太郎',
+            '佐藤 花子',
+            '鈴木 次郎',
+            '田中 一郎',
+            '高橋 美咲'
+        ];
+
+        document.getElementById('searchButton').addEventListener('click', function() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const filteredMembers = members.filter(member => member.toLowerCase().includes(query));
+            const memberList = document.getElementById('memberList');
+            const memberListItems = document.getElementById('memberListItems');
+
+            memberListItems.innerHTML = '';
+
+            if (filteredMembers.length > 0) {
+                filteredMembers.forEach(member => {
+                    const li = document.createElement('li');
+                    li.textContent = member;
+                    memberListItems.appendChild(li);
+                });
+                memberList.style.display = 'block';
+            } else {
+                memberList.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
