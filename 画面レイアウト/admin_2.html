@@ -35,6 +35,9 @@
         .list-container li {
             padding: 10px;
             border-bottom: 1px solid #ccc;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         .admin-button {
             position: absolute;
@@ -65,6 +68,18 @@
         .add-hotel-button:hover {
             background-color: #45a049;
         }
+        .detail-button {
+            padding: 5px 10px;
+            font-size: 14px;
+            background-color: #008CBA;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .detail-button:hover {
+            background-color: #007B9A;
+        }
     </style>
 </head>
 <body>
@@ -84,16 +99,16 @@
 
     <script>
         const hotels = [
-            'ホテルやりますねえ',
-            '野獣ホテル',
-            'ホテルニューセンパイ',
-            'リッツカールトン下北沢',
-            'パークハイアット拓也'
+            { name: 'ホテルやりますねえ', link: 'hotel1.html' },
+            { name: '野獣ホテル', link: 'hotel2.html' },
+            { name: 'ホテルニューセンパイ', link: 'hotel3.html' },
+            { name: 'リッツカールトン下北沢', link: 'hotel4.html' },
+            { name: 'パークハイアット拓也', link: 'hotel5.html' }
         ];
 
         document.getElementById('searchButton').addEventListener('click', function() {
             const query = document.getElementById('searchInput').value.toLowerCase();
-            const filteredHotels = hotels.filter(hotel => hotel.toLowerCase().includes(query));
+            const filteredHotels = hotels.filter(hotel => hotel.name.toLowerCase().includes(query));
             const hotelList = document.getElementById('hotelList');
             const hotelListItems = document.getElementById('hotelListItems');
             hotelListItems.innerHTML = '';
@@ -101,7 +116,16 @@
             if (filteredHotels.length > 0) {
                 filteredHotels.forEach(hotel => {
                     const li = document.createElement('li');
-                    li.textContent = hotel;
+                    li.textContent = hotel.name;
+
+                    const button = document.createElement('button');
+                    button.textContent = '詳細';
+                    button.classList.add('detail-button');
+                    button.onclick = function() {
+                        window.location.href = hotel.link;
+                    };
+
+                    li.appendChild(button);
                     hotelListItems.appendChild(li);
                 });
                 hotelList.style.display = 'block';

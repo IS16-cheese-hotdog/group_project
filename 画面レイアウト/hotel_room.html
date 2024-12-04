@@ -3,128 +3,147 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>登録情報更新</title>
+    <title>部屋情報一覧</title>
+
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
         }
-        .container {
-            margin-top: 60px; /* 戻るボタンの下に配置 */
-        }
-        .form-group {
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        .form-group .current-info {
-            width: 40%; /* 現在の内容を左側に配置 */
-            text-align: left;
-            color: #555;
-            padding-right: 20px; /* 空白を作成 */
-        }
-        .form-group input {
-            flex: 1;
-            max-width: 60%; /* 入力欄を中央から右側に配置 */
-            padding: 8px;
-            box-sizing: border-box;
-            margin-left: auto; /* 入力欄を右寄せ */
-        }
-        .buttons {
+        h1 {
             text-align: center;
-            margin-top: 20px;
         }
-        .buttons button {
+        .add-button {
+            display: block;
+            margin: 10px auto 20px;
             padding: 10px 20px;
-            font-size: 16px;
-            background-color: #4CAF50;
-            color: white;
+            background: #28a745;
+            color: #fff;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background: #f4f4f4;
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            position: relative;
+        }
+        .details {
+            display: none;
+            margin-top: 10px;
+            background: #eaeaea;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+        .details-button, .delete-button {
+            position: absolute;
+            top: 10px;
+            padding: 5px 10px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
         }
-        .buttons button:hover {
-            background-color: #45a049;
+        .details-button {
+            right: 80px;
+            background: #007bff;
+            color: #fff;
+        }
+        .delete-button {
+            right: 10px;
+            background: #dc3545;
+            color: #fff;
         }
         .back-button {
             position: absolute;
             top: 20px;
             left: 20px;
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color: #f0f0f0;
-            border: 1px solid #ccc;
+            text-decoration: none;
+            color: #000;
+            background: #ddd;
+            padding: 10px;
             border-radius: 5px;
-            cursor: pointer;
-        }
-        .title {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        .popup {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: white;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-        }
-        .popup button {
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
         }
     </style>
 </head>
 <body>
-    <button class="back-button" onclick="window.history.back();">戻る</button>
-    <h1 class="title">部屋情報更新</h1>
-    <div class="container">
-        <form>
-            <div class="form-group">
-                <div class="current-info">郵便番号: 123-4567</div>
-                <input type="text" id="postal-code" name="postal-code" value="123-4567">
+    <a href="javascript:history.back()" class="back-button">戻る</a>
+    <h1>部屋情報一覧</h1>
+    <a href="add_room.html" class="add-button">部屋情報を追加</a>
+    <ul>
+        <li>
+            シングルルーム
+            <button class="details-button" data-link="room_details.html">詳細を見る</button>
+            <button class="delete-button">削除</button>
+            <div class="details">
+                <p>広さ: 15㎡</p>
+                <p>設備: ベッド1台、Wi-Fi完備、テレビ</p>
+                <p>料金: ¥7,000/泊</p>
             </div>
-            <div class="form-group">
-                <div class="current-info">建物名: サンプルビル</div>
-                <input type="text" id="building" name="building" value="サンプルビル">
+        </li>
+        <li>
+            ツインルーム
+            <button class="details-button" data-link="room_details.html">詳細を見る</button>
+            <button class="delete-button">削除</button>
+            <div class="details">
+                <p>広さ: 25㎡</p>
+                <p>設備: ベッド2台、Wi-Fi完備、テレビ、冷蔵庫</p>
+                <p>料金: ¥12,000/泊</p>
             </div>
-            <div class="form-group">
-                <div class="current-info">住所: 東京都新宿区西新宿1-1-1</div>
-                <input type="text" id="address" name="address" value="東京都新宿区西新宿1-1-1">
+        </li>
+        <li>
+            ダブルルーム
+            <button class="details-button" data-link="room_details.html">詳細を見る</button>
+            <button class="delete-button">削除</button>
+            <div class="details">
+                <p>広さ: 20㎡</p>
+                <p>設備: ダブルベッド1台、Wi-Fi完備、テレビ、ソファ</p>
+                <p>料金: ¥10,000/泊</p>
             </div>
-            <div class="form-group">
-                <div class="current-info">電話番号: 090-1234-5678</div>
-                <input type="tel" id="phone" name="phone" value="090-1234-5678">
+        </li>
+        <li>
+            スイートルーム
+            <button class="details-button" data-link="room_details.html">詳細を見る</button>
+            <button class="delete-button">削除</button>
+            <div class="details">
+                <p>広さ: 50㎡</p>
+                <p>設備: キングサイズベッド、リビングエリア、Wi-Fi完備、テレビ、バスルーム</p>
+                <p>料金: ¥25,000/泊</p>
             </div>
-            <div class="form-group">
-                <div class="current-info">メール: yamada@example.com</div>
-                <input type="email" id="email" name="email" value="yamada@example.com">
-            </div>
-            <div class="buttons">
-                <button type="submit">更新</button>
-            </div>
-        </form>
-    </div>
+        </li>
+    </ul>
     <script>
-        document.querySelector('form').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const popup = document.createElement('div');
-            popup.className = 'popup';
-            popup.innerHTML = `
-                <p>更新しました</p>
-                <button id="confirm-button">確認</button>
-            `;
-            document.body.appendChild(popup);
+        document.querySelectorAll('li').forEach(item => {
+            const details = item.querySelector('.details');
+            const detailsButton = item.querySelector('.details-button');
+            const deleteButton = item.querySelector('.delete-button');
 
-            document.getElementById('confirm-button').addEventListener('click', function() {
-                window.location.href = 'hotel_hotel.html';
+            item.addEventListener('click', () => {
+                if (details.style.display === 'block') {
+                    details.style.display = 'none';
+                } else {
+                    details.style.display = 'block';
+                }
+            });
+
+            detailsButton.addEventListener('click', (event) => {
+                event.stopPropagation(); // リストアイテムのクリックイベントを無効化
+                const link = detailsButton.getAttribute('data-link');
+                if (link) {
+                    window.location.href = link; // 指定されたリンクに遷移
+                }
+            });
+
+            deleteButton.addEventListener('click', (event) => {
+                event.stopPropagation(); // リストアイテムのクリックイベントを無効化
+                if (confirm('この部屋情報を削除しますか？')) {
+                    item.remove(); // 部屋情報を削除
+                }
             });
         });
     </script>
