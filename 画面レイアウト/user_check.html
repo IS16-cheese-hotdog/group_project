@@ -7,59 +7,119 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-        }
-        .reservation-list {
-            width: 80%;
-            margin: 0 auto;
-            border-collapse: collapse;
-        }
-        .reservation-list th, .reservation-list td {
-            border: 1px solid #ddd;
-            padding: 8px;
-        }
-        .reservation-list th {
-            background-color: #f2f2f2;
-            text-align: left;
-        }
-        .mypage-button {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            text-decoration: none;
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
+            margin: 20px;
         }
         h1 {
             text-align: center;
         }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background: #f4f4f4;
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            position: relative;
+        }
+        .details {
+            display: none;
+            margin-top: 10px;
+            background: #eaeaea;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+        .details-button, .delete-button {
+            position: absolute;
+            top: 10px;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .details-button {
+            right: 100px;
+            background: #007bff;
+            color: #fff;
+        }
+        .delete-button {
+            right: 10px;
+            background: #dc3545;
+            color: #fff;
+        }
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            text-decoration: none;
+            color: #000;
+            background: #ddd;
+            padding: 10px;
+            border-radius: 5px;
+        }
     </style>
 </head>
 <body>
-    <a href="mypage.html" class="mypage-button">戻る</a>
+    <a href="mypage.html" class="back-button">戻る</a>
     <h1>予約確認</h1>
-    <table class="reservation-list">
-        <thead>
-            <tr>
-                <th>日時</th>
-                <th>ホテル名</th>
-                <th>値段</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>2023-10-01 14:00</td>
-                <td>ホテルA</td>
-                <td>¥10,000</td>
-            </tr>
-            <tr>
-                <td>2023-10-05 16:00</td>
-                <td>ホテルB</td>
-                <td>¥12,000</td>
-            </tr>
-            <!-- 追加の予約はここに記入 -->
-        </tbody>
-    </table>
+    <ul>
+        <li>
+            予約日時:2023-10-01 14:00 | ホテル名:ホテルA 
+            <button class="details-button" data-link="goodclaim.html?hotel=ホテルA">口コミを書く</button>
+            <button class="delete-button">キャンセル</button>
+            <div class="details">
+                <p>チェックイン時間: 14:00</p>
+                <p>チェックアウト時間: 11:00</p>
+                <p>ホテル名: ホテルA</p>
+                <p>ホテルの場所: 東京都新宿区</p>
+                <p>プラン名: スタンダードプラン</p>
+                <p>値段: 10,000円</p>
+            </div>
+        </li>
+        <li>
+            予約日時:2023-10-05 14:00 | ホテル名:ホテルB 
+            <button class="details-button" data-link="goodclaim.html?hotel=ホテルB">口コミを書く</button>
+            <button class="delete-button">キャンセル</button>
+            <div class="details">
+                <p>チェックイン時間: 15:00</p>
+                <p>チェックアウト時間: 10:00</p>
+                <p>ホテル名: ホテルB</p>
+                <p>ホテルの場所: 大阪府大阪市</p>
+                <p>プラン名: デラックスプラン</p>
+                <p>値段: 15,000円</p>
+            </div>
+        </li>
+    </ul>
+    <script>
+        document.querySelectorAll('li').forEach(item => {
+            const details = item.querySelector('.details');
+            const detailsButton = item.querySelector('.details-button');
+            const deleteButton = item.querySelector('.delete-button');
+
+            item.addEventListener('click', () => {
+                if (details.style.display === 'block') {
+                    details.style.display = 'none';
+                } else {
+                    details.style.display = 'block';
+                }
+            });
+
+            detailsButton.addEventListener('click', (event) => {
+                event.stopPropagation(); // リストアイテムのクリックイベントを無効化
+                const link = detailsButton.getAttribute('data-link');
+                if (link) {
+                    window.location.href = link; // 指定されたリンクに遷移
+                }
+            });
+
+            deleteButton.addEventListener('click', (event) => {
+                event.stopPropagation(); // リストアイテムのクリックイベントを無効化
+                if (confirm('この予約をキャンセルしますか？')) {
+                    item.remove(); // 予約を削除
+                }
+            });
+        });
+    </script>
 </body>
 </html>

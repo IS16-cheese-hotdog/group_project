@@ -67,12 +67,11 @@
     </style>
 </head>
 <body>
-    <h1>マイページ
-    </h1>
+    <h1>マイページ</h1>
     <div class="tabs">
         <div class="tab" onclick="window.location.href='user_check.html'">予約確認</div>
         <div class="tab" onclick="window.location.href='user_change.html'">登録情報更新</div>
-        <div class="tab" onclick="window.location.href='goodclaim.html'">退会</div>
+        <div class="tab" id="withdraw-tab">退会</div>
     </div>
     <div class="link-container">
         <a href="login.html">ログアウト</a>
@@ -101,6 +100,13 @@
 
         // ページ読み込み時に予約状況を確認
         window.onload = checkReservations;
+
+        document.getElementById('withdraw-tab').onclick = function(event) {
+            event.preventDefault();
+            if (confirm('本当に退会しますか？')) {
+                window.location.href = 'main.html';
+            }
+        };
     </script>
 </body>
 </html>
