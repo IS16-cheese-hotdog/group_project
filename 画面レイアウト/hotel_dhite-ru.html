@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"="width=device-width, initial-scale=1.0">
+    <title>ホテル情報</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+            position: relative;
+        }
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+        }
+        .hotel-info {
+            margin-bottom: 20px;
+        }
+        .hotel-info h2 {
+            color: #555;
+        }
+        .hotel-info p {
+            line-height: 1.6;
+        }
+        .plan-list {
+            list-style: none;
+            padding: 0;
+        }
+        .plan-list li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+        }
+        .plan-list button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        .plan-list button:hover {
+            background-color: #0056b3;
+        }
+        .back-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>ホテル情報</h1>
+        <button class="back-button" onclick="window.history.back()">戻る</button>
+    </header>
+    <div class="container">
+        <div class="hotel-info">
+            <h2>ホテル名: サンプルホテル</h2>
+            <p>所在地: 東京都新宿区西新宿2-8-1</p>
+            <p>電話番号: 03-1234-5678</p>
+            <p>チェックイン: 15:00</p>
+            <p>チェックアウト: 11:00</p>
+        </div>
+        <div class="hotel-info">
+            <h2>ホテルの特徴</h2>
+            <p>サンプルホテルは、快適な滞在を提供するために最新の設備とサービスを備えています。館内にはレストラン、フィットネスセンター、スパなどがあり、ビジネスや観光に最適です。</p>
+        </div>
+        <div class="hotel-info">
+            <h2>アクセス</h2>
+            <p>最寄り駅: 新宿駅から徒歩5分</p>
+            <p>空港からのアクセス: 成田空港から電車で1時間</p>
+        </div>
+        <div class="hotel-info">
+            <h2>プラン一覧</h2>
+            <ul class="plan-list">
+                <li>
+                    <span>シングルルーム - 朝食付き</span>
+                    <button onclick="alert('予約しました')">予約</button>
+                </li>
+                <li>
+                    <span>ダブルルーム - 朝食付き</span>
+                    <button onclick="alert('予約しました')">予約</button>
+                </li>
+                <li>
+                    <span>スイートルーム - 朝食付き</span>
+                    <button onclick="alert('予約しました')">予約</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
