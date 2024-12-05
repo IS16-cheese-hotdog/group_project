@@ -8,6 +8,7 @@
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
+            position: relative;
         }
         .rating {
             display: flex;
@@ -43,6 +44,18 @@
             font-size: 1em;
             cursor: pointer;
         }
+        .back-button {
+            display: block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            background-color: #ccc;
+            border: none;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
     </style>
 </head>
 <body>
@@ -58,13 +71,25 @@
         <textarea class="review-input" name="review" rows="4" placeholder="口コミを入力してください"></textarea>
         <button type="submit" class="submit-button">送信</button>
     </form>
+    <button onclick="history.back()" class="back-button">前画面に戻る</button>
     <script>
         document.querySelector('form').addEventListener('submit', function(event) {
             event.preventDefault();
             alert('送信しました');
             document.querySelector('.submit-button').disabled = true;
-            window.location.href = 'mypage.html';
+            window.location.href = 'user_check.html';
         });
     </script>
 </body>
 </html>
+<style>
+    .back-button {
+        top: 0;
+        left: 0;
+        margin: 0;
+    }
+    h1 {
+        margin-top: 50px;
+        text-align: center;
+    }
+</style>
