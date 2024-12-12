@@ -35,6 +35,9 @@
         .member-list li {
             padding: 10px;
             border-bottom: 1px solid #ccc;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         .admin-button {
             position: absolute;
@@ -69,16 +72,16 @@
 
     <script>
         const members = [
-            '山田 太郎',
-            '佐藤 花子',
-            '鈴木 次郎',
-            '田中 一郎',
-            '高橋 美咲'
+            { name: '山田 太郎', id: 1 },
+            { name: '佐藤 花子', id: 2 },
+            { name: '鈴木 次郎', id: 3 },
+            { name: '田中 一郎', id: 4 },
+            { name: '高橋 美咲', id: 5 }
         ];
 
         document.getElementById('searchButton').addEventListener('click', function() {
             const query = document.getElementById('searchInput').value.toLowerCase();
-            const filteredMembers = members.filter(member => member.toLowerCase().includes(query));
+            const filteredMembers = members.filter(member => member.name.toLowerCase().includes(query));
             const memberList = document.getElementById('memberList');
             const memberListItems = document.getElementById('memberListItems');
 
@@ -87,7 +90,16 @@
             if (filteredMembers.length > 0) {
                 filteredMembers.forEach(member => {
                     const li = document.createElement('li');
-                    li.textContent = member;
+                    li.textContent = member.name;
+
+                    const detailButton = document.createElement('button');
+                    detailButton.textContent = '詳細';
+                    detailButton.style.marginLeft = '10px';
+                    detailButton.onclick = function() {
+                        location.href = `member_detail.html?id=${member.id}`;
+                    };
+
+                    li.appendChild(detailButton);
                     memberListItems.appendChild(li);
                 });
                 memberList.style.display = 'block';
