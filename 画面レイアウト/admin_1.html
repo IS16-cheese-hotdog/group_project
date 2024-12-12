@@ -93,10 +93,16 @@
                     li.textContent = member.name;
 
                     const detailButton = document.createElement('button');
-                    detailButton.textContent = '詳細';
+                    detailButton.textContent = '削除';
                     detailButton.style.marginLeft = '10px';
                     detailButton.onclick = function() {
-                        location.href = `member_detail.html?id=${member.id}`;
+                        if (confirm('本当に削除しますか？')) {
+                            const index = members.findIndex(m => m.id === member.id);
+                            if (index !== -1) {
+                                members.splice(index, 1);
+                                li.remove();
+                            }
+                        }
                     };
 
                     li.appendChild(detailButton);

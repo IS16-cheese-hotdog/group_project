@@ -38,6 +38,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: relative;
         }
         .admin-button {
             position: absolute;
@@ -76,9 +77,26 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            margin-right: 5px;
+            position: absolute;
+            right: 70px;
         }
         .detail-button:hover {
             background-color: #007B9A;
+        }
+        .delete-button {
+            padding: 5px 10px;
+            font-size: 14px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            position: absolute;
+            right: 10px;
+        }
+        .delete-button:hover {
+            background-color: #d32f2f;
         }
     </style>
 </head>
@@ -118,14 +136,24 @@
                     const li = document.createElement('li');
                     li.textContent = hotel.name;
 
-                    const button = document.createElement('button');
-                    button.textContent = '詳細';
-                    button.classList.add('detail-button');
-                    button.onclick = function() {
-                        window.location.href = hotel.link;
+                    const detailButton = document.createElement('button');
+                    detailButton.textContent = '詳細';
+                    detailButton.classList.add('detail-button');
+                    detailButton.onclick = function() {
+                        window.location.href = 'a_hotel_updata.html';
                     };
 
-                    li.appendChild(button);
+                    const deleteButton = document.createElement('button');
+                    deleteButton.textContent = '削除';
+                    deleteButton.classList.add('delete-button');
+                    deleteButton.onclick = function() {
+                        if (confirm('本当に削除しますか？')) {
+                            li.remove();
+                        }
+                    };
+
+                    li.appendChild(detailButton);
+                    li.appendChild(deleteButton);
                     hotelListItems.appendChild(li);
                 });
                 hotelList.style.display = 'block';
