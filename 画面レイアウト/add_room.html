@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>登録情報更新</title>
+    <title>部屋情報登録</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -23,7 +23,7 @@
             color: #555;
             padding-right: 20px; /* 空白を作成 */
         }
-        .form-group input {
+        .form-group input, .form-group select {
             flex: 1;
             max-width: 60%; /* 入力欄を中央から右側に配置 */
             padding: 8px;
@@ -84,31 +84,27 @@
 </head>
 <body>
     <button class="back-button" id="back-button">戻る</button>
-    <h1 class="title">登録情報更新</h1>
+    <h1 class="title">部屋情報登録</h1>
     <div class="container">
         <form>
             <div class="form-group">
-                <label for="postal-code">郵便番号: 123-4567</label>
-                <input type="text" id="postal-code" name="postal-code" value="123-4567">
+                <label for="room-name">部屋名:</label>
+                <input type="text" id="room-name" name="room-name">
             </div>
             <div class="form-group">
-                <label for="building">建物名: サンプルビル</label>
-                <input type="text" id="building" name="building" value="サンプルビル">
+                <label for="room-description">部屋説明:</label>
+                <input type="text" id="room-description" name="room-description">
             </div>
             <div class="form-group">
-                <label for="address">住所: 東京都新宿区西新宿1-1-1</label>
-                <input type="text" id="address" name="address" value="東京都新宿区西新宿1-1-1">
+                <label for="room-price">価格:</label>
+                <input type="number" id="room-price" name="room-price">
             </div>
             <div class="form-group">
-                <label for="phone">電話番号: 090-1234-5678</label>
-                <input type="tel" id="phone" name="phone" value="090-1234-5678">
-            </div>
-            <div class="form-group">
-                <label for="email">メール: yamada@example.com</label>
-                <input type="email" id="email" name="email" value="yamada@example.com">
+                <label for="room-availability">空室状況:</label>
+                <input type="text" id="room-availability" name="room-availability">
             </div>
             <div class="buttons">
-                <button type="submit">更新</button>
+                <button type="submit">登録</button>
             </div>
         </form>
     </div>
@@ -121,40 +117,39 @@
         const backButton = document.getElementById('back-button');
         if (fromPage === 'admin_2') {
             backButton.addEventListener('click', () => {
-                window.location.href = 'admin_2.html';
+                window.location.href = 'hotel_room.html';
             });
         } else {
             backButton.addEventListener('click', () => {
-                window.location.href = 'admin_2.html';
+                window.location.href = 'hotel_room.html';
             });
         }
 
         document.querySelector('form').addEventListener('submit', function(event) {
             event.preventDefault();
             
-            const postalCode = document.getElementById('postal-code').value;
-            const building = document.getElementById('building').value;
-            const address = document.getElementById('address').value;
-            const phone = document.getElementById('phone').value;
-            const email = document.getElementById('email').value;
+            const roomName = document.getElementById('room-name').value;
+            const roomDescription = document.getElementById('room-description').value;
+            const roomPrice = document.getElementById('room-price').value;
+            const roomAvailability = document.getElementById('room-availability').value;
+            const roomType = document.getElementById('room-type').value;
 
             const popup = document.createElement('div');
             popup.className = 'popup';
             popup.innerHTML = `
-                <p>更新しますか？</p>
-                <p>郵便番号: ${postalCode}</p>
-                <p>建物名: ${building}</p>
-                <p>住所: ${address}</p>
-                <p>電話番号: ${phone}</p>
-                <p>メール: ${email}</p>
+                <p>登録しますか？</p>
+                <p>部屋名: ${roomName}</p>
+                <p>部屋説明: ${roomDescription}</p>
+                <p>価格: ${roomPrice}</p>
+                <p>空室状況: ${roomAvailability}</p>
                 <button id="confirm-yes">はい</button>
                 <button id="confirm-no">いいえ</button>
             `;
             document.body.appendChild(popup);
 
             document.getElementById('confirm-yes').addEventListener('click', function() {
-                // 実際の更新処理をここに追加
-                window.location.href = 'admin_2.html';
+                // 実際の登録処理をここに追加
+                window.location.href = 'hotel_room.html';
             });
 
             document.getElementById('confirm-no').addEventListener('click', function() {

@@ -107,6 +107,20 @@
         document.getElementById('postal_code').addEventListener('input', function (e) {
             this.value = this.value.replace(/[^0-9]/g, '');
         });
-    </script>
-</body>
-</html>
+        document.querySelector('form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            let message = '';
+            formData.forEach((value, key) => {
+            message += `${key}: ${value}\n`;
+            });
+
+            if (confirm(`この内容で登録しますか？\n\n${message}`)) {
+            alert('登録完了しました');
+            this.reset();
+            }
+        });
+        </script>
+    </body>
+    </html>
