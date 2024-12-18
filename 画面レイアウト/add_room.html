@@ -18,17 +18,27 @@
             margin-bottom: 15px;
         }
         .form-group label {
-            width: 40%; /* 現在の内容を左側に配置 */
+            width: 30%; /* 現在の内容を左側に配置 */
             text-align: left;
             color: #555;
             padding-right: 20px; /* 空白を作成 */
         }
         .form-group input, .form-group select {
             flex: 1;
-            max-width: 60%; /* 入力欄を中央から右側に配置 */
+            max-width: 70%; /* 入力欄を中央から右側に配置 */
             padding: 8px;
             box-sizing: border-box;
             margin-left: auto; /* 入力欄を右寄せ */
+        }
+        .form-group div {
+            display: flex;
+            align-items: center;
+        }
+        .form-group div label {
+            margin-right: 10px;
+        }
+        .form-group input[type="radio"] {
+            margin-left: 10px;
         }
         .buttons {
             text-align: center;
@@ -88,7 +98,7 @@
     <div class="container">
         <form>
             <div class="form-group">
-                <label for="room-name">部屋名:</label>
+                <label for="room-name">部屋ID:</label>
                 <input type="text" id="room-name" name="room-name">
             </div>
             <div class="form-group">
@@ -96,12 +106,62 @@
                 <input type="text" id="room-description" name="room-description">
             </div>
             <div class="form-group">
-                <label for="room-price">価格:</label>
-                <input type="number" id="room-price" name="room-price">
+                <label for="room-beds">ベッド数:</label>
+                <input type="number" id="room-beds" name="room-beds">
             </div>
             <div class="form-group">
-                <label for="room-availability">空室状況:</label>
-                <input type="text" id="room-availability" name="room-availability">
+                <label for="room-bathroom">バスルーム:</label>
+                <div>
+                    <input type="radio" id="room-bathroom-yes" name="room-bathroom" value="yes">
+                    <label for="room-bathroom-yes">はい</label>
+                    <input type="radio" id="room-bathroom-no" name="room-bathroom" value="no">
+                    <label for="room-bathroom-no">いいえ</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="room-dryer">ドライヤー:</label>
+                <div>
+                    <input type="radio" id="room-dryer-yes" name="room-dryer" value="yes">
+                    <label for="room-dryer-yes">はい</label>
+                    <input type="radio" id="room-dryer-no" name="room-dryer" value="no">
+                    <label for="room-dryer-no">いいえ</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="room-tv">テレビ:</label>
+                <div>
+                    <input type="radio" id="room-tv-yes" name="room-tv" value="yes">
+                    <label for="room-tv-yes">はい</label>
+                    <input type="radio" id="room-tv-no" name="room-tv" value="no">
+                    <label for="room-tv-no">いいえ</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="room-wifi">Wi-Fi:</label>
+                <div>
+                    <input type="radio" id="room-wifi-yes" name="room-wifi" value="yes">
+                    <label for="room-wifi-yes">はい</label>
+                    <input type="radio" id="room-wifi-no" name="room-wifi" value="no">
+                    <label for="room-wifi-no">いいえ</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="room-pet">ペット:</label>
+                <div>
+                    <input type="radio" id="room-pet-yes" name="room-pet" value="yes">
+                    <label for="room-pet-yes">はい</label>
+                    <input type="radio" id="room-pet-no" name="room-pet" value="no">
+                    <label for="room-pet-no">いいえ</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="room-fridge">冷蔵庫:</label>
+                <div>
+                    <input type="radio" id="room-fridge-yes" name="room-fridge" value="yes">
+                    <label for="room-fridge-yes">はい</label>
+                    <input type="radio" id="room-fridge-no" name="room-fridge" value="no">
+                    <label for="room-fridge-no">いいえ</label>
+                </div>
             </div>
             <div class="buttons">
                 <button type="submit">登録</button>
@@ -130,18 +190,27 @@
             
             const roomName = document.getElementById('room-name').value;
             const roomDescription = document.getElementById('room-description').value;
-            const roomPrice = document.getElementById('room-price').value;
-            const roomAvailability = document.getElementById('room-availability').value;
-            const roomType = document.getElementById('room-type').value;
+            const roomBeds = document.getElementById('room-beds').value;
+            const roomBathroom = document.querySelector('input[name="room-bathroom"]:checked').value;
+            const roomDryer = document.querySelector('input[name="room-dryer"]:checked').value;
+            const roomTv = document.querySelector('input[name="room-tv"]:checked').value;
+            const roomWifi = document.querySelector('input[name="room-wifi"]:checked').value;
+            const roomPet = document.querySelector('input[name="room-pet"]:checked').value;
+            const roomFridge = document.querySelector('input[name="room-fridge"]:checked').value;
 
             const popup = document.createElement('div');
             popup.className = 'popup';
             popup.innerHTML = `
                 <p>登録しますか？</p>
-                <p>部屋名: ${roomName}</p>
+                <p>部屋ID: ${roomName}</p>
                 <p>部屋説明: ${roomDescription}</p>
-                <p>価格: ${roomPrice}</p>
-                <p>空室状況: ${roomAvailability}</p>
+                <p>ベッド数: ${roomBeds}</p>
+                <p>バスルーム: ${roomBathroom}</p>
+                <p>ドライヤー: ${roomDryer}</p>
+                <p>テレビ: ${roomTv}</p>
+                <p>Wi-Fi: ${roomWifi}</p>
+                <p>ペット: ${roomPet}</p>
+                <p>冷蔵庫: ${roomFridge}</p>
                 <button id="confirm-yes">はい</button>
                 <button id="confirm-no">いいえ</button>
             `;
