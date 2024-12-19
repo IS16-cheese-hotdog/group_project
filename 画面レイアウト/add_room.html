@@ -7,51 +7,78 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f4f4f9;
         }
         .container {
-            margin-top: 60px; /* 戻るボタンの下に配置 */
+            width: 100%;
+            max-width: 600px;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 20px;
         }
         .form-group {
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
         .form-group label {
-            width: 30%; /* 現在の内容を左側に配置 */
-            text-align: left;
+            display: block;
+            margin-bottom: 8px;
+            font-size: 16px;
             color: #555;
-            padding-right: 20px; /* 空白を作成 */
         }
-        .form-group input, .form-group select {
-            flex: 1;
-            max-width: 70%; /* 入力欄を中央から右側に配置 */
-            padding: 8px;
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
             box-sizing: border-box;
-            margin-left: auto; /* 入力欄を右寄せ */
         }
-        .form-group div {
+        .form-group input[type="number"] {
+            width: auto;
+            max-width: 100px;
+        }
+        .form-group .radio-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: flex-start;
+        }
+        .form-group .radio-group label {
+            font-size: 16px;
+            color: #555;
             display: flex;
             align-items: center;
-        }
-        .form-group div label {
-            margin-right: 10px;
-        }
-        .form-group input[type="radio"] {
-            margin-left: 10px;
+            gap: 8px;
+            white-space: nowrap;
         }
         .buttons {
             text-align: center;
-            margin-top: 20px;
+            margin-top: 30px;
         }
         .buttons button {
-            padding: 10px 20px;
-            font-size: 16px;
+            padding: 12px 25px;
+            font-size: 18px;
             background-color: #4CAF50;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            width: 100%;
+            max-width: 200px;
+            margin-top: 20px;
         }
         .buttons button:hover {
             background-color: #45a049;
@@ -60,107 +87,104 @@
             position: absolute;
             top: 20px;
             left: 20px;
-            padding: 10px 20px;
-            font-size: 16px;
+            padding: 12px 20px;
+            font-size: 14px;
             background-color: #f0f0f0;
             border: 1px solid #ccc;
             border-radius: 5px;
             cursor: pointer;
         }
-        .title {
-            text-align: center;
-            margin-bottom: 30px;
+        .back-button:hover {
+            background-color: #e0e0e0;
         }
         .popup {
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background-color: white;
             padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
+            background-color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            z-index: 9999;
+            border-radius: 8px;
+        }
+        .popup p {
+            margin: 10px 0;
+            font-size: 16px;
         }
         .popup button {
             padding: 10px 20px;
+            margin: 10px;
             font-size: 16px;
+            cursor: pointer;
+        }
+        .popup button#confirm-yes {
             background-color: #4CAF50;
             color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
+        }
+        .popup button#confirm-no {
+            background-color: #f44336;
+            color: white;
         }
     </style>
 </head>
 <body>
     <button class="back-button" id="back-button">戻る</button>
-    <h1 class="title">部屋情報登録</h1>
     <div class="container">
+        <h1>部屋情報登録</h1>
         <form>
             <div class="form-group">
                 <label for="room-name">部屋ID:</label>
-                <input type="text" id="room-name" name="room-name">
+                <input type="text" id="room-name" name="room-name" placeholder="部屋IDを入力">
             </div>
             <div class="form-group">
                 <label for="room-description">部屋説明:</label>
-                <input type="text" id="room-description" name="room-description">
+                <input type="text" id="room-description" name="room-description" placeholder="部屋の説明を入力">
             </div>
             <div class="form-group">
                 <label for="room-beds">ベッド数:</label>
-                <input type="number" id="room-beds" name="room-beds">
+                <input type="number" id="room-beds" name="room-beds" placeholder="ベッド数を入力">
             </div>
             <div class="form-group">
-                <label for="room-bathroom">バスルーム:</label>
-                <div>
-                    <input type="radio" id="room-bathroom-yes" name="room-bathroom" value="yes">
-                    <label for="room-bathroom-yes">はい</label>
-                    <input type="radio" id="room-bathroom-no" name="room-bathroom" value="no">
-                    <label for="room-bathroom-no">いいえ</label>
+                <label>バスルーム:</label>
+                <div class="radio-group">
+                    <label><input type="radio" id="room-bathroom-yes" name="room-bathroom" value="yes"> はい</label>
+                    <label><input type="radio" id="room-bathroom-no" name="room-bathroom" value="no"> いいえ</label>
                 </div>
             </div>
             <div class="form-group">
-                <label for="room-dryer">ドライヤー:</label>
-                <div>
-                    <input type="radio" id="room-dryer-yes" name="room-dryer" value="yes">
-                    <label for="room-dryer-yes">はい</label>
-                    <input type="radio" id="room-dryer-no" name="room-dryer" value="no">
-                    <label for="room-dryer-no">いいえ</label>
+                <label>ドライヤー:</label>
+                <div class="radio-group">
+                    <label><input type="radio" id="room-dryer-yes" name="room-dryer" value="yes"> はい</label>
+                    <label><input type="radio" id="room-dryer-no" name="room-dryer" value="no"> いいえ</label>
                 </div>
             </div>
             <div class="form-group">
-                <label for="room-tv">テレビ:</label>
-                <div>
-                    <input type="radio" id="room-tv-yes" name="room-tv" value="yes">
-                    <label for="room-tv-yes">はい</label>
-                    <input type="radio" id="room-tv-no" name="room-tv" value="no">
-                    <label for="room-tv-no">いいえ</label>
+                <label>テレビ:</label>
+                <div class="radio-group">
+                    <label><input type="radio" id="room-tv-yes" name="room-tv" value="yes"> はい</label>
+                    <label><input type="radio" id="room-tv-no" name="room-tv" value="no"> いいえ</label>
                 </div>
             </div>
             <div class="form-group">
-                <label for="room-wifi">Wi-Fi:</label>
-                <div>
-                    <input type="radio" id="room-wifi-yes" name="room-wifi" value="yes">
-                    <label for="room-wifi-yes">はい</label>
-                    <input type="radio" id="room-wifi-no" name="room-wifi" value="no">
-                    <label for="room-wifi-no">いいえ</label>
+                <label>Wi-Fi:</label>
+                <div class="radio-group">
+                    <label><input type="radio" id="room-wifi-yes" name="room-wifi" value="yes"> はい</label>
+                    <label><input type="radio" id="room-wifi-no" name="room-wifi" value="no"> いいえ</label>
                 </div>
             </div>
             <div class="form-group">
-                <label for="room-pet">ペット:</label>
-                <div>
-                    <input type="radio" id="room-pet-yes" name="room-pet" value="yes">
-                    <label for="room-pet-yes">はい</label>
-                    <input type="radio" id="room-pet-no" name="room-pet" value="no">
-                    <label for="room-pet-no">いいえ</label>
+                <label>ペット:</label>
+                <div class="radio-group">
+                    <label><input type="radio" id="room-pet-yes" name="room-pet" value="yes"> はい</label>
+                    <label><input type="radio" id="room-pet-no" name="room-pet" value="no"> いいえ</label>
                 </div>
             </div>
             <div class="form-group">
-                <label for="room-fridge">冷蔵庫:</label>
-                <div>
-                    <input type="radio" id="room-fridge-yes" name="room-fridge" value="yes">
-                    <label for="room-fridge-yes">はい</label>
-                    <input type="radio" id="room-fridge-no" name="room-fridge" value="no">
-                    <label for="room-fridge-no">いいえ</label>
+                <label>冷蔵庫:</label>
+                <div class="radio-group">
+                    <label><input type="radio" id="room-fridge-yes" name="room-fridge" value="yes"> はい</label>
+                    <label><input type="radio" id="room-fridge-no" name="room-fridge" value="no"> いいえ</label>
                 </div>
             </div>
             <div class="buttons">
@@ -177,11 +201,11 @@
         const backButton = document.getElementById('back-button');
         if (fromPage === 'admin_2') {
             backButton.addEventListener('click', () => {
-                window.location.href = 'hotel_room.html';
+                window.location.href = 'hotel_plan.html';
             });
         } else {
             backButton.addEventListener('click', () => {
-                window.location.href = 'hotel_room.html';
+                window.location.href = 'hotel_plan.html';
             });
         }
 
@@ -191,17 +215,17 @@
             const roomName = document.getElementById('room-name').value;
             const roomDescription = document.getElementById('room-description').value;
             const roomBeds = document.getElementById('room-beds').value;
-            const roomBathroom = document.querySelector('input[name="room-bathroom"]:checked').value;
-            const roomDryer = document.querySelector('input[name="room-dryer"]:checked').value;
-            const roomTv = document.querySelector('input[name="room-tv"]:checked').value;
-            const roomWifi = document.querySelector('input[name="room-wifi"]:checked').value;
-            const roomPet = document.querySelector('input[name="room-pet"]:checked').value;
-            const roomFridge = document.querySelector('input[name="room-fridge"]:checked').value;
+            const roomBathroom = document.querySelector('input[name="room-bathroom"]:checked')?.value;
+            const roomDryer = document.querySelector('input[name="room-dryer"]:checked')?.value;
+            const roomTv = document.querySelector('input[name="room-tv"]:checked')?.value;
+            const roomWifi = document.querySelector('input[name="room-wifi"]:checked')?.value;
+            const roomPet = document.querySelector('input[name="room-pet"]:checked')?.value;
+            const roomFridge = document.querySelector('input[name="room-fridge"]:checked')?.value;
 
             const popup = document.createElement('div');
             popup.className = 'popup';
             popup.innerHTML = `
-                <p>登録しますか？</p>
+                <p>追加しますか？</p>
                 <p>部屋ID: ${roomName}</p>
                 <p>部屋説明: ${roomDescription}</p>
                 <p>ベッド数: ${roomBeds}</p>
@@ -217,8 +241,8 @@
             document.body.appendChild(popup);
 
             document.getElementById('confirm-yes').addEventListener('click', function() {
-                // 実際の登録処理をここに追加
-                window.location.href = 'hotel_room.html';
+                // 実際の追加処理をここに追加
+                window.location.href = 'hotel_plan.html';
             });
 
             document.getElementById('confirm-no').addEventListener('click', function() {

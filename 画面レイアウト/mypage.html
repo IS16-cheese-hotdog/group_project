@@ -64,22 +64,64 @@
             justify-content: center;
             margin-top: 20px;
         }
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .popup button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .popup button:hover {
+            background-color: #0056b3;
+        }
+        .notification-wrapper {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .notification h2 {
+            margin-top: 0;
+        }
     </style>
 </head>
 <body>
     <h1>マイページ</h1>
-    <div class="tabs">
-        <div class="tab" onclick="window.location.href='user_check.html'">予約確認</div>
-        <div class="tab" onclick="window.location.href='user_change.html'">登録情報更新</div>
-        <div class="tab" onclick="window.location.href='search_copy.html'">検索</div>
-        <div class="tab" id="withdraw-tab">退会</div>
-    </div>
-    <div class="link-container">
-        <a href="login.html">ログアウト</a>
-    </div>
-    <div id="info" class="tab-content">
-        <h2>登録情報確認</h2>
-        <!-- 登録情報確認の内容 -->
+    <div class="container">
+        <div class="notification-wrapper">
+            <div class="notification">
+                <h2>お知らせ</h2>
+                <p>2023年10月1日: システムメンテナンスのお知らせ</p>
+                <p>2023年10月15日: 新機能追加のお知らせ</p>
+            </div>
+        </div>
+        <div class="tabs">
+            <div class="tab" onclick="window.location.href='user_check.html'">予約確認</div>
+            <div class="tab" onclick="window.location.href='user_change.html'">登録情報更新</div>
+            <div class="tab" onclick="window.location.href='search_copy.html'">検索</div>
+            <div class="tab" id="withdraw-tab">退会</div>
+        </div>
+        <div class="link-container">
+            <a href="login.html">ログアウト</a>
+        </div>
+        <div id="info" class="tab-content">
+            <h2>登録情報確認</h2>
+            <!-- 登録情報確認の内容 -->
+        </div>
     </div>
 
     <script>
@@ -104,9 +146,24 @@
 
         document.getElementById('withdraw-tab').onclick = function(event) {
             event.preventDefault();
-            if (confirm('本当に退会しますか？')) {
-                window.location.href = 'main.html';
-            }
+            // 退会確認ポップアップを表示
+            const popup = document.createElement('div');
+            popup.className = 'popup';
+            popup.innerHTML = ` 
+                <p>本当に退会しますか？</p>
+                <button id="confirm-yes">はい</button>
+                <button id="confirm-no">いいえ</button>
+            `;
+            document.body.appendChild(popup);
+
+            document.getElementById('confirm-yes').addEventListener('click', function() {
+                // 退会処理をここに追加
+                window.location.href = 'main.html';  // 退会後に移動するページ
+            });
+
+            document.getElementById('confirm-no').addEventListener('click', function() {
+                document.body.removeChild(popup);  // ポップアップを閉じる
+            });
         };
     </script>
 </body>
