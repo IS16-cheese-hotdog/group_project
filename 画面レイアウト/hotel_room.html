@@ -116,9 +116,9 @@
     <script>
         document.querySelectorAll('li').forEach(item => {
             const details = item.querySelector('.details');
-            const detailsButton = item.querySelector('.details-button');
             const deleteButton = item.querySelector('.delete-button');
 
+            // リストアイテムがクリックされたときの処理
             item.addEventListener('click', () => {
                 if (details.style.display === 'block') {
                     details.style.display = 'none';
@@ -127,14 +127,7 @@
                 }
             });
 
-            detailsButton.addEventListener('click', (event) => {
-                event.stopPropagation(); // リストアイテムのクリックイベントを無効化
-                const link = detailsButton.getAttribute('data-link');
-                if (link) {
-                    window.location.href = link; // 指定されたリンクに遷移
-                }
-            });
-
+            // 削除ボタンがクリックされたときの処理
             deleteButton.addEventListener('click', (event) => {
                 event.stopPropagation(); // リストアイテムのクリックイベントを無効化
                 if (confirm('この部屋情報を削除しますか？')) {

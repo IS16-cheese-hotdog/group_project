@@ -116,7 +116,6 @@
     <script>
         document.querySelectorAll('li').forEach(item => {
             const details = item.querySelector('.details');
-            const detailsButton = item.querySelector('.details-button');
             const deleteButton = item.querySelector('.delete-button');
 
             item.addEventListener('click', () => {
@@ -124,14 +123,6 @@
                     details.style.display = 'none';
                 } else {
                     details.style.display = 'block';
-                }
-            });
-
-            detailsButton.addEventListener('click', (event) => {
-                event.stopPropagation(); // リストアイテムのクリックイベントを無効化
-                const link = detailsButton.getAttribute('data-link');
-                if (link) {
-                    window.location.href = link; // 指定されたリンクに遷移
                 }
             });
 
