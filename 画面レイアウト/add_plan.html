@@ -23,7 +23,7 @@
             color: #555;
             padding-right: 20px; /* 空白を作成 */
         }
-        .form-group input, .form-group select {
+        .form-group input, .form-group select, .form-group textarea {
             flex: 1;
             max-width: 60%; /* 入力欄を中央から右側に配置 */
             padding: 8px;
@@ -93,15 +93,11 @@
             </div>
             <div class="form-group">
                 <label for="plan-description">プラン説明:</label>
-                <input type="text" id="plan-description" name="plan-description">
+                <textarea id="plan-description" name="plan-description" rows="5"></textarea>
             </div>
             <div class="form-group">
                 <label for="plan-price">価格:</label>
                 <input type="number" id="plan-price" name="plan-price">
-            </div>
-            <div class="form-group">
-                <label for="plan-availability">空室状況:</label>
-                <input type="text" id="plan-availability" name="plan-availability">
             </div>
             <div class="form-group">
                 <label for="room-info">部屋情報:</label>
@@ -139,7 +135,6 @@
             const planName = document.getElementById('plan-name').value;
             const planDescription = document.getElementById('plan-description').value;
             const planPrice = document.getElementById('plan-price').value;
-            const planAvailability = document.getElementById('plan-availability').value;
             const roomInfo = document.getElementById('room-info').value;
 
             const popup = document.createElement('div');
@@ -149,7 +144,6 @@
                 <p>プラン名: ${planName}</p>
                 <p>プラン説明: ${planDescription}</p>
                 <p>価格: ${planPrice}</p>
-                <p>空室状況: ${planAvailability}</p>
                 <p>部屋情報: ${roomInfo}</p>
                 <button id="confirm-yes">はい</button>
                 <button id="confirm-no">いいえ</button>

@@ -74,7 +74,12 @@
     <button onclick="history.back()" class="back-button">前画面に戻る</button>
     <script>
         document.querySelector('form').addEventListener('submit', function(event) {
-            event.preventDefault();
+            const ratingChecked = document.querySelector('input[name="rating"]:checked');
+            if (!ratingChecked) {
+                alert('星を選択してください');
+                event.preventDefault();
+                return;
+            }
             alert('送信しました');
             document.querySelector('.submit-button').disabled = true;
             window.location.href = 'user_check.html';

@@ -7,16 +7,46 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
+            margin: 0;
+            padding: 0;
         }
 
-        h1 {
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #f9f9f9;
+            padding: 10px 20px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 20px;
             color: #333;
+            text-align: center;
+            flex-grow: 1;
+        }
+
+        .back-button {
+            display: inline-block;
+            background-color: #f1f1f1;
+            color: #333;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px 20px;
+            text-decoration: none;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        .back-button:hover {
+            background-color: #e1e1e1;
         }
 
         form {
             max-width: 600px;
-            margin: auto;
+            margin: 40px auto;
             padding: 20px;
             border: 1px solid #ccc;
             border-radius: 10px;
@@ -50,38 +80,42 @@
     </style>
 </head>
 <body>
-    <h1>会員登録</h1>
+    <div class="header">
+        <a href="login.html" class="back-button">戻る</a>
+        <h1>会員登録</h1>
+    </div>
+
     <form action="/submit_registration" method="post">
         <label for="name">氏名:</label>
-        <input type="text" id="name" name="name" required><br><br>
+        <input type="text" id="name" name="name" required><br>
 
         <label for="kana">カナ:</label>
-        <input type="text" id="kana" name="kana" required><br><br>
+        <input type="text" id="kana" name="kana" required><br>
 
         <label for="postal_code">郵便番号:</label>
-        <input type="text" id="postal_code" name="postal_code" required><br><br>
+        <input type="text" id="postal_code" name="postal_code" required><br>
 
         <label for="address">住所:</label>
-        <input type="text" id="address" name="address" required><br><br>
+        <input type="text" id="address" name="address" required><br>
 
         <label for="dob">生年月日:</label>
-        <input type="date" id="dob" name="dob" required><br><br>
+        <input type="date" id="dob" name="dob" required><br>
 
         <label for="gender">性別:</label>
         <select id="gender" name="gender" required>
             <option value="male">男性</option>
             <option value="female">女性</option>
-        </select><br><br>
+        </select><br>
 
         <label for="email">メールアドレス:</label>
-        <input type="email" id="email" name="email" required><br><br>
+        <input type="email" id="email" name="email" required><br>
 
         <label for="phone">電話番号:</label>
-        <input type="tel" id="phone" name="phone" required><br><br>
+        <input type="tel" id="phone" name="phone" required><br>
 
         <button type="submit">送信</button>
     </form>
-    
+
     <script>
         document.getElementById('postal_code').addEventListener('input', function (e) {
             this.value = this.value.replace(/[^0-9]/g, '');

@@ -117,11 +117,11 @@
 
     <script>
         const hotels = [
-            { name: 'ホテルやりますねえ', link: 'hotel1.html' },
-            { name: '野獣ホテル', link: 'hotel2.html' },
-            { name: 'ホテルニューセンパイ', link: 'hotel3.html' },
-            { name: 'リッツカールトン下北沢', link: 'hotel4.html' },
-            { name: 'パークハイアット拓也', link: 'hotel5.html' }
+            { name: '朝霞ホテル', link: 'hotel_dhite-ru.html' },
+            { name: '日吉ホテル', link: 'hotel_dhite-ru.html' },
+            { name: '藤沢ホテル', link: 'hotel_dhite-ru.html' },
+            { name: '西新井ホテル', link: 'hotel_dhite-ru.html' },
+            { name: '中野ホテル', link: 'hotel_dhite-ru.html' }
         ];
 
         document.getElementById('searchButton').addEventListener('click', function() {
@@ -140,7 +140,7 @@
                     detailButton.textContent = '詳細';
                     detailButton.classList.add('detail-button');
                     detailButton.onclick = function() {
-                        window.location.href = 'a_hotel_updata.html';
+                        window.location.href = 'hotel_dhite-ru.html';
                     };
 
                     const deleteButton = document.createElement('button');
