@@ -7,6 +7,13 @@
     <style>
         body {
             font-family: Arial, sans-serif;
+            background-color: #e6f7ff; /* ライトブルーの背景 */
+            margin: 0;
+        }
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+            color: #007BFF; /* ブルーのテキスト */
         }
         .search-container {
             display: flex;
@@ -19,10 +26,26 @@
             padding: 10px;
             font-size: 16px;
             margin-right: 10px;
+            border: 1px solid #b3d8ff;
+            border-radius: 6px;
+            background-color: #f9fcff;
+        }
+        .search-container input:focus {
+            border-color: #007BFF;
+            outline: none;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
         }
         .search-container button {
             padding: 10px 20px;
             font-size: 16px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .search-container button:hover {
+            background-color: #0056b3;
         }
         .list-container {
             margin: 20px;
@@ -34,10 +57,13 @@
         }
         .list-container li {
             padding: 10px;
-            border-bottom: 1px solid #ccc;
+            border-bottom: 1px solid #b3d8ff;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            background-color: #ffffff;
+            border-radius: 6px;
+            margin-bottom: 10px;
             position: relative;
         }
         .admin-button {
@@ -46,43 +72,43 @@
             left: 10px;
             padding: 10px 20px;
             font-size: 16px;
-            background-color: #4CAF50;
+            background-color: #007BFF;
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 6px;
             cursor: pointer;
         }
         .admin-button:hover {
-            background-color: #45a049;
+            background-color: #0056b3;
         }
         .add-hotel-button {
             display: block;
             margin: 20px auto;
             padding: 10px 20px;
             font-size: 16px;
-            background-color: #4CAF50;
+            background-color: #007BFF;
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 6px;
             cursor: pointer;
         }
         .add-hotel-button:hover {
-            background-color: #45a049;
+            background-color: #0056b3;
         }
         .detail-button {
             padding: 5px 10px;
             font-size: 14px;
-            background-color: #008CBA;
+            background-color: #007BFF;
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 6px;
             cursor: pointer;
             margin-right: 5px;
             position: absolute;
             right: 70px;
         }
         .detail-button:hover {
-            background-color: #007B9A;
+            background-color: #0056b3;
         }
         .delete-button {
             padding: 5px 10px;
@@ -90,7 +116,7 @@
             background-color: #f44336;
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 6px;
             cursor: pointer;
             position: absolute;
             right: 10px;
@@ -101,7 +127,7 @@
     </style>
 </head>
 <body>
-    <h1 style="text-align: center; margin-top: 20px;">ホテル管理ページ</h1>
+    <h1>ホテル管理ページ</h1>
     <button class="admin-button" onclick="location.href='admin.html'">戻る</button>
     <div class="search-container">
         <input type="text" id="searchInput" placeholder="ホテルを検索...">
@@ -109,7 +135,7 @@
     </div>
     <button class="add-hotel-button" onclick="location.href='add_hotel.html'">ホテルを追加</button>
     <div class="list-container" id="hotelList">
-        <h2>ホテルリスト</h2>
+        <h2 style="color: #007BFF;">ホテルリスト</h2>
         <ul id="hotelListItems">
             <!-- 検索結果がここに表示されます -->
         </ul>
