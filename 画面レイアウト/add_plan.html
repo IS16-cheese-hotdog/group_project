@@ -7,78 +7,117 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
+            background-color: #e6f7ff; /* ライトブルー背景 */
+            margin: 0;
+            padding: 0;
         }
-        .container {
-            margin-top: 60px; /* 戻るボタンの下に配置 */
-        }
-        .form-group {
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        .form-group label {
-            width: 40%; /* 現在の内容を左側に配置 */
-            text-align: left;
-            color: #555;
-            padding-right: 20px; /* 空白を作成 */
-        }
-        .form-group input, .form-group select, .form-group textarea {
-            flex: 1;
-            max-width: 60%; /* 入力欄を中央から右側に配置 */
-            padding: 8px;
-            box-sizing: border-box;
-            margin-left: auto; /* 入力欄を右寄せ */
-        }
-        .buttons {
-            text-align: center;
-            margin-top: 20px;
-        }
-        .buttons button {
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .buttons button:hover {
-            background-color: #45a049;
-        }
+
         .back-button {
             position: absolute;
             top: 20px;
             left: 20px;
             padding: 10px 20px;
-            font-size: 16px;
-            background-color: #f0f0f0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+            font-size: 14px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
             cursor: pointer;
         }
+
+        .back-button:hover {
+            background-color: #0056b3;
+        }
+
         .title {
             text-align: center;
-            margin-bottom: 30px;
+            color: #007BFF;
+            font-size: 24px;
+            margin: 60px 0 30px;
         }
+
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px 30px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #007BFF;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #b3d8ff;
+            border-radius: 6px;
+            background-color: #f9fcff;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #007BFF;
+            outline: none;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+
+        .buttons {
+            text-align: center;
+        }
+
+        .buttons button {
+            padding: 12px 20px;
+            font-size: 16px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .buttons button:hover {
+            background-color: #0056b3;
+        }
+
         .popup {
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background-color: white;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #ffffff;
+            padding: 20px 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             z-index: 1000;
+            border-radius: 10px;
+            text-align: center;
         }
+
         .popup button {
             padding: 10px 20px;
-            font-size: 16px;
-            background-color: #4CAF50;
+            margin: 10px;
+            font-size: 14px;
+            background-color: #007BFF;
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 6px;
             cursor: pointer;
+        }
+
+        .popup button:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
@@ -89,19 +128,20 @@
         <form>
             <div class="form-group">
                 <label for="plan-name">プラン名:</label>
-                <input type="text" id="plan-name" name="plan-name">
+                <input type="text" id="plan-name" name="plan-name" placeholder="例: お得な朝食付きプラン" required>
             </div>
             <div class="form-group">
                 <label for="plan-description">プラン説明:</label>
-                <textarea id="plan-description" name="plan-description" rows="5"></textarea>
+                <textarea id="plan-description" name="plan-description" rows="4" placeholder="プランの詳細を記入してください" required></textarea>
             </div>
             <div class="form-group">
                 <label for="plan-price">価格:</label>
-                <input type="number" id="plan-price" name="plan-price">
+                <input type="number" id="plan-price" name="plan-price" placeholder="例: 12000" required>
             </div>
             <div class="form-group">
                 <label for="room-info">部屋情報:</label>
-                <select id="room-info" name="room-info">
+                <select id="room-info" name="room-info" required>
+                    <option value="" disabled selected>選択してください</option>
                     <option value="single">シングルルーム</option>
                     <option value="double">ダブルルーム</option>
                     <option value="suite">スイートルーム</option>
@@ -112,26 +152,11 @@
             </div>
         </form>
     </div>
-    <script>
-        // クエリパラメータから戻る先を取得
-        const params = new URLSearchParams(window.location.search);
-        const fromPage = params.get('from');
-        
-        // 戻るボタンのリンクを設定
-        const backButton = document.getElementById('back-button');
-        if (fromPage === 'admin_2') {
-            backButton.addEventListener('click', () => {
-                window.location.href = 'hotel_plan.html';
-            });
-        } else {
-            backButton.addEventListener('click', () => {
-                window.location.href = 'hotel_plan.html';
-            });
-        }
 
+    <script>
         document.querySelector('form').addEventListener('submit', function(event) {
             event.preventDefault();
-            
+
             const planName = document.getElementById('plan-name').value;
             const planDescription = document.getElementById('plan-description').value;
             const planPrice = document.getElementById('plan-price').value;
@@ -140,24 +165,28 @@
             const popup = document.createElement('div');
             popup.className = 'popup';
             popup.innerHTML = `
-                <p>追加しますか？</p>
-                <p>プラン名: ${planName}</p>
-                <p>プラン説明: ${planDescription}</p>
-                <p>価格: ${planPrice}</p>
-                <p>部屋情報: ${roomInfo}</p>
+                <p>プランを追加しますか？</p>
+                <p><strong>プラン名:</strong> ${planName}</p>
+                <p><strong>プラン説明:</strong> ${planDescription}</p>
+                <p><strong>価格:</strong> ${planPrice} 円</p>
+                <p><strong>部屋情報:</strong> ${roomInfo}</p>
                 <button id="confirm-yes">はい</button>
                 <button id="confirm-no">いいえ</button>
             `;
             document.body.appendChild(popup);
 
             document.getElementById('confirm-yes').addEventListener('click', function() {
-                // 実際の追加処理をここに追加
+                alert('プランが追加されました。');
                 window.location.href = 'hotel_plan.html';
             });
 
             document.getElementById('confirm-no').addEventListener('click', function() {
                 document.body.removeChild(popup);
             });
+        });
+
+        document.getElementById('back-button').addEventListener('click', function() {
+            window.location.href = 'hotel_plan.html';
         });
     </script>
 </body>

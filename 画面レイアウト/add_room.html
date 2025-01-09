@@ -13,20 +13,20 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background-color: #f4f4f9;
+            background-color: #e6f7ff; /* ログインページと同じライトブルーの背景 */
         }
         .container {
             width: 100%;
             max-width: 600px;
             background: #ffffff;
             padding: 30px;
-            border-radius: 8px;
+            border-radius: 10px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
         h1 {
             text-align: center;
             font-size: 28px;
-            color: #333;
+            color: #007BFF; /* ログインページのタイトルと同じライトブルー */
             margin-bottom: 20px;
         }
         .form-group {
@@ -36,19 +36,21 @@
             display: block;
             margin-bottom: 8px;
             font-size: 16px;
-            color: #555;
+            color: #333;
         }
         .form-group input {
             width: 100%;
             padding: 12px;
             font-size: 16px;
-            border: 1px solid #ccc;
+            border: 1px solid #b3d8ff;
             border-radius: 8px;
             box-sizing: border-box;
+            background-color: #f9fcff;
         }
-        .form-group input[type="number"] {
-            width: auto;
-            max-width: 100px;
+        .form-group input:focus {
+            border-color: #007BFF;
+            outline: none;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
         }
         .form-group .radio-group {
             display: flex;
@@ -62,7 +64,6 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            white-space: nowrap;
         }
         .buttons {
             text-align: center;
@@ -71,17 +72,17 @@
         .buttons button {
             padding: 12px 25px;
             font-size: 18px;
-            background-color: #4CAF50;
+            background-color: #007BFF;
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
             width: 100%;
             max-width: 200px;
             margin-top: 20px;
         }
         .buttons button:hover {
-            background-color: #45a049;
+            background-color: #0056b3;
         }
         .back-button {
             position: absolute;
@@ -225,6 +226,7 @@
             const popup = document.createElement('div');
             popup.className = 'popup';
             popup.innerHTML = `
+
                 <p>追加しますか？</p>
                 <p>部屋ID: ${roomName}</p>
                 <p>部屋説明: ${roomDescription}</p>
