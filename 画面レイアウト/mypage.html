@@ -83,7 +83,7 @@
         .popup button {
             margin-top: 10px;
             padding: 10px 20px;
-            background-color: #0288d1;
+            background-color: #d32f2f; /* 赤色 */
             color: white;
             border: none;
             border-radius: 5px;
@@ -91,7 +91,7 @@
             transition: background-color 0.3s;
         }
         .popup button:hover {
-            background-color: #0277bd;
+            background-color: #c62828;
         }
         .notification-wrapper {
             margin-top: 20px;
@@ -103,6 +103,21 @@
         .notification h2 {
             margin-top: 0;
             color: #01579b;
+        }
+        #withdraw-tab {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #d32f2f; /* 赤色 */
+            color: white;
+            padding: 15px 30px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        #withdraw-tab:hover {
+            background-color: #c62828;
+            transform: scale(1.1);
         }
     </style>
 </head>
@@ -120,7 +135,6 @@
             <div class="tab" onclick="window.location.href='user_check.html'">予約確認</div>
             <div class="tab" onclick="window.location.href='user_change.html'">登録情報更新</div>
             <div class="tab" onclick="window.location.href='search_copy.html'">検索</div>
-            <div class="tab" id="withdraw-tab">退会</div>
         </div>
         <div class="link-container">
             <a href="login.html">ログアウト</a>
@@ -131,33 +145,14 @@
         </div>
     </div>
 
+    <div id="withdraw-tab">退会</div>
+
     <script>
-        function showTab(tabId) {
-            const contents = document.querySelectorAll('.tab-content');
-            contents.forEach(content => content.classList.remove('active'));
-            document.getElementById(tabId).classList.add('active');
-        }
-
-        function checkReservations() {
-            const reservations = []; // ここに予約データを取得するロジックを追加
-            const reservationStatus = document.getElementById('reservation-status');
-            if (reservations.length > 0) {
-                reservationStatus.innerHTML = '<p>1ヵ月以内の予約があります。</p>';
-            } else {
-                reservationStatus.innerHTML = '<p>予約はありません。</p>';
-            }
-        }
-
-        window.onload = function() {
-            checkReservations();
-            fetchReservations();
-        };
-
         document.getElementById('withdraw-tab').onclick = function(event) {
             event.preventDefault();
             const popup = document.createElement('div');
             popup.className = 'popup';
-            popup.innerHTML = `
+            popup.innerHTML = ` 
                 <p>本当に退会しますか？</p>
                 <button id="confirm-yes">はい</button>
                 <button id="confirm-no">いいえ</button>
