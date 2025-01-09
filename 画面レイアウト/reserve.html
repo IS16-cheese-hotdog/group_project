@@ -127,9 +127,55 @@
             }
             document.getElementById('reserve-button').addEventListener('click', function() {
                 if (confirm('予約を確定しますか？')) {
-                    location.href = 'mypage.html';
+                    const checkinDate = document.getElementById('checkin-date').value;
+                    const stayDays = document.getElementById('stay-days').value;
+                    const adults = document.getElementById('adults').value;
+                    const children = document.getElementById('children').value;
+                    const infants = document.getElementById('infants').value;
+                    const reservationDate = new Date().toLocaleString();
+                    const hotelName = 'サンプルホテル';
+                    const message = `${reservationDate}に${hotelName}を予約しました。`;
+
+                    const form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = 'mypage.html';
+
+                    const inputMessage = document.createElement('input');
+                    inputMessage.type = 'hidden';
+                    inputMessage.name = 'message';
+                    inputMessage.value = message;
+                    form.appendChild(inputMessage);
+
+                    document.body.appendChild(form);
+                    form.submit();
                 }
             });
+        });
+
+        document.getElementById('reserve-button').addEventListener('click', function() {
+            if (confirm('予約を確定しますか？')) {
+                const checkinDate = document.getElementById('checkin-date').value;
+                const stayDays = document.getElementById('stay-days').value;
+                const adults = document.getElementById('adults').value;
+                const children = document.getElementById('children').value;
+                const infants = document.getElementById('infants').value;
+                const reservationDate = new Date().toLocaleString();
+                const hotelName = 'サンプルホテル';
+                const message = `${reservationDate}に${hotelName}を予約しました。`;
+
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = 'mypage.html';
+
+                const inputMessage = document.createElement('input');
+                inputMessage.type = 'hidden';
+                inputMessage.name = 'message';
+                inputMessage.value = message;
+                form.appendChild(inputMessage);
+
+                document.body.appendChild(form);
+                form.submit();
+            }
         });
     </script>
 </body>

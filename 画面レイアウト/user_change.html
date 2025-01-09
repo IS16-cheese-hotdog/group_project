@@ -6,12 +6,19 @@
     <title>登録情報更新</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
         }
         .container {
-            margin-top: 60px;
-        }
+    margin: 60px auto;
+    max-width: 800px; /* 幅を広げる */
+    padding: 30px; /* 内側の余白を増やす */
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
         .form-group {
             display: flex;
             align-items: center;
@@ -19,16 +26,15 @@
         }
         .form-group label {
             width: 40%;
-            text-align: left;
-            color: #555;
-            padding-right: 20px;
+            font-weight: bold;
+            color: #333;
         }
         .form-group input {
             flex: 1;
-            max-width: 60%;
             padding: 8px;
-            box-sizing: border-box;
-            margin-left: auto;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
         }
         .buttons {
             text-align: center;
@@ -38,10 +44,11 @@
             padding: 10px 20px;
             font-size: 16px;
             background-color: #4CAF50;
-            color: white;
+            color: #fff;
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            transition: background-color 0.3s;
         }
         .buttons button:hover {
             background-color: #45a049;
@@ -52,13 +59,20 @@
             left: 20px;
             padding: 10px 20px;
             font-size: 16px;
-            background-color: #f0f0f0;
-            border: 1px solid #ccc;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
             border-radius: 5px;
             cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .back-button:hover {
+            background-color: #0056b3;
         }
         .title {
             text-align: center;
+            font-size: 24px;
+            color: #333;
             margin-bottom: 30px;
         }
         .popup {
@@ -66,27 +80,32 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background-color: white;
+            background-color: #ffffff;
             padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             z-index: 1000;
+            width: 80%;
+            max-width: 400px;
             text-align: center;
         }
         .popup p {
             margin: 10px 0;
+            color: #555;
         }
         .popup button {
             padding: 10px 20px;
             font-size: 16px;
-            background-color: #4CAF50;
-            color: white;
+            background-color: #007BFF;
+            color: #fff;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             margin: 10px 5px;
+            transition: background-color 0.3s;
         }
         .popup button:hover {
-            background-color: #45a049;
+            background-color: #0056b3;
         }
     </style>
 </head>
@@ -96,31 +115,31 @@
     <div class="container">
         <form>
             <div class="form-group">
-                <label for="postal-code">氏名:横山星凪</label>
+                <label for="postal-code">氏名:</label>
                 <input type="text" id="postal-code" name="postal-code" value="横山星凪">
             </div>
             <div class="form-group">
-                <label for="building">氏名(カナ):ヨコヤマセナ</label>
+                <label for="building">氏名(カナ):</label>
                 <input type="text" id="building" name="building" value="ヨコヤマセナ">
             </div>
             <div class="form-group">
-                <label for="birthdate">生年月日:2003/06/23</label>
-                <input type="date" id="birthdate" name="birthdate" value="2003/06/23">
+                <label for="birthdate">生年月日:</label>
+                <input type="date" id="birthdate" name="birthdate" value="2003-06-23">
             </div>
             <div class="form-group">
-                <label for="phone">電話番号:070388469768</label>
+                <label for="phone">電話番号:</label>
                 <input type="tel" id="phone" name="phone" value="07038846976">
             </div>
             <div class="form-group">
-                <label for="email">メール:k022c0088@g.neec.ac.jp</label>
+                <label for="email">メール:</label>
                 <input type="email" id="email" name="email" value="k022c0088@g.neec.ac.jp">
             </div>
             <div class="form-group">
-                <label for="postal-code-2">郵便番号:244-0804</label>
+                <label for="postal-code-2">郵便番号:</label>
                 <input type="tel" id="postal-code-2" name="postal-code-2" value="244-0804">
             </div>
             <div class="form-group">
-                <label for="address-2">住所:神奈川県横浜市戸塚区前田町214-1グランドメゾン東戸塚</label>
+                <label for="address-2">住所:</label>
                 <input type="text" id="address-2" name="address-2" value="神奈川県横浜市戸塚区前田町214-1グランドメゾン東戸塚">
             </div>
             <div class="form-group">
@@ -141,7 +160,7 @@
         document.getElementById('back-button').addEventListener('click', function() {
             window.location.href = 'mypage.html';
         });
-    
+
         document.querySelector('form').addEventListener('submit', function(event) {
             event.preventDefault();
             
@@ -172,7 +191,6 @@
             document.body.appendChild(popup);
     
             document.getElementById('confirm-yes').addEventListener('click', function() {
-                // 実際の更新処理をここに追加
                 alert("更新が完了しました！");
                 document.body.removeChild(popup);
                 window.location.href = 'mypage.html';
@@ -183,4 +201,5 @@
             });
         });
     </script>
-    
+</body>
+</html>

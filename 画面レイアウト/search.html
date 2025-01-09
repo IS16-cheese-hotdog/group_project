@@ -8,27 +8,42 @@
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
+            background-color: #f0f8ff; /* ライトブルーの背景 */
+            color: #333;
         }
         .search-container {
             max-width: 600px;
             margin: 0 auto;
+            background-color: #ffffff; /* ホワイトの背景 */
+            border: 1px solid #b0c4de; /* ライトブルーのボーダー */
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
         .search-container h1 {
             text-align: center;
+            color: #4682b4; /* ダークブルーの文字色 */
         }
-        .search-container select, .search-container button, .search-container input[type="date"], .search-container input[type="number"] {
+        .search-container select, 
+        .search-container button, 
+        .search-container input[type="date"], 
+        .search-container input[type="number"] {
             width: 100%;
             padding: 10px;
             margin: 10px 0;
+            border: 1px solid #b0c4de; /* ライトブルーのボーダー */
+            border-radius: 5px;
         }
         .search-container button {
-            background-color: #4CAF50;
+            background-color: #4682b4; /* ダークブルーの背景 */
             color: white;
             border: none;
             cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
         }
         .search-container button:hover {
-            background-color: #45a049;
+            background-color: #5a9bd8; /* ライトブルーに近い色 */
         }
         .flex-container {
             display: flex;
@@ -53,18 +68,8 @@
             display: flex;
             align-items: center;
         }
-        .horizontal-container label {
-            margin-right: 10px;
-        }
-        .vertical-container {
-            display: flex;
-            flex-direction: column;
-        }
-        .horizontal-container label, .vertical-container label {
-            display: inline;
-            margin-left: 5px;
-        }
-        .horizontal-container div, .vertical-container div {
+        .horizontal-container div, 
+        .vertical-container div {
             display: flex;
             align-items: center;
         }
@@ -72,14 +77,15 @@
             position: absolute;
             top: 20px;
             left: 20px;
-            background-color: #4CAF50;
+            background-color: #4682b4; /* ダークブルーの背景 */
             color: white;
             border: none;
             padding: 10px;
+            border-radius: 5px;
             cursor: pointer;
         }
         .back-button:hover {
-            background-color: #45a049;
+            background-color: #5a9bd8; /* ホバー時の色 */
         }
     </style>
 </head>

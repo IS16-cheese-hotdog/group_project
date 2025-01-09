@@ -86,7 +86,7 @@
     <button class="back-button" id="back-button">戻る</button>
     <h1 class="title">登録情報更新</h1>
     <div class="container">
-        <form>
+        <form id="update-form" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="postal-code">郵便番号: 123-4567</label>
                 <input type="text" id="postal-code" name="postal-code" value="123-4567">
@@ -106,6 +106,10 @@
             <div class="form-group">
                 <label for="email">メール: yamada@example.com</label>
                 <input type="email" id="email" name="email" value="yamada@example.com">
+            </div>
+            <div class="form-group">
+                <label for="hotel-photo">ホテルの写真:</label>
+                <input type="file" id="hotel-photo" name="hotel-photo" accept="image/*">
             </div>
             <div class="buttons">
                 <button type="submit">更新</button>
@@ -129,7 +133,7 @@
             });
         }
 
-        document.querySelector('form').addEventListener('submit', function(event) {
+        document.getElementById('update-form').addEventListener('submit', function(event) {
             event.preventDefault();
             
             const postalCode = document.getElementById('postal-code').value;
@@ -137,6 +141,7 @@
             const address = document.getElementById('address').value;
             const phone = document.getElementById('phone').value;
             const email = document.getElementById('email').value;
+            const hotelPhoto = document.getElementById('hotel-photo').files[0];
 
             const popup = document.createElement('div');
             popup.className = 'popup';
@@ -147,6 +152,7 @@
                 <p>住所: ${address}</p>
                 <p>電話番号: ${phone}</p>
                 <p>メール: ${email}</p>
+                <p>ホテルの写真: ${hotelPhoto ? hotelPhoto.name : '選択されていません'}</p>
                 <button id="confirm-yes">はい</button>
                 <button id="confirm-no">いいえ</button>
             `;

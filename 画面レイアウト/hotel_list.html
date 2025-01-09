@@ -6,51 +6,90 @@
     <title>ホテルリスト</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
             margin: 20px;
+            background: linear-gradient(to right, #f8f9fa, #e9ecef);
+            color: #333;
         }
         h1 {
             text-align: center;
+            color: #444;
+            margin-bottom: 30px;
         }
         ul {
             list-style-type: none;
             padding: 0;
         }
         li {
-            background: #f4f4f4;
-            margin: 10px 0;
-            padding: 10px;
-            border: 1px solid #ddd;
-            cursor: pointer;
             position: relative;
+            background: #fff;
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: flex-start;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        li:hover {
+            transform: scale(1.02);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+        }
+        li img {
+            width: 200px;
+            height: auto;
+            margin-right: 20px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        .hotel-name {
+            font-weight: bold;
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            color: #555;
         }
         .details {
-            display: none;
-            margin-top: 10px;
-            background: #eaeaea;
-            padding: 10px;
-            border: 1px solid #ccc;
+            flex-grow: 1;
+            background: #f1f1f1;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        .details p {
+            margin: 5px 0;
         }
         .details-button {
-            display: none;
             position: absolute;
-            top: 10px;
-            right: 10px;
-            padding: 5px 10px;
-            background: #ddd;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background: #007bff;
+            color: #fff;
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            font-size: 0.9em;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+        .details-button:hover {
+            background: #0056b3;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
         }
         .back-button {
             position: absolute;
             top: 20px;
             left: 20px;
             text-decoration: none;
-            color: #000;
-            background: #ddd;
-            padding: 10px;
+            color: #fff;
+            background: #6c757d;
+            padding: 10px 20px;
             border-radius: 5px;
+            font-size: 0.9em;
+            transition: background-color 0.3s;
+        }
+        .back-button:hover {
+            background: #5a6268;
         }
     </style>
 </head>
@@ -59,62 +98,61 @@
     <h1>検索されたホテルリスト</h1>
     <ul>
         <li>
-            ホテルA
-            <button class="details-button" data-link="hotel_dhite-ru.html">詳細を見る</button>
-            <div class="details">
-                <p>住所: 〇〇市〇〇町</p>
-                <p>電話番号: 123-456-7890</p>
-                <p>料金: ¥10,000/泊</p>
+            <img src="./新しいフォルダー/1.JPG" alt="ホテルA">
+            <div>
+                <span class="hotel-name">ホテルA</span>
+                <div class="details">
+                    <p>住所: 〇〇市〇〇町</p>
+                    <p>電話番号: 123-456-7890</p>
+                    <p>料金: ¥10,000/泊</p>
+                </div>
             </div>
+            <button class="details-button" data-link="hotel_dhite-ru.html">詳細を見る</button>
         </li>
         <li>
-            ホテルB
-            <button class="details-button" data-link="hotel_dhite-ru.html">詳細を見る</button>
-            <div class="details">
-                <p>住所: 〇〇市〇〇町</p>
-                <p>電話番号: 123-456-7890</p>
-                <p>料金: ¥12,000/泊</p>
+            <img src="./新しいフォルダー/2.JPG" alt="ホテルB">
+            <div>
+                <span class="hotel-name">ホテルB</span>
+                <div class="details">
+                    <p>住所: 〇〇市〇〇町</p>
+                    <p>電話番号: 123-456-7890</p>
+                    <p>料金: ¥12,000/泊</p>
+                </div>
             </div>
+            <button class="details-button" data-link="hotel_dhite-ru.html">詳細を見る</button>
         </li>
         <li>
-            ホテルC
-            <button class="details-button" data-link="hotel_dhite-ru.html">詳細を見る</button>
-            <div class="details">
-                <p>住所: 〇〇市〇〇町</p>
-                <p>電話番号: 123-456-7890</p>
-                <p>料金: ¥8,000/泊</p>
+            <img src="./新しいフォルダー/3.JPG" alt="ホテルC">
+            <div>
+                <span class="hotel-name">ホテルC</span>
+                <div class="details">
+                    <p>住所: 〇〇市〇〇町</p>
+                    <p>電話番号: 123-456-7890</p>
+                    <p>料金: ¥8,000/泊</p>
+                </div>
             </div>
+            <button class="details-button" data-link="hotel_dhite-ru.html">詳細を見る</button>
         </li>
         <li>
-            ホテルD
-            <button class="details-button" data-link="hotel_dhite-ru.html">詳細を見る</button>
-            <div class="details">
-                <p>住所: 〇〇市〇〇町</p>
-                <p>電話番号: 123-456-7890</p>
-                <p>料金: ¥15,000/泊</p>
+            <img src="./新しいフォルダー/4.JPG" alt="ホテルD">
+            <div>
+                <span class="hotel-name">ホテルD</span>
+                <div class="details">
+                    <p>住所: 〇〇市〇〇町</p>
+                    <p>電話番号: 123-456-7890</p>
+                    <p>料金: ¥15,000/泊</p>
+                </div>
             </div>
+            <button class="details-button" data-link="hotel_dhite-ru.html">詳細を見る</button>
         </li>
     </ul>
     <script>
-        document.querySelectorAll('li').forEach(item => {
-            const details = item.querySelector('.details');
-            const button = item.querySelector('.details-button');
-
-            item.addEventListener('click', () => {
-                if (details.style.display === 'block') {
-                    details.style.display = 'none';
-                    button.style.display = 'none';
-                } else {
-                    details.style.display = 'block';
-                    button.style.display = 'inline-block';
-                }
-            });
-
+        document.querySelectorAll('.details-button').forEach(button => {
             button.addEventListener('click', (event) => {
-                event.stopPropagation(); // リストアイテムのクリックイベントを無効化
+                event.stopPropagation();
                 const link = button.getAttribute('data-link');
                 if (link) {
-                    window.location.href = link; // 指定されたリンクに遷移
+                    window.location.href = link;
                 }
             });
         });
