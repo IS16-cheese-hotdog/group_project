@@ -90,7 +90,7 @@
     </style>
 </head>
 <body>
-    <button type="button" class="back-button" onclick="window.location.href='main.html'">メインページに戻る</button>
+    <button type="button" class="back-button" onclick="goBack()">戻る</button>
     <div class="search-container">
         <h1>ホテル検索</h1>
         <div class="flex-container">
@@ -160,7 +160,7 @@
             <option value="more">10以上</option>
         </select>
         <input type="number" id="extra-guests" name="extra-guests" style="display: none;" placeholder="人数を入力してください">
-        <button type="button">検索</button>
+        <button type="button" onclick="search()">検索</button>
     </div>
     <script>
         document.getElementById('region').addEventListener('change', function() {
@@ -208,8 +208,28 @@
         });
 
         document.querySelector('.search-container button').addEventListener('click', function() {
+            sessionStorage.setItem('loggedIn', true);
             window.location.href = 'hotel_list.html';
         });
+
+        function goBack() {
+            // URL のクエリパラメータを取得して遷移先を決定
+            const urlParams = new URLSearchParams(window.location.search);
+            const fromPage = urlParams.get('from');
+
+            if (fromPage === 'mypage') {
+                window.location.href = 'mypage.html';
+            } else {
+                window.location.href = 'main.html';
+            }
+        }
+
+        // リダイレクト時に遷移元の情報を保存
+        if (window.location.search.includes('from=mypage')) {
+            sessionStorage.setItem('from', 'mypage');
+        } else {
+            sessionStorage.setItem('from', 'main');
+        }
     </script>
 </body>
 </html>

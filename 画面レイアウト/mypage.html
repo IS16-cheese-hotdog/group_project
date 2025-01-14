@@ -134,7 +134,7 @@
         <div class="tabs">
             <div class="tab" onclick="window.location.href='user_check.html'">予約確認</div>
             <div class="tab" onclick="window.location.href='user_change.html'">登録情報更新</div>
-            <div class="tab" onclick="window.location.href='search_copy.html'">検索</div>
+            <div class="tab" onclick="window.location.href='search.html?from=mypage'">検索</div> <!-- 'mypage' から来たことを示す -->
         </div>
         <div class="link-container">
             <a href="login.html">ログアウト</a>
@@ -185,6 +185,13 @@
                     updateNotifications(data);
                 })
                 .catch(error => console.error('Error fetching reservations:', error));
+        }
+
+        // クエリパラメータでどこから来たかを判別
+        const params = new URLSearchParams(window.location.search);
+        const fromPage = params.get('from');
+        if (fromPage === 'mypage') {
+            alert('マイページから来ました');
         }
     </script>
 </body>
