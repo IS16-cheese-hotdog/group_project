@@ -7,31 +7,67 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
+            background-color: #e6f7ff; /* ベースカラー */
+            margin: 0;
+            padding: 0;
         }
         .container {
-            max-width: 800px;
-            margin: 0 auto;
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
         .header {
             text-align: center;
             margin-bottom: 20px;
         }
+        .header h1 {
+            color: #005073;
+            font-size: 2em;
+        }
         .date-picker {
             text-align: center;
             margin-bottom: 20px;
         }
+        .date-picker label {
+            font-size: 1.1em;
+            color: #005073;
+        }
+        .date-picker input {
+            font-size: 1em;
+            padding: 8px 12px;
+            border: 1px solid #007BFF;
+            border-radius: 5px;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+        .date-picker input:focus {
+            border-color: #004d66;
+        }
         .reservations {
             border-collapse: collapse;
             width: 100%;
+            margin-top: 20px;
         }
         .reservations th, .reservations td {
             border: 1px solid #ddd;
-            padding: 8px;
+            padding: 12px;
+            text-align: left;
         }
         .reservations th {
-            background-color: #f2f2f2;
-            text-align: left;
+            background-color: #d9f0ff; /* ヘッダー背景 */
+            color: #005073;
+        }
+        .reservations td {
+            background-color: #ffffff;
+        }
+        .reservations tr:nth-child(even) td {
+            background-color: #f4fbff; /* 偶数行 */
+        }
+        .reservations tr:hover td {
+            background-color: #d9f0ff; /* ホバー効果 */
         }
         .back-button {
             position: absolute;
@@ -41,22 +77,27 @@
         .back-button a {
             display: inline-block;
             padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
+            background-color: #007BFF;
+            color: #ffffff;
             border-radius: 5px;
             text-decoration: none;
-            transition: background-color 0.3s ease;
+            font-size: 1em;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s, transform 0.2s;
         }
         .back-button a:hover {
-            background-color: #45a049;
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+        .back-button a:active {
+            background-color: #003d80;
+            transform: translateY(0);
         }
     </style>
 </head>
 <body>
     <div class="back-button">
-        <a href="hotel.html">
-            &larr; 戻る
-        </a>
+        <a href="hotel.html">&larr; 戻る</a>
     </div>
     <div class="container">
         <div class="header">
@@ -85,11 +126,9 @@
     <script>
         document.getElementById('reservation-date').addEventListener('change', function() {
             const selectedDate = this.value;
-            // ここでサーバーから予約情報を取得する処理を追加します
-            // 例として、ダミーデータを使用します
             const reservations = [
-                { id: 1, name: '山田 太郎', room:'101', checkin: '14:00', checkout: '10:00' },
-                { id: 2, name: '鈴木 花子', room:'301', checkin: '15:00', checkout: '11:00' }
+                { id: 1, name: '山田 太郎', room: '101', checkin: '14:00', checkout: '10:00' },
+                { id: 2, name: '鈴木 花子', room: '301', checkin: '15:00', checkout: '11:00' }
             ];
 
             const reservationList = document.getElementById('reservation-list');
@@ -108,7 +147,6 @@
             });
         });
 
-        // Set the default date to today and trigger the change event
         document.addEventListener('DOMContentLoaded', function() {
             const today = new Date().toISOString().split('T')[0];
             const dateInput = document.getElementById('reservation-date');
@@ -118,4 +156,3 @@
     </script>
 </body>
 </html>
-

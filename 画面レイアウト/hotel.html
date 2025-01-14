@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            background-color: #e6f7ff; /* ベースカラー */
             margin: 0;
             padding: 0;
         }
@@ -15,29 +15,41 @@
             max-width: 800px;
             margin: 50px auto;
             padding: 20px;
-            background-color: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
+            background-color: #ffffff; /* 白背景 */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* 柔らかな影 */
+            border-radius: 10px; /* 滑らかな角丸 */
         }
         h1 {
             text-align: center;
-            color: #333;
+            color: #005073; /* 落ち着いた青 */
+            font-size: 2em;
+            margin-bottom: 20px;
         }
         .link-container {
             display: flex;
             justify-content: space-around;
-            margin-top: 30px;
+            flex-wrap: wrap; /* レスポンシブ対応 */
+            gap: 15px;
+            margin-top: 20px;
         }
         .link-container a {
             text-decoration: none;
-            color: #fff;
-            background-color: #007BFF;
-            padding: 15px 30px;
-            border-radius: 5px;
-            transition: background-color 0.3s;
+            color: #ffffff; /* 白文字 */
+            background-color: #008cba; /* メインボタンの色 */
+            padding: 15px 40px;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: bold;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1); /* ボタンの影 */
+            transition: background-color 0.3s, transform 0.2s; /* ホバー時のアニメーション */
         }
         .link-container a:hover {
-            background-color: #0056b3;
+            background-color: #006f92; /* 濃い青色 */
+            transform: translateY(-2px); /* ホバー時に浮く */
+        }
+        .link-container a:active {
+            transform: translateY(0); /* クリック時に戻る */
+            background-color: #004d66; /* 最も濃い青 */
         }
     </style>
 </head>

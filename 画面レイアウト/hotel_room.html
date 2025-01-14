@@ -8,67 +8,101 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
+            background-color: #e6f7ff;
+            margin: 0;
+            padding: 0;
         }
         h1 {
             text-align: center;
+            color: #0056b3; /* ブルー系 */
+            margin-top: 30px;
         }
         .add-button {
             display: block;
-            margin: 10px auto 20px;
-            padding: 10px 20px;
-            background: #28a745;
+            margin: 20px auto;
+            padding: 12px 20px;  /* 縦のパディングを調整 */
+            background: #007bff; /* ブルー */
             color: #fff;
             text-align: center;
             text-decoration: none;
-            border-radius: 5px;
+            border-radius: 8px;
+            font-size: 16px;  /* フォントサイズを少し大きく */
+            width: 200px; /* 横幅を固定にして大きすぎないように調整 */
+            max-width: 100%; /* 最大幅は画面に合わせて伸びる */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        li {
-            background: #f4f4f4;
-            margin: 10px 0;
-            padding: 10px;
-            border: 1px solid #ddd;
-            position: relative;
-        }
-        .details {
-            display: none;
-            margin-top: 10px;
-            background: #eaeaea;
-            padding: 10px;
-            border: 1px solid #ccc;
-        }
-        .details-button, .delete-button {
-            position: absolute;
-            top: 10px;
-            padding: 5px 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .details-button {
-            right: 80px;
-            background: #007bff;
-            color: #fff;
-        }
-        .delete-button {
-            right: 10px;
-            background: #dc3545;
-            color: #fff;
+        .add-button:hover {
+            background: #0056b3; /* ホバー時に濃いブルー */
         }
         .back-button {
             position: absolute;
             top: 20px;
             left: 20px;
             text-decoration: none;
-            color: #000;
-            background: #ddd;
-            padding: 10px;
-            border-radius: 5px;
+            color: #0056b3; /* ブルー系 */
+            background: #f1f1f1;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 16px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
+        .back-button:hover {
+            background: #e1e1e1;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+            max-width: 800px;
+            margin: 30px auto;
+        }
+        li {
+            background: #ffffff;
+            margin: 15px 0;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #cce5ff;
+            position: relative;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        li:hover {
+            transform: translateY(-5px);
+        }
+        .details {
+            display: none;
+            margin-top: 15px;
+            background: #f0f8ff;
+            padding: 10px;
+            border: 1px solid #cce5ff;
+            border-radius: 8px;
+        }
+        .details-button, .delete-button {
+            position: absolute;
+            top: 10px;
+            padding: 6px 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s ease;
+        }
+        .details-button {
+            right: 90px;
+            background: #007bff; /* ブルー系 */
+            color: #fff;
+        }
+        .details-button:hover {
+            background: #0056b3;
+        }
+        .delete-button {
+            right: 10px;
+            background: #dc3545; /* 赤系 */
+            color: #fff;
+        }
+        .delete-button:hover {
+            background: #c82333;
+        }
+    </style>
     </style>
 </head>
 <body>

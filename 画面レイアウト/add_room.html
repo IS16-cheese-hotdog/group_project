@@ -13,11 +13,11 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background-color: #e6f7ff; /* ログインページと同じライトブルーの背景 */
+            background-color: #e6f7ff;
         }
         .container {
             width: 100%;
-            max-width: 600px;
+            max-width: 800px;
             background: #ffffff;
             padding: 30px;
             border-radius: 10px;
@@ -26,7 +26,7 @@
         h1 {
             text-align: center;
             font-size: 28px;
-            color: #007BFF; /* ログインページのタイトルと同じライトブルー */
+            color: #007BFF;
             margin-bottom: 20px;
         }
         .form-group {
@@ -54,16 +54,13 @@
         }
         .form-group .radio-group {
             display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            justify-content: flex-start;
+            gap: 20px; /* ボタン間の間隔 */
         }
         .form-group .radio-group label {
-            font-size: 16px;
-            color: #555;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            display: inline-flex; /* 横並び設定 */
+            align-items: center; /* 中央揃え */
+            gap: 8px; /* ラジオボタンとテキストの間隔 */
+            white-space: nowrap; /* 折り返し防止 */
         }
         .buttons {
             text-align: center;
@@ -133,59 +130,59 @@
     <button class="back-button" id="back-button">戻る</button>
     <div class="container">
         <h1>部屋情報登録</h1>
-        <form>
+        <form id="room-form">
             <div class="form-group">
                 <label for="room-name">部屋ID:</label>
-                <input type="text" id="room-name" name="room-name" placeholder="部屋IDを入力">
+                <input type="text" id="room-name" name="room-name" placeholder="部屋IDを入力" required>
             </div>
             <div class="form-group">
                 <label for="room-description">部屋説明:</label>
-                <input type="text" id="room-description" name="room-description" placeholder="部屋の説明を入力">
+                <input type="text" id="room-description" name="room-description" placeholder="部屋の説明を入力" required>
             </div>
             <div class="form-group">
                 <label for="room-beds">ベッド数:</label>
-                <input type="number" id="room-beds" name="room-beds" placeholder="ベッド数を入力">
+                <input type="number" id="room-beds" name="room-beds" placeholder="ベッド数を入力" min="1" max="10" required>
             </div>
             <div class="form-group">
                 <label>バスルーム:</label>
                 <div class="radio-group">
-                    <label><input type="radio" id="room-bathroom-yes" name="room-bathroom" value="yes"> はい</label>
-                    <label><input type="radio" id="room-bathroom-no" name="room-bathroom" value="no"> いいえ</label>
+                    <label><input type="radio" id="room-bathroom-yes" name="room-bathroom" value="yes" required> はい</label>
+                    <label><input type="radio" id="room-bathroom-no" name="room-bathroom" value="no" required> いいえ</label>
                 </div>
             </div>
             <div class="form-group">
                 <label>ドライヤー:</label>
                 <div class="radio-group">
-                    <label><input type="radio" id="room-dryer-yes" name="room-dryer" value="yes"> はい</label>
-                    <label><input type="radio" id="room-dryer-no" name="room-dryer" value="no"> いいえ</label>
+                    <label><input type="radio" id="room-dryer-yes" name="room-dryer" value="yes" required> はい</label>
+                    <label><input type="radio" id="room-dryer-no" name="room-dryer" value="no" required> いいえ</label>
                 </div>
             </div>
             <div class="form-group">
                 <label>テレビ:</label>
                 <div class="radio-group">
-                    <label><input type="radio" id="room-tv-yes" name="room-tv" value="yes"> はい</label>
-                    <label><input type="radio" id="room-tv-no" name="room-tv" value="no"> いいえ</label>
+                    <label><input type="radio" id="room-tv-yes" name="room-tv" value="yes" required> はい</label>
+                    <label><input type="radio" id="room-tv-no" name="room-tv" value="no" required> いいえ</label>
                 </div>
             </div>
             <div class="form-group">
                 <label>Wi-Fi:</label>
                 <div class="radio-group">
-                    <label><input type="radio" id="room-wifi-yes" name="room-wifi" value="yes"> はい</label>
-                    <label><input type="radio" id="room-wifi-no" name="room-wifi" value="no"> いいえ</label>
+                    <label><input type="radio" id="room-wifi-yes" name="room-wifi" value="yes" required> はい</label>
+                    <label><input type="radio" id="room-wifi-no" name="room-wifi" value="no" required> いいえ</label>
                 </div>
             </div>
             <div class="form-group">
                 <label>ペット:</label>
                 <div class="radio-group">
-                    <label><input type="radio" id="room-pet-yes" name="room-pet" value="yes"> はい</label>
-                    <label><input type="radio" id="room-pet-no" name="room-pet" value="no"> いいえ</label>
+                    <label><input type="radio" id="room-pet-yes" name="room-pet" value="yes" required> はい</label>
+                    <label><input type="radio" id="room-pet-no" name="room-pet" value="no" required> いいえ</label>
                 </div>
             </div>
             <div class="form-group">
                 <label>冷蔵庫:</label>
                 <div class="radio-group">
-                    <label><input type="radio" id="room-fridge-yes" name="room-fridge" value="yes"> はい</label>
-                    <label><input type="radio" id="room-fridge-no" name="room-fridge" value="no"> いいえ</label>
+                    <label><input type="radio" id="room-fridge-yes" name="room-fridge" value="yes" required> はい</label>
+                    <label><input type="radio" id="room-fridge-no" name="room-fridge" value="no" required> いいえ</label>
                 </div>
             </div>
             <div class="buttons">
@@ -194,11 +191,9 @@
         </form>
     </div>
     <script>
-        // クエリパラメータから戻る先を取得
         const params = new URLSearchParams(window.location.search);
         const fromPage = params.get('from');
         
-        // 戻るボタンのリンクを設定
         const backButton = document.getElementById('back-button');
         if (fromPage === 'admin_2') {
             backButton.addEventListener('click', () => {
@@ -210,9 +205,10 @@
             });
         }
 
-        document.querySelector('form').addEventListener('submit', function(event) {
+        document.getElementById('room-form').addEventListener('submit', function(event) {
             event.preventDefault();
-            
+
+            // 入力値の取得
             const roomName = document.getElementById('room-name').value;
             const roomDescription = document.getElementById('room-description').value;
             const roomBeds = document.getElementById('room-beds').value;
@@ -226,7 +222,6 @@
             const popup = document.createElement('div');
             popup.className = 'popup';
             popup.innerHTML = `
-
                 <p>追加しますか？</p>
                 <p>部屋ID: ${roomName}</p>
                 <p>部屋説明: ${roomDescription}</p>
@@ -242,13 +237,14 @@
             `;
             document.body.appendChild(popup);
 
-            document.getElementById('confirm-yes').addEventListener('click', function() {
-                // 実際の追加処理をここに追加
-                window.location.href = 'hotel_room.html.html';
+            document.getElementById('confirm-yes').addEventListener('click', () => {
+                // 実際の送信処理（非同期でサーバー送信など）をここに追加
+                alert('データが登録されました。');
+                popup.remove();
             });
 
-            document.getElementById('confirm-no').addEventListener('click', function() {
-                document.body.removeChild(popup);
+            document.getElementById('confirm-no').addEventListener('click', () => {
+                popup.remove();
             });
         });
     </script>
