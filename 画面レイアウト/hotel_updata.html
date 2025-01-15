@@ -39,6 +39,17 @@
             background-color: #f6fbff;
             color: #333;
         }
+        .form-group textarea {
+            flex: 1;
+            max-width: 60%;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #d1e9ff;
+            border-radius: 5px;
+            background-color: #f6fbff;
+            color: #333;
+            resize: none;
+        }
         .form-group input:focus {
             outline: none;
             border-color: #80c8ff;
@@ -118,12 +129,12 @@
                 <input type="text" id="postal-code" name="postal-code" value="123-4567">
             </div>
             <div class="form-group">
-                <label for="building">建物名: サンプルビル</label>
-                <input type="text" id="building" name="building" value="サンプルビル">
-            </div>
-            <div class="form-group">
                 <label for="address">住所: 東京都新宿区西新宿1-1-1</label>
                 <input type="text" id="address" name="address" value="東京都新宿区西新宿1-1-1">
+            </div>
+            <div class="form-group">
+                <label for="building">建物名: サンプルビル</label>
+                <input type="text" id="building" name="building" value="サンプルビル">
             </div>
             <div class="form-group">
                 <label for="phone">電話番号: 090-1234-5678</label>
@@ -134,8 +145,16 @@
                 <input type="email" id="email" name="email" value="yamada@example.com">
             </div>
             <div class="form-group">
+                <label for="hotel-name">ホテル名:</label>
+                <input type="text" id="hotel-name" name="hotel-name">
+            </div>
+            <div class="form-group">
                 <label for="hotel-photo">ホテルの写真:</label>
                 <input type="file" id="hotel-photo" name="hotel-photo" accept="image/*">
+            </div>
+            <div class="form-group">
+                <label for="hotel-description">ホテルの説明:</label>
+                <textarea id="hotel-description" name="hotel-description" rows="5" style="width: 60%;"></textarea>
             </div>
             <div class="buttons">
                 <button type="submit">更新</button>
@@ -151,9 +170,13 @@
             backButton.addEventListener('click', () => {
                 window.location.href = 'admin_2.html';
             });
+        } else if (fromPage === 'hotel_info') {
+            backButton.addEventListener('click', () => {
+                window.location.href = 'hotel_info.php';
+            });
         } else {
             backButton.addEventListener('click', () => {
-                window.location.href = 'hotel_hotel.html';
+                window.location.href = 'error.php';
             });
         }
 
@@ -172,11 +195,13 @@
             popup.innerHTML = `
                 <p>更新しますか？</p>
                 <p>郵便番号: ${postalCode}</p>
-                <p>建物名: ${building}</p>
                 <p>住所: ${address}</p>
+                <p>建物名: ${building}</p>
                 <p>電話番号: ${phone}</p>
                 <p>メール: ${email}</p>
+                <p>ホテル名: ${document.getElementById('hotel-name').value}</p>
                 <p>ホテルの写真: ${hotelPhoto ? hotelPhoto.name : '選択されていません'}</p>
+                <p>ホテルの説明: ${document.getElementById('hotel-description').value}</p>
                 <button id="confirm-yes">はい</button>
                 <button id="confirm-no">いいえ</button>
             `;
