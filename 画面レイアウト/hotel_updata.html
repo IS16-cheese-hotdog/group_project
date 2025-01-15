@@ -188,7 +188,9 @@
             const address = document.getElementById('address').value;
             const phone = document.getElementById('phone').value;
             const email = document.getElementById('email').value;
+            const hotelName = document.getElementById('hotel-name').value;
             const hotelPhoto = document.getElementById('hotel-photo').files[0];
+            const hotelDescription = document.getElementById('hotel-description').value;
 
             const popup = document.createElement('div');
             popup.className = 'popup';
@@ -199,9 +201,9 @@
                 <p>建物名: ${building}</p>
                 <p>電話番号: ${phone}</p>
                 <p>メール: ${email}</p>
-                <p>ホテル名: ${document.getElementById('hotel-name').value}</p>
+                <p>ホテル名: ${hotelName}</p>
                 <p>ホテルの写真: ${hotelPhoto ? hotelPhoto.name : '選択されていません'}</p>
-                <p>ホテルの説明: ${document.getElementById('hotel-description').value}</p>
+                <p>ホテルの説明: ${hotelDescription}</p>
                 <button id="confirm-yes">はい</button>
                 <button id="confirm-no">いいえ</button>
             `;

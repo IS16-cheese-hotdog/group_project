@@ -1,5 +1,5 @@
 <?php
-include_once(__DIR__ . '/../inc/is_login.php');
+//include_once(__DIR__ . '/../inc/is_login.php');
 include_once(__DIR__ . '/../inc/db.php');
 $db = db_connect();
 if ($db === false) {
@@ -7,6 +7,39 @@ if ($db === false) {
     header('Location: error.php');
     exit;
 }
+
+if ($_POST) {
+    $hotel_name = $_POST['hotel_name'];
+    $postal_code = $_POST['postal_code'];
+    $address = $_POST['address'];
+    $building_name = $_POST['building_name'];
+    $phone_number = $_POST['phone_number'];
+    $email = $_POST['email'];
+    $description = $_POST['description'];
+    $photo = $_POST['photo'];
+    $img_name = $_FILES['hotel-photo']['name'];
+
+    $img_name = "hotel/" . uniqid(mt_rand(), true) . substr(strrchr($img_name, '.'), 1);
+    move_uploaded_file($_FILES['hotel-photo']['tmp_name'], __DIR__ . '/../uploads/' . $img_name);
+
+    $sql = 'UPDATE HOTEL SET hotel_name = :hotel_name, postal_code = :postal_code, address = :address, building_name = :building_name, phone_number = :phone_number, email = :email, description = :description, photo = :photo WHERE hotel_id = :hotel_id';
+    $stmt = $db->prepare($sql);
+    $stmt->bindValue(':hotel_name', $hotel_name, PDO::PARAM_STR);
+    $stmt->bindValue(':postal_code', $postal_code, PDO::PARAM_STR);
+    $stmt->bindValue(':address', $address, PDO::PARAM_STR);
+    $stmt->bindValue(':building_name', $building_name, PDO::PARAM_STR);
+    $stmt->bindValue(':phone_number', $phone_number, PDO::PARAM_STR);
+    $stmt->bindValue(':email', $email, PDO::PARAM_STR);
+    $stmt->bindValue(':description', $description, PDO::PARAM_STR);
+    $stmt->bindValue(':photo', $img_name, PDO::PARAM_STR);
+    $stmt->execute();
+
+} else {
+
+}
+
+
+
 ?>
 
 <!DOCTYPE html>
@@ -131,10 +164,10 @@ if ($db === false) {
     </style>
 </head>
 <body>
-    <button class="back-button" id="back-button">戻る</button>
+    <button onclick="history.back()" class="back-button">戻る</button>
     <h1 class="title">登録情報更新</h1>
     <div class="container">
-        <form id="update-form" enctype="multipart/form-data">
+        <form onsubmit="return Check()" id="update-form" enctype="multipart/form-data" method="post">
             <div class="form-group">
                 <label for="postal-code">郵便番号: 123-4567</label>
                 <input type="text" id="postal-code" name="postal-code" value="123-4567">
@@ -173,33 +206,18 @@ if ($db === false) {
         </form>
     </div>
     <script>
-        const params = new URLSearchParams(window.location.search);
-        const fromPage = params.get('from');
-        const backButton = document.getElementById('back-button');
-
-        if (fromPage === 'admin_2') {
-            backButton.addEventListener('click', () => {
-                window.location.href = 'admin_2.html';
-            });
-        } else if (fromPage === 'hotel_info') {
-            backButton.addEventListener('click', () => {
-                window.location.href = 'hotel_info.php';
-            });
-        } else {
-            backButton.addEventListener('click', () => {
-                window.location.href = 'error.php';
-            });
-        }
-
-        document.getElementById('update-form').addEventListener('submit', function(event) {
+    function Check() {
+        
             event.preventDefault();
-
+            var form = document.getElementById('update-form');
             const postalCode = document.getElementById('postal-code').value;
             const building = document.getElementById('building').value;
             const address = document.getElementById('address').value;
             const phone = document.getElementById('phone').value;
             const email = document.getElementById('email').value;
+            const hotelName = document.getElementById('hotel-name').value;
             const hotelPhoto = document.getElementById('hotel-photo').files[0];
+            const hotelExplain = document.getElementById('hotel-explain').value;
 
             const popup = document.createElement('div');
             popup.className = 'popup';
@@ -210,22 +228,23 @@ if ($db === false) {
                 <p>建物名: ${building}</p>
                 <p>電話番号: ${phone}</p>
                 <p>メール: ${email}</p>
-                <p>ホテル名: ${document.getElementById('hotel-name').value}</p>
+                <p>ホテル名: ${hotelName}</p>
                 <p>ホテルの写真: ${hotelPhoto ? hotelPhoto.name : '選択されていません'}</p>
-                <p>ホテルの説明: ${document.getElementById('hotel-description').value}</p>
+                <p>ホテルの説明: ${hotelExplain}</p>
                 <button id="confirm-yes">はい</button>
                 <button id="confirm-no">いいえ</button>
             `;
             document.body.appendChild(popup);
 
             document.getElementById('confirm-yes').addEventListener('click', function() {
-                window.location.href = 'hotel_hotel.html';
+                form.submit();
             });
 
             document.getElementById('confirm-no').addEventListener('click', function() {
                 document.body.removeChild(popup);
             });
-        });
+        };
+    ;
     </script>
 </body>
 </html>
