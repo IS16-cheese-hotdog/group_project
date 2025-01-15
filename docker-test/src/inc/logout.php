@@ -1,5 +1,5 @@
 <?php
-include_once __DIR__ . '/inc/is_login.php';
+include_once __DIR__ . '/is_login.php';
 $_SESSION = array();
 
 if (ini_get("session.use_cookies")) {
@@ -11,7 +11,7 @@ if (ini_get("session.use_cookies")) {
 }
 
 session_destroy();
-
-header('Location: ../index.php');
+$url = get_url();
+header('Location: ' . $url . '/index.php');
 exit;
 ?>
