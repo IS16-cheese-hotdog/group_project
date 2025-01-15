@@ -1,8 +1,8 @@
 <?php
 
-$host = 'mysql'; // MySQLコンテナのサービス名
+$host = 'mysql.pokapy.com:3307'; // MySQLコンテナのサービス名
 $dbname = $_ENV['MYSQL_DATABASE'];
-$username = 'root';
+$username = 'user';
 $password = $_ENV['MYSQL_ROOT_PASSWORD'];
 
 # 新しいPDOオブジェクトを作成し、MySQLデータベースに接続
