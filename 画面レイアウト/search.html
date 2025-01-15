@@ -8,27 +8,42 @@
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
+            background-color: #f0f8ff; /* ライトブルーの背景 */
+            color: #333;
         }
         .search-container {
             max-width: 600px;
             margin: 0 auto;
+            background-color: #ffffff; /* ホワイトの背景 */
+            border: 1px solid #b0c4de; /* ライトブルーのボーダー */
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
         .search-container h1 {
             text-align: center;
+            color: #4682b4; /* ダークブルーの文字色 */
         }
-        .search-container select, .search-container button, .search-container input[type="date"], .search-container input[type="number"] {
+        .search-container select, 
+        .search-container button, 
+        .search-container input[type="date"], 
+        .search-container input[type="number"] {
             width: 100%;
             padding: 10px;
             margin: 10px 0;
+            border: 1px solid #b0c4de; /* ライトブルーのボーダー */
+            border-radius: 5px;
         }
         .search-container button {
-            background-color: #4CAF50;
+            background-color: #4682b4; /* ダークブルーの背景 */
             color: white;
             border: none;
             cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
         }
         .search-container button:hover {
-            background-color: #45a049;
+            background-color: #5a9bd8; /* ライトブルーに近い色 */
         }
         .flex-container {
             display: flex;
@@ -53,18 +68,8 @@
             display: flex;
             align-items: center;
         }
-        .horizontal-container label {
-            margin-right: 10px;
-        }
-        .vertical-container {
-            display: flex;
-            flex-direction: column;
-        }
-        .horizontal-container label, .vertical-container label {
-            display: inline;
-            margin-left: 5px;
-        }
-        .horizontal-container div, .vertical-container div {
+        .horizontal-container div, 
+        .vertical-container div {
             display: flex;
             align-items: center;
         }
@@ -72,19 +77,20 @@
             position: absolute;
             top: 20px;
             left: 20px;
-            background-color: #4CAF50;
+            background-color: #4682b4; /* ダークブルーの背景 */
             color: white;
             border: none;
             padding: 10px;
+            border-radius: 5px;
             cursor: pointer;
         }
         .back-button:hover {
-            background-color: #45a049;
+            background-color: #5a9bd8; /* ホバー時の色 */
         }
     </style>
 </head>
 <body>
-    <button type="button" class="back-button" onclick="window.location.href='main.html'">メインページに戻る</button>
+    <button type="button" class="back-button" onclick="goBack()">戻る</button>
     <div class="search-container">
         <h1>ホテル検索</h1>
         <div class="flex-container">
@@ -154,7 +160,7 @@
             <option value="more">10以上</option>
         </select>
         <input type="number" id="extra-guests" name="extra-guests" style="display: none;" placeholder="人数を入力してください">
-        <button type="button">検索</button>
+        <button type="button" onclick="search()">検索</button>
     </div>
     <script>
         document.getElementById('region').addEventListener('change', function() {
@@ -202,8 +208,28 @@
         });
 
         document.querySelector('.search-container button').addEventListener('click', function() {
+            sessionStorage.setItem('loggedIn', true);
             window.location.href = 'hotel_list.html';
         });
+
+        function goBack() {
+            // URL のクエリパラメータを取得して遷移先を決定
+            const urlParams = new URLSearchParams(window.location.search);
+            const fromPage = urlParams.get('from');
+
+            if (fromPage === 'mypage') {
+                window.location.href = 'mypage.html';
+            } else {
+                window.location.href = 'main.html';
+            }
+        }
+
+        // リダイレクト時に遷移元の情報を保存
+        if (window.location.search.includes('from=mypage')) {
+            sessionStorage.setItem('from', 'mypage');
+        } else {
+            sessionStorage.setItem('from', 'main');
+        }
     </script>
 </body>
 </html>

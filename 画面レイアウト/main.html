@@ -3,104 +3,137 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ホテルサイト</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>ホテル予約サイト</title>
     <style>
-        body, html {
-            overflow: hidden; /* Prevent scrolling */
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
         }
 
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #000; /* Changed background color to black */
+            background-color: #e6f7ff; /* 明るい背景色 */
+            color: #333;
         }
 
         header {
-            background-color: #333;
+            position: relative;
+            background-color: #3e5060; /* より落ち着いた色 */
+            padding: 20px 40px;
+        }
+
+        .site-name {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 26px;
+            font-weight: bold;
             color: #fff;
-            padding: 20px 0;
-            text-align: center;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
         }
 
         nav ul {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
+            list-style: none;
+            display: flex;
+            gap: 30px;
         }
 
-        nav ul li {
-            display: inline;
-            margin: 0 15px;
-        }
-
-        nav ul li a {
-            color: #fff;
+        nav a {
+            color: white;
             text-decoration: none;
-            font-weight: bold;
+            font-size: 18px;
+            transition: color 0.3s ease;
         }
 
-        nav ul li a:hover {
-            text-decoration: underline;
+        nav a:hover {
+            color: #ff8c00; /* ハイライト色 */
+        }
+
+        .login-btn {
+            background: linear-gradient(45deg, #7da7c7, #5b7583); /* 明るくておしゃれなグラデーション */
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 18px;
+            transition: background 0.3s ease;
+        }
+
+        .login-btn:hover {
+            background: linear-gradient(45deg, #5b7583, #4a5e6d); /* ホバー時の色 */
+        }
+
+        .search-link {
+            display: block;
+            text-align: center;
+            color: white;
+            background: linear-gradient(45deg, #7da7c7, #5b7583); /* 明るくておしゃれなグラデーション */
+            padding: 15px 20px;
+            border-radius: 10px;
+            font-size: 20px;
+            text-decoration: none;
+            transition: background 0.3s ease;
+        }
+
+        .search-link:hover {
+            background: linear-gradient(45deg, #5b7583, #4a5e6d); /* ホバー時の色 */
+        }
+
+        .hero {
+            background: url('https://example.com/hero-image.jpg') no-repeat center center/cover;
+            text-align: center;
+            color: white;
+            padding: 100px 20px;
+            background-size: cover;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            margin-top: 5px;
         }
 
         footer {
-            background-color: #333;
-            color: #fff;
+            background-color: #3e5060; /* 一貫した色味 */
+            color: white;
             text-align: center;
-            padding: 10px 0;
-            position: fixed;
-            width: 100%;
+            padding: 20px;
+            position: absolute;
             bottom: 0;
-            box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        h1 {
-            font-size: 2.5em;
-            margin: 0;
-        }
-
-        ul {
-            padding: 0;
-        }
-
-        li {
-            list-style: none;
-        }
-
-        main {
-            background-color: #fff;
-            padding: 0; /* Removed padding */
-            text-align: center;
-        }
-
-        main img {
-            width: 100vw; /* Stretch image to full viewport width */
-            height: 100vh; /* Stretch image to full viewport height */
-            object-fit: cover; /* Ensure image covers the area without distortion */
+            width: 100%;
         }
     </style>
 </head>
 <body>
     <header>
-        <h1>地上の楽園</h1>
+        <div class="site-name">サイト名(仮)</div>
         <nav>
-            <ul>
-                <li><a href="main.html"></a></li>
-                <li><a href="search.html">検索</a></li>
-                <li><a href="login.html">ログイン</a></li>
-            </ul>
+            <a href="login.html" class="login-btn">ログイン</a>
         </nav>
     </header>
+
     <main>
-        <section>
-            <img src="kim.jpg" alt="ホテルの画像">
+        <!-- main.htmlから遷移したことを示すパラメータを追加 -->
+        <a href="search.html?from=main" class="search-link">検索</a>
+
+        <section class="hero">
+            <h1>ようこそ、ホテル予約サイトへ</h1>
+            <p>最高の旅をあなたに</p>
         </section>
     </main>
+
     <footer>
-        <p>&copy; 2023 ホテル名. All rights reserved.</p>
+        <p>&copy; 2025 ホテル予約サイト</p>
     </footer>
 </body>
 </html>

@@ -7,8 +7,26 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
-            position: relative;
+            margin: 0;
+            padding: 0;
+            background-color: #e6f7ff; /* 背景色を#e6f7ffに設定 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+        h1 {
+            margin-bottom: 20px;
+            text-align: center;
+            color: #333;
         }
         .rating {
             display: flex;
@@ -36,42 +54,55 @@
             margin-top: 20px;
             padding: 10px;
             font-size: 1em;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
         }
-        .submit-button {
-            display: block;
-            margin-top: 20px;
-            padding: 10px 20px;
-            font-size: 1em;
-            cursor: pointer;
-        }
+        .submit-button,
         .back-button {
             display: block;
-            margin-top: 20px;
-            padding: 10px 20px;
+            width: 100%;
+            padding: 12px;
             font-size: 1em;
             cursor: pointer;
-            background-color: #ccc;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        .submit-button {
+            background-color: #4CAF50;
+            color: white;
             border: none;
-            position: absolute;
-            top: 20px;
-            left: 20px;
+        }
+        .submit-button:hover {
+            background-color: #45a049;
+        }
+        .back-button {
+            background-color: #ccc;
+            color: #333;
+            border: none;
+        }
+        .back-button:hover {
+            background-color: #bbb;
         }
     </style>
 </head>
 <body>
-    <h1>口コミを書く</h1>
-    <form action="/submit_review" method="post">
-        <div class="rating">
-            <input type="radio" id="star5" name="rating" value="5"><label for="star5">★</label>
-            <input type="radio" id="star4" name="rating" value="4"><label for="star4">★</label>
-            <input type="radio" id="star3" name="rating" value="3"><label for="star3">★</label>
-            <input type="radio" id="star2" name="rating" value="2"><label for="star2">★</label>
-            <input type="radio" id="star1" name="rating" value="1"><label for="star1">★</label>
-        </div>
-        <textarea class="review-input" name="review" rows="4" placeholder="口コミを入力してください"></textarea>
-        <button type="submit" class="submit-button">送信</button>
-    </form>
-    <button onclick="history.back()" class="back-button">前画面に戻る</button>
+    <div class="container">
+        <h1>口コミを書く</h1>
+        <form action="/submit_review" method="post">
+            <div class="rating">
+                <input type="radio" id="star5" name="rating" value="5"><label for="star5">★</label>
+                <input type="radio" id="star4" name="rating" value="4"><label for="star4">★</label>
+                <input type="radio" id="star3" name="rating" value="3"><label for="star3">★</label>
+                <input type="radio" id="star2" name="rating" value="2"><label for="star2">★</label>
+                <input type="radio" id="star1" name="rating" value="1"><label for="star1">★</label>
+            </div>
+            <textarea class="review-input" name="review" rows="4" placeholder="口コミを入力してください"></textarea>
+            <button type="submit" class="submit-button">送信</button>
+        </form>
+        <button onclick="history.back()" class="back-button">前画面に戻る</button>
+    </div>
+
     <script>
         document.querySelector('form').addEventListener('submit', function(event) {
             const ratingChecked = document.querySelector('input[name="rating"]:checked');
@@ -87,14 +118,3 @@
     </script>
 </body>
 </html>
-<style>
-    .back-button {
-        top: 0;
-        left: 0;
-        margin: 0;
-    }
-    h1 {
-        margin-top: 50px;
-        text-align: center;
-    }
-</style>

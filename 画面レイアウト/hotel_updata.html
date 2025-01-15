@@ -8,9 +8,15 @@
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
+            background-color: #e6f7ff;
+            color: #333;
         }
         .container {
-            margin-top: 60px; /* 戻るボタンの下に配置 */
+            margin-top: 60px;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
         .form-group {
             display: flex;
@@ -18,17 +24,25 @@
             margin-bottom: 15px;
         }
         .form-group label {
-            width: 40%; /* 現在の内容を左側に配置 */
+            width: 40%;
             text-align: left;
             color: #555;
-            padding-right: 20px; /* 空白を作成 */
+            padding-right: 20px;
         }
         .form-group input {
             flex: 1;
-            max-width: 60%; /* 入力欄を中央から右側に配置 */
-            padding: 8px;
+            max-width: 60%;
+            padding: 10px;
             box-sizing: border-box;
-            margin-left: auto; /* 入力欄を右寄せ */
+            border: 1px solid #d1e9ff;
+            border-radius: 5px;
+            background-color: #f6fbff;
+            color: #333;
+        }
+        .form-group input:focus {
+            outline: none;
+            border-color: #80c8ff;
+            background-color: #eaf5ff;
         }
         .buttons {
             text-align: center;
@@ -42,6 +56,7 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            transition: background-color 0.3s;
         }
         .buttons button:hover {
             background-color: #45a049;
@@ -52,14 +67,20 @@
             left: 20px;
             padding: 10px 20px;
             font-size: 16px;
-            background-color: #f0f0f0;
-            border: 1px solid #ccc;
+            background-color: #d1e9ff;
+            border: 1px solid #80c8ff;
             border-radius: 5px;
+            color: #333;
             cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .back-button:hover {
+            background-color: #80c8ff;
         }
         .title {
             text-align: center;
             margin-bottom: 30px;
+            color: #333;
         }
         .popup {
             position: fixed;
@@ -69,6 +90,7 @@
             background-color: white;
             padding: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
             z-index: 1000;
         }
         .popup button {
@@ -79,6 +101,10 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            margin-right: 10px;
+        }
+        .popup button:hover {
+            background-color: #45a049;
         }
     </style>
 </head>
@@ -86,7 +112,7 @@
     <button class="back-button" id="back-button">戻る</button>
     <h1 class="title">登録情報更新</h1>
     <div class="container">
-        <form>
+        <form id="update-form" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="postal-code">郵便番号: 123-4567</label>
                 <input type="text" id="postal-code" name="postal-code" value="123-4567">
@@ -107,18 +133,20 @@
                 <label for="email">メール: yamada@example.com</label>
                 <input type="email" id="email" name="email" value="yamada@example.com">
             </div>
+            <div class="form-group">
+                <label for="hotel-photo">ホテルの写真:</label>
+                <input type="file" id="hotel-photo" name="hotel-photo" accept="image/*">
+            </div>
             <div class="buttons">
                 <button type="submit">更新</button>
             </div>
         </form>
     </div>
     <script>
-        // クエリパラメータから戻る先を取得
         const params = new URLSearchParams(window.location.search);
         const fromPage = params.get('from');
-        
-        // 戻るボタンのリンクを設定
         const backButton = document.getElementById('back-button');
+
         if (fromPage === 'admin_2') {
             backButton.addEventListener('click', () => {
                 window.location.href = 'admin_2.html';
@@ -129,14 +157,15 @@
             });
         }
 
-        document.querySelector('form').addEventListener('submit', function(event) {
+        document.getElementById('update-form').addEventListener('submit', function(event) {
             event.preventDefault();
-            
+
             const postalCode = document.getElementById('postal-code').value;
             const building = document.getElementById('building').value;
             const address = document.getElementById('address').value;
             const phone = document.getElementById('phone').value;
             const email = document.getElementById('email').value;
+            const hotelPhoto = document.getElementById('hotel-photo').files[0];
 
             const popup = document.createElement('div');
             popup.className = 'popup';
@@ -147,13 +176,13 @@
                 <p>住所: ${address}</p>
                 <p>電話番号: ${phone}</p>
                 <p>メール: ${email}</p>
+                <p>ホテルの写真: ${hotelPhoto ? hotelPhoto.name : '選択されていません'}</p>
                 <button id="confirm-yes">はい</button>
                 <button id="confirm-no">いいえ</button>
             `;
             document.body.appendChild(popup);
 
             document.getElementById('confirm-yes').addEventListener('click', function() {
-                // 実際の更新処理をここに追加
                 window.location.href = 'hotel_hotel.html';
             });
 

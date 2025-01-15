@@ -2,71 +2,155 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ホテル情報</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
+            background-color: #e6f7ff; /* ベースカラーを#e6f7ffに設定 */
         }
         header {
             background-color: #333;
             color: #fff;
-            padding: 10px 0;
+            padding: 20px 0;
             text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             position: relative;
         }
+        header h1 {
+            font-size: 36px;
+            font-weight: bold;
+        }
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .back-button:hover {
+            background-color: #0056b3;
+        }
         .container {
-            width: 80%;
-            margin: 20px auto;
+            width: 85%;
+            margin: 40px auto;
             background-color: #fff;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
         }
-        h1 {
+        h2 {
             color: #333;
+            font-size: 24px;
+            margin-bottom: 10px;
+            font-weight: bold;
         }
-        .hotel-info {
-            margin-bottom: 20px;
-        }
-        .hotel-info h2 {
+        p {
+            line-height: 1.6;
+            font-size: 16px;
             color: #555;
         }
-        .hotel-info p {
-            line-height: 1.6;
+        .hotel-photos {
+            display: flex;
+            gap: 20px; /* 写真間に隙間を追加 */
+            margin-top: 30px;
+        }
+        .hotel-photos img {
+            width: 240px;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .hotel-photos img:hover {
+            transform: scale(1.05);
         }
         .plan-list {
             list-style: none;
             padding: 0;
+            margin-top: 30px;
         }
         .plan-list li {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 0;
-            border-bottom: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #f1f1f1;
+            margin-bottom: 15px;
+            transition: background-color 0.3s ease;
+        }
+        .plan-list li:hover {
+            background-color: #66b3ff; /* 薄めの青色 */
+            color: white;
+        }
+        .plan-list span {
+            font-size: 18px;
+            color: #333;
+        }
+        .plan-list .price {
+            font-size: 18px;
+            font-weight: bold;
+            color: #007bff;
         }
         .plan-list button {
             background-color: #007bff;
             color: #fff;
             border: none;
-            padding: 5px 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
             cursor: pointer;
         }
         .plan-list button:hover {
             background-color: #0056b3;
         }
-        .back-button {
+        .facility-list, .tourist-list {
+            margin-top: 20px;
+            padding-left: 20px;
+        }
+        .facility-list li, .tourist-list li {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #555;
+        }
+        /* 拡大画像表示用 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal img {
+            width: 80%;
+            height: auto;
+            border-radius: 8px;
+        }
+        .modal:target {
+            display: flex;
+        }
+        .modal-close {
             position: absolute;
-            top: 10px;
-            left: 10px;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            padding: 5px 10px;
+            top: 20px;
+            right: 20px;
+            font-size: 30px;
+            color: white;
             cursor: pointer;
+            background: none;
+            border: none;
         }
     </style>
 </head>
@@ -76,6 +160,16 @@
         <button class="back-button" onclick="window.history.back()">戻る</button>
     </header>
     <div class="container">
+        <!-- ホテルの写真をホテル名の上に配置 -->
+        <div class="hotel-photos">
+            <a href="#modal-image1">
+                <img src="IMG_0119.JPG" alt="ホテルの外観">
+            </a>
+            <a href="#modal-image2">
+                <img src="IMG_0119.JPG" alt="ホテルの客室">
+            </a>
+        </div>
+
         <div class="hotel-info">
             <h2>ホテル名: サンプルホテル</h2>
             <p>所在地: 東京都新宿区西新宿2-8-1</p>
@@ -83,32 +177,79 @@
             <p>チェックイン: 15:00</p>
             <p>チェックアウト: 11:00</p>
         </div>
+
         <div class="hotel-info">
             <h2>ホテルの特徴</h2>
             <p>サンプルホテルは、快適な滞在を提供するために最新の設備とサービスを備えています。館内にはレストラン、フィットネスセンター、スパなどがあり、ビジネスや観光に最適です。</p>
         </div>
+
         <div class="hotel-info">
-            <h2>アクセス</h2>
-            <p>最寄り駅: 新宿駅から徒歩5分</p>
-            <p>空港からのアクセス: 成田空港から電車で1時間</p>
+            <h2>評価</h2>
+            <p>★★★★★ 4.5/5 (口コミ数: 150)</p>
         </div>
+
+        <div class="hotel-info">
+            <h2>料金</h2>
+            <p>シングルルーム - 1泊 ¥10,000</p>
+            <p>ダブルルーム - 1泊 ¥15,000</p>
+            <p>スイートルーム - 1泊 ¥30,000</p>
+        </div>
+
+        <div class="hotel-info">
+            <h2>キャンセルポリシー</h2>
+            <p>キャンセル料はチェックイン日の24時間前まで無料です。それ以降は宿泊料金の50%が請求されます。</p>
+        </div>
+
+        <div class="hotel-info">
+            <h2>施設</h2>
+            <ul class="facility-list">
+                <li>レストラン</li>
+                <li>フィットネスセンター</li>
+                <li>スパ</li>
+                <li>プール</li>
+                <li>Wi-Fi完備</li>
+            </ul>
+        </div>
+
+        <div class="hotel-info">
+            <h2>周辺の観光地</h2>
+            <ul class="tourist-list">
+                <li>新宿御苑（徒歩10分）</li>
+                <li>東京都庁（徒歩15分）</li>
+                <li>歌舞伎町（徒歩20分）</li>
+            </ul>
+        </div>
+
         <div class="hotel-info">
             <h2>プラン一覧</h2>
             <ul class="plan-list">
                 <li>
                     <span>シングルルーム - 朝食付き</span>
+                    <span class="price">¥10,000</span>
                     <button onclick="window.location.href='login.html'">予約</button>
                 </li>
                 <li>
                     <span>ダブルルーム - 朝食付き</span>
+                    <span class="price">¥15,000</span>
                     <button onclick="window.location.href='login.html'">予約</button>
                 </li>
                 <li>
                     <span>スイートルーム - 朝食付き</span>
+                    <span class="price">¥30,000</span>
                     <button onclick="window.location.href='login.html'">予約</button>
                 </li>
             </ul>
         </div>
+    </div>
+
+    <!-- モーダル用画像 -->
+    <div id="modal-image1" class="modal">
+        <button class="modal-close" onclick="window.location='#'">&times;</button>
+        <img src="IMG_0119.JPG" alt="拡大画像">
+    </div>
+    <div id="modal-image2" class="modal">
+        <button class="modal-close" onclick="window.location='#'">&times;</button>
+        <img src="IMG_0119.JPG" alt="拡大画像">
     </div>
 </body>
 </html>
