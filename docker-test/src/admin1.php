@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>会員管理ページ</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e6f7ff; /* ライトブルーの背景 */
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+            color: #007BFF; /* ブルーの文字 */
+        }
+        .search-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px;
+        }
+        .search-container input {
+            width: 300px;
+            padding: 10px;
+            font-size: 16px;
+            margin-right: 10px;
+            border: 1px solid #b3d8ff;
+            border-radius: 6px;
+            background-color: #f9fcff;
+        }
+        .search-container input:focus {
+            border-color: #007BFF;
+            outline: none;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+        .search-container button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .search-container button:hover {
+            background-color: #0056b3;
+        }
+        .member-list {
+            margin: 20px;
+            display: none;
+        }
+        .member-list ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .member-list li {
+            padding: 10px;
+            border-bottom: 1px solid #b3d8ff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #ffffff; /* 白の背景 */
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+        .member-id {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .admin-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .admin-button:hover {
+            background-color: #0056b3;
+        }
+        .delete-button {
+            padding: 5px 10px;
+            font-size: 14px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        .delete-button:hover {
+            background-color: #d32f2f;
+        }
+    </style>
+</head>
+<body>
+    <h1>会員管理画面</h1>
+    <button class="admin-button" onclick="location.href='admin.html'">戻る</button>
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="会員を検索...">
+        <button id="searchButton">検索</button>
+    </div>
+    <div class="member-list" id="memberList">
+        <h2 style="color: #007BFF;">会員リスト</h2>
+        <ul id="memberListItems">
+            <!-- 検索結果がここに表示されます -->
+        </ul>
+    </div>
+
+    <script>
+        const members = [
+            { name: '山田 太郎', id: 1 },
+            { name: '佐藤 花子', id: 2 },
+            { name: '鈴木 次郎', id: 3 },
+            { name: '田中 一郎', id: 4 },
+            { name: '高橋 美咲', id: 5 }
+        ];
+
+        document.getElementById('searchButton').addEventListener('click', function() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const filteredMembers = members.filter(member => member.name.toLowerCase().includes(query));
+            const memberList = document.getElementById('memberList');
+            const memberListItems = document.getElementById('memberListItems');
+
+            memberListItems.innerHTML = '';
+
+            if (filteredMembers.length > 0) {
+                filteredMembers.forEach(member => {
+                    const li = document.createElement('li');
+                    
+                    // IDを表示
+                    const idSpan = document.createElement('span');
+                    idSpan.classList.add('member-id');
+                    idSpan.textContent = `ID: ${member.id}`;
+                    
+                    // 名前を表示
+                    const nameSpan = document.createElement('span');
+                    nameSpan.textContent = member.name;
+
+                    const deleteButton = document.createElement('button');
+                    deleteButton.textContent = '削除';
+                    deleteButton.classList.add('delete-button');
+                    deleteButton.onclick = function() {
+                        if (confirm('本当に削除しますか？')) {
+                            const index = members.findIndex(m => m.id === member.id);
+                            if (index !== -1) {
+                                members.splice(index, 1);
+                                li.remove();
+                            }
+                        }
+                    };
+
+                    li.appendChild(idSpan);
+                    li.appendChild(nameSpan);
+                    li.appendChild(deleteButton);
+                    memberListItems.appendChild(li);
+                });
+                memberList.style.display = 'block';
+            } else {
+                memberList.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

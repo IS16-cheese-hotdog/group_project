@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>会員登録</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e6f7ff; /* ライトブルーの背景 */
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #007BFF; /* ライトブルー */
+            padding: 10px 20px;
+            color: #fff;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 20px;
+            text-align: center;
+            flex-grow: 1;
+        }
+
+        .back-button {
+            background-color: #0056b3;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            text-decoration: none;
+            font-size: 14px;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+
+        .back-button:hover {
+            background-color: #00408a;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 40px auto;
+            padding: 20px 30px;
+            border-radius: 10px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #007BFF; /* ライトブルーのテキスト */
+        }
+
+        input, select, button {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #b3d8ff;
+            border-radius: 6px;
+            background-color: #f9fcff;
+        }
+
+        input:focus, select:focus {
+            border-color: #007BFF;
+            outline: none;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+
+        button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="admin2.html" class="back-button">戻る</a>
+        <h1>会員登録</h1>
+    </div>
+
+    <form action="/submit_registration" method="post">
+        <label for="name">氏名:</label>
+        <input type="text" id="name" name="name" placeholder="例: 山田 太郎" required>
+
+        <label for="kana">カナ:</label>
+        <input type="text" id="kana" name="kana" placeholder="例: ヤマダ タロウ" required>
+
+        <label for="postal_code">郵便番号:</label>
+        <input type="text" id="postal_code" name="postal_code" placeholder="例: 1234567" required>
+
+        <label for="address">住所:</label>
+        <input type="text" id="address" name="address" placeholder="例: 東京都新宿区..." required>
+
+        <label for="dob">生年月日:</label>
+        <input type="date" id="dob" name="dob" required>
+
+        <label for="gender">性別:</label>
+        <select id="gender" name="gender" required>
+            <option value="" disabled selected>選択してください</option>
+            <option value="male">男性</option>
+            <option value="female">女性</option>
+        </select>
+
+        <label for="email">メールアドレス:</label>
+        <input type="email" id="email" name="email" placeholder="例: example@mail.com" required>
+
+        <label for="phone">電話番号:</label>
+        <input type="tel" id="phone" name="phone" placeholder="例: 09012345678" required>
+
+        <button type="submit">送信</button>
+    </form>
+
+    <script>
+        document.getElementById('postal_code').addEventListener('input', function (e) {
+            this.value = this.value.replace(/[^0-9]/g, '');
+        });
+    </script>
+</body>
+</html>
