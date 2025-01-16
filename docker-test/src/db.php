@@ -1,6 +1,6 @@
 <?php
 
-$host = 'mysql'; // MySQLコンテナのサービス名
+$host = 'mysql.pokapy.com:3307'; // MySQLコンテナのサービス名
 $dbname = $_ENV['MYSQL_DATABASE'];
 $username = 'root';
 $password = $_ENV['MYSQL_ROOT_PASSWORD'];
@@ -9,11 +9,11 @@ $password = $_ENV['MYSQL_ROOT_PASSWORD'];
 $db = new PDO("mysql:host={$host};dbname={$dbname};charset=utf8", $username, $password);
 
 # SQL　文を実行
-$stmt = $db->prepare('SELECT * FROM mytable');
+$stmt = $db->prepare('SELECT * FROM USER');
 $stmt->execute();
 
 $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 foreach ($results as $result) {
-    echo '<p>' . $result['id'] . '. ' . $result['name'] . '</p>' . PHP_EOL;
+    echo '<p>' . $result['USER_ID'] . '. ' . $result['USER_NAME'] . '</p>' . PHP_EOL;
 }
