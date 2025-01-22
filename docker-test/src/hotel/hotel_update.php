@@ -23,8 +23,8 @@ if ($_POST) {
 
         // Check if a new file is uploaded
         if (!empty($img_name)) {
-            $img_name = "hotel/" . uniqid(mt_rand(), true) . '.' . pathinfo($img_name, PATHINFO_EXTENSION);
-            move_uploaded_file($_FILES['hotel_photo']['tmp_name'], __DIR__ . '/../uploads/' . $img_name);
+            $img_name = uniqid(mt_rand(), true) . '.' . pathinfo($img_name, PATHINFO_EXTENSION);
+            move_uploaded_file($_FILES['hotel_photo']['tmp_name'], __DIR__ . '/../uploads/hotel/' . $img_name);
         } else {
             // Keep the old image if no new image is uploaded
             $img_name = $_POST['current_image'];
@@ -143,7 +143,7 @@ if ($_POST) {
             <div class="form-group">
                 <label for="hotel-photo">ホテルの写真:</label>
                 <input type="file" id="hotel-photo" name="hotel_photo" accept="image/*">
-                <img src="<?php echo '../uploads/' . htmlspecialchars($photo, ENT_QUOTES, 'UTF-8'); ?>" alt="hotel-photo" width="200" height="200">
+                <img src="<?php echo '../uploads/hotel/' . htmlspecialchars($photo, ENT_QUOTES, 'UTF-8'); ?>" alt="hotel-photo" width="200" height="200">
                 <input type="hidden" name="current_image" value="<?php echo htmlspecialchars($photo, ENT_QUOTES, 'UTF-8'); ?>">
             </div>
             <div class="form-group">
