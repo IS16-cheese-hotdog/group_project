@@ -1,4 +1,5 @@
 <?php
+ob_start();
 # MySQLデータベースに接続
 function db_connect() {
     try {
