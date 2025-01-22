@@ -94,7 +94,7 @@
         <h1>会員登録</h1>
     </div>
 
-    <form action="/submit_registration" method="post">
+    <form action="add.php" method="post">
         <label for="name">氏名:</label>
         <input type="text" id="name" name="name" placeholder="例: 山田 太郎" required>
 
@@ -123,13 +123,10 @@
         <label for="phone">電話番号:</label>
         <input type="tel" id="phone" name="phone" placeholder="例: 09012345678" required>
 
+        <label for="password">パスワード:</label>
+        <input type="password" id="password" name="password" placeholder="8文字以上のパスワード" minlength="8" required>
+
         <button type="submit">送信</button>
     </form>
-
-    <script>
-        document.getElementById('postal_code').addEventListener('input', function (e) {
-            this.value = this.value.replace(/[^0-9]/g, '');
-        });
-    </script>
 </body>
 </html>
