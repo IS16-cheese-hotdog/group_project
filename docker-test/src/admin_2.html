@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ホテル管理ページ</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e6f7ff; /* ライトブルーの背景 */
+            margin: 0;
+        }
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+            color: #007BFF; /* ブルーのテキスト */
+        }
+        .search-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px;
+        }
+        .search-container input {
+            width: 300px;
+            padding: 10px;
+            font-size: 16px;
+            margin-right: 10px;
+            border: 1px solid #b3d8ff;
+            border-radius: 6px;
+            background-color: #f9fcff;
+        }
+        .search-container input:focus {
+            border-color: #007BFF;
+            outline: none;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+        .search-container button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .search-container button:hover {
+            background-color: #0056b3;
+        }
+        .list-container {
+            margin: 20px;
+            display: none;
+        }
+        .list-container ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .list-container li {
+            padding: 10px;
+            border-bottom: 1px solid #b3d8ff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #ffffff;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            position: relative;
+        }
+        .admin-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .admin-button:hover {
+            background-color: #0056b3;
+        }
+        .add-hotel-button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .add-hotel-button:hover {
+            background-color: #0056b3;
+        }
+        .detail-button {
+            padding: 5px 10px;
+            font-size: 14px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-right: 5px;
+            position: absolute;
+            right: 70px;
+        }
+        .detail-button:hover {
+            background-color: #0056b3;
+        }
+        .delete-button {
+            padding: 5px 10px;
+            font-size: 14px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            position: absolute;
+            right: 10px;
+        }
+        .delete-button:hover {
+            background-color: #d32f2f;
+        }
+    </style>
+</head>
+<body>
+    <h1>ホテル管理ページ</h1>
+    <button class="admin-button" onclick="location.href='admin.html'">戻る</button>
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="ホテルを検索...">
+        <button id="searchButton">検索</button>
+    </div>
+    <button class="add-hotel-button" onclick="location.href='add_hotel.html'">ホテルを追加</button>
+    <div class="list-container" id="hotelList">
+        <h2 style="color: #007BFF;">ホテルリスト</h2>
+        <ul id="hotelListItems">
+            <!-- 検索結果がここに表示されます -->
+        </ul>
+    </div>
+
+    <script>
+        const hotels = [
+            { name: '朝霞ホテル', link: 'hotel_dhite-ru.html' },
+            { name: '日吉ホテル', link: 'hotel_dhite-ru.html' },
+            { name: '藤沢ホテル', link: 'hotel_dhite-ru.html' },
+            { name: '西新井ホテル', link: 'hotel_dhite-ru.html' },
+            { name: '中野ホテル', link: 'hotel_dhite-ru.html' }
+        ];
+
+        document.getElementById('searchButton').addEventListener('click', function() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const filteredHotels = hotels.filter(hotel => hotel.name.toLowerCase().includes(query));
+            const hotelList = document.getElementById('hotelList');
+            const hotelListItems = document.getElementById('hotelListItems');
+            hotelListItems.innerHTML = '';
+
+            if (filteredHotels.length > 0) {
+                filteredHotels.forEach(hotel => {
+                    const li = document.createElement('li');
+                    li.textContent = hotel.name;
+
+                    const detailButton = document.createElement('button');
+                    detailButton.textContent = '詳細';
+                    detailButton.classList.add('detail-button');
+                    detailButton.onclick = function() {
+                        window.location.href = 'hotel_dhite-ru.html';
+                    };
+
+                    const deleteButton = document.createElement('button');
+                    deleteButton.textContent = '削除';
+                    deleteButton.classList.add('delete-button');
+                    deleteButton.onclick = function() {
+                        if (confirm('本当に削除しますか？')) {
+                            li.remove();
+                        }
+                    };
+
+                    li.appendChild(detailButton);
+                    li.appendChild(deleteButton);
+                    hotelListItems.appendChild(li);
+                });
+                hotelList.style.display = 'block';
+            } else {
+                hotelList.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

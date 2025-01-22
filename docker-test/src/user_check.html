@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>予約確認</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #e6f7ff; /* ライトブルーの背景 */
+            color: #333; /* 文字色を濃く */
+        }
+        h1 {
+            text-align: center;
+            color: #007BFF; /* ヘッダー文字色をライトブルーに */
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background: #ffffff; /* 各リストアイテムの背景を白に */
+            margin: 10px 0;
+            padding: 20px; /* より広めのパディング */
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* わずかな影をつけて立体感 */
+            position: relative;
+        }
+        li:hover {
+            background-color: #f1f1f1; /* ホバー時に背景色を変える */
+        }
+        .details {
+            display: none;
+            margin-top: 10px;
+            background: #f9fcff; /* 詳細表示部分の背景色をライトブルー系に */
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #b3d8ff; /* 枠線の色をライトブルーに */
+        }
+        .details-button, .delete-button {
+            position: absolute;
+            top: 10px;
+            padding: 8px 15px;
+            font-size: 14px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .details-button {
+            right: 110px;
+            background: #007BFF; /* 青色 */
+            color: #fff;
+        }
+        .details-button:hover {
+            background: #0056b3; /* ホバー時に暗い青色 */
+        }
+        .delete-button {
+            right: 10px;
+            background: #dc3545; /* 赤色 */
+            color: #fff;
+        }
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            text-decoration: none;
+            color: #fff;
+            background: #007BFF; /* ライトブルー */
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .back-button:hover {
+            background-color: #0056b3; /* ホバー時に色を少し濃くする */
+        }
+    </style>
+</head>
+<body>
+    <a href="mypage.html" class="back-button">戻る</a>
+    <h1>予約確認</h1>
+    <ul>
+        <li>
+            予約日時:2023-10-01 14:00 | ホテル名:ホテルA 
+            <button class="details-button" data-link="goodclaim.html?hotel=ホテルA">口コミを書く</button>
+            <button class="delete-button">キャンセル</button>
+            <div class="details">
+                <p>チェックイン時間: 14:00</p>
+                <p>チェックアウト時間: 11:00</p>
+                <p>ホテル名: ホテルA</p>
+                <p>ホテルの場所: 東京都新宿区</p>
+                <p>プラン名: スタンダードプラン</p>
+                <p>値段: 10,000円</p>
+            </div>
+        </li>
+        <li>
+            予約日時:2023-10-05 14:00 | ホテル名:ホテルB 
+            <button class="details-button" data-link="goodclaim.html?hotel=ホテルB">口コミを書く</button>
+            <button class="delete-button">キャンセル</button>
+            <div class="details">
+                <p>チェックイン時間: 15:00</p>
+                <p>チェックアウト時間: 10:00</p>
+                <p>ホテル名: ホテルB</p>
+                <p>ホテルの場所: 大阪府大阪市</p>
+                <p>プラン名: デラックスプラン</p>
+                <p>値段: 15,000円</p>
+            </div>
+        </li>
+    </ul>
+    <script>
+        document.querySelectorAll('li').forEach(item => {
+            const details = item.querySelector('.details');
+            const detailsButton = item.querySelector('.details-button');
+            const deleteButton = item.querySelector('.delete-button');
+
+            item.addEventListener('click', () => {
+                if (details.style.display === 'block') {
+                    details.style.display = 'none';
+                } else {
+                    details.style.display = 'block';
+                }
+            });
+
+            detailsButton.addEventListener('click', (event) => {
+                event.stopPropagation(); // リストアイテムのクリックイベントを無効化
+                const link = detailsButton.getAttribute('data-link');
+                if (link) {
+                    window.location.href = link; // 指定されたリンクに遷移
+                }
+            });
+
+            deleteButton.addEventListener('click', (event) => {
+                event.stopPropagation(); // リストアイテムのクリックイベントを無効化
+                if (confirm('この予約をキャンセルしますか？')) {
+                    item.remove(); // 予約を削除
+                }
+            });
+        });
+    </script>
+</body>
+</html>
