@@ -93,6 +93,7 @@
     <button type="button" class="back-button" onclick="goBack()">戻る</button>
     <div class="search-container">
         <h1>ホテル検索</h1>
+        <from action="search.php" method="post">
         <div class="flex-container">
             <label for="region">地域を選択してください:</label>
             <select id="region" name="region">
@@ -115,32 +116,32 @@
         </div>
         <div id="smoking" class="horizontal-container">
             <div>
-                <input type="checkbox" id="non-smoking" name="smoking" value="禁煙">
-                <label for="non-smoking">禁煙</label>
+                <input type="checkbox" id="eat" name="eat" value="食事付き">
+                <label for="non-smoking">食事付き</label>
             </div>
             <div>
-                <input type="checkbox" id="smoking" name="smoking" value="喫煙">
-                <label for="smoking">喫煙</label>
-            </div>
-        </div>
-        <div id="breakfast-dinner" class="horizontal-container">
-            <div>
-                <input type="checkbox" id="breakfast" name="breakfast" value="朝食付き">
-                <label for="breakfast">朝食付き</label>
-            </div>
-            <div>
-                <input type="checkbox" id="dinner" name="dinner" value="夕食付き">
-                <label for="dinner">夕食付き</label>
+                <input type="checkbox" id="smoking" name="smoking" value="喫煙可">
+                <label for="smoking">喫煙可</label>
             </div>
         </div>
-        <div id="bath-options" class="vertical-container">
+        <div id="bed" class="horizontal-container">
             <div>
-                <input type="checkbox" id="large-bath" name="large-bath" value="大浴場">
-                <label for="large-bath">大浴場</label>
+                <input type="checkbox" id="bed" name="bed" value="ベッド">
+                <label for="breakfast">ベッド</label>
             </div>
             <div>
-                <input type="checkbox" id="separate-bath" name="separate-bath" value="バストイレ別">
-                <label for="separate-bath">バストイレ別</label>
+                <input type="checkbox" id="TV" name="TV" value="TV">
+                <label for="dinner">TV</label>
+            </div>
+        </div>
+        <div id="bath" class="vertical-container">
+            <div>
+                <input type="checkbox" id="bath" name="bath" value="浴場">
+                <label for="large-bath">浴場</label>
+            </div>
+            <div>
+                <input type="checkbox" id="pet" name="pet" value="ペット可">
+                <label for="separate-bath">ペット可</label>
             </div>
         </div>
         <label for="date">日付検索:</label>
@@ -231,5 +232,6 @@
             sessionStorage.setItem('from', 'main');
         }
     </script>
+    </from>
 </body>
 </html>
