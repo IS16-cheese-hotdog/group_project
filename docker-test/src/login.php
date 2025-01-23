@@ -1,29 +1,26 @@
 <?php
 session_start();
+
+// データベース接続設定
 $host = 'mysql.pokapy.com:3307';
 $dbname = 'php-docker-db';
 $username = 'user'; // データベースユーザー名
 $password = 'password'; // データベースパスワード
 
-// データベース接続
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
     die('データベース接続に失敗しました: ' . $e->getMessage());
 }
+
 // CLI経由での実行を防ぐ
 if (php_sapi_name() === 'cli') {
     die("このスクリプトはWebサーバーを介して実行してください。");
 }
 
-// $_SERVER['REQUEST_METHOD'] が定義されているか確認
-if (!isset($_SERVER['REQUEST_METHOD'])) {
-    die("リクエストメソッドが不正です。このスクリプトはWebサーバー経由で実行してください。");
-}
-
-// POSTリクエスト以外を拒否
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+// リクエストメソッドの確認
+if (!isset($_SERVER['REQUEST_METHOD']) || $_SERVER['REQUEST_METHOD'] !== 'POST') {
     die("このページは直接アクセスできません。フォームからリクエストしてください。");
 }
 
@@ -31,10 +28,10 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 $email = trim($_POST['email'] ?? '');
 $password = trim($_POST['password'] ?? '');
 
+// 入力チェック
 if (empty($email) || empty($password)) {
     die("メールアドレスまたはパスワードを入力してください。");
 }
-
 
 // ユーザー情報の取得
 $stmt = $pdo->prepare('SELECT * FROM USER WHERE EMAIL_ADDRESS = :email');
@@ -43,12 +40,15 @@ $stmt->execute();
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if ($user && password_verify($password, $user['USER_PASSWORD'])) {
-    $_SESSION['email'] = $user['EMAIL_ADDRESS'];
+    // セッションにUSER_IDを保存
+    $_SESSION['user_id'] = $user['USER_ID'];
+
+    // ログイン成功後にマイページへリダイレクト
     header('Location: mypage.html');
     exit;
 } else {
-    die('ログインに失敗しました。メールアドレスまたはパスワードが間違っています。');
+    // エラーを表示せずにログインページに戻る
+    echo '<script>alert("ログインに失敗しました。メールアドレスまたはパスワードが間違っています。"); window.location.href = "login.html";</script>';
+    exit;
 }
 ?>
-
-
