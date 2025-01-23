@@ -13,17 +13,17 @@ try {
     die('データベース接続に失敗しました: ' . $e->getMessage());
 }
 
-// セッションからログイン中のユーザーのメールアドレスを取得
-if (!isset($_SESSION['email'])) {
+// セッションからログイン中のユーザーIDを取得
+if (!isset($_SESSION['user_id'])) {
     die('ログインしていません。ログインページに戻ってください。');
 }
 
-$email = $_SESSION['email'];
+$user_id = $_SESSION['user_id'];
 
+// 初期表示: データベースから現在の登録情報を取得
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    // 初期表示: データベースから現在の登録情報を取得
-    $stmt = $pdo->prepare('SELECT * FROM USER WHERE EMAIL_ADDRESS = :email');
-    $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+    $stmt = $pdo->prepare('SELECT * FROM USER WHERE USER_ID = :user_id');
+    $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
     $stmt->execute();
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -32,6 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     }
 }
 
+// 更新処理
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // フォームから送信されたデータを取得
     $name = trim($_POST['name']);
@@ -46,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // メールアドレスが変更された場合の重複チェック
-    if ($email !== $newEmail) {
+    if ($newEmail !== $user['EMAIL_ADDRESS']) {
         $stmt = $pdo->prepare('SELECT COUNT(*) FROM USER WHERE EMAIL_ADDRESS = :email');
         $stmt->bindParam(':email', $newEmail, PDO::PARAM_STR);
         $stmt->execute();
@@ -63,17 +64,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             EMAIL_ADDRESS = :newEmail, 
             ADDRESS = :address, 
             GENDER = :gender 
-        WHERE EMAIL_ADDRESS = :email
+        WHERE USER_ID = :user_id
     ');
     $stmt->bindParam(':name', $name, PDO::PARAM_STR);
     $stmt->bindParam(':birthdate', $birthdate, PDO::PARAM_STR);
     $stmt->bindParam(':newEmail', $newEmail, PDO::PARAM_STR);
     $stmt->bindParam(':address', $address, PDO::PARAM_STR);
     $stmt->bindParam(':gender', $gender, PDO::PARAM_STR);
-    $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+    $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
 
     if ($stmt->execute()) {
-        $_SESSION['email'] = $newEmail; // セッションを更新
         echo '<script>alert("更新が完了しました！"); window.location.href = "mypage.html";</script>';
         exit;
     } else {
@@ -95,7 +95,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             padding: 0;
             background-color: #e1f5fe; /* 背景色 (青系) */
         }
-    
         .container {
             margin: 60px auto;
             max-width: 800px; /* 幅を広げる */
@@ -104,19 +103,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 影 (黒) */
         }
-    
         .form-group {
             display: flex;
             align-items: center;
             margin-bottom: 15px;
         }
-    
         .form-group label {
             width: 40%;
             font-weight: bold;
             color: #333333; /* ラベルの文字色 (黒) */
         }
-    
         .form-group input {
             flex: 1;
             padding: 12px;
@@ -126,17 +122,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             color: #333; /* 文字色 (黒) */
             background-color: #ffffff; /* 入力欄の背景色 (白) */
         }
-    
         .form-group input:focus {
             border-color: #1e88e5; /* フォーカス時の枠線 (青系) */
             background-color: #ffffff; /* フォーカス時背景色 (白) */
         }
-    
         .buttons {
             text-align: center;
             margin-top: 20px;
         }
-    
         .buttons button {
             padding: 12px 24px;
             font-size: 18px;
@@ -147,7 +140,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             cursor: pointer;
             transition: background-color 0.3s;
         }
-    
         .buttons button:hover {
             background-color: #1565c0; /* ホバー時の色 (青系) */
         }
@@ -189,3 +181,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 </body>
 </html>
+
