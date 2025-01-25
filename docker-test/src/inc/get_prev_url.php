@@ -1,9 +1,10 @@
 <?php
-function get_prev_url() {
+function get_prev_url()
+{
     try {
         if (!isset($_SERVER['HTTP_REFERER'])) {
             $prev = '/';
-        }else {
+        } else {
             $prev = $_SERVER['HTTP_REFERER'];
         }
         $path = parse_url($prev, PHP_URL_PATH);
@@ -14,4 +15,3 @@ function get_prev_url() {
     }
 }
 ?>
-
