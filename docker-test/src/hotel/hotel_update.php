@@ -10,7 +10,7 @@ if ($db === false) {
 
 if ($_POST) {
     try {
-        $_SESSION["email"] = "k022@2";
+        $_SESSION["email"] = "k024c6002@poka";
         $email = $_SESSION["email"];
         $hotel_name = $_POST['hotel_name'];
         $postal_code = $_POST['postal_code'];
@@ -61,7 +61,7 @@ if ($_POST) {
     }
 } else {
     try {
-        $_SESSION["email"] = "k022@2";
+        $_SESSION["email"] = "k024c6002@poka";
         $email = $_SESSION["email"];
         $sql = 'SELECT * FROM HOTEL WHERE email = :email';
         $stmt = $db->prepare($sql);

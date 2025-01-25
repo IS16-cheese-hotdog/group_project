@@ -57,7 +57,7 @@
     <div class="container">
         <h1>マイページ</h1>
         <div class="link-container">
-            <a href="hotel_check.php">予約状況の確認</a>
+            <a href="hotel_check.php?">予約状況の確認</a>
             <a href="hotel_info.php">ホテル情報登録更新</a>
         </div>
         <div class="link-container">
