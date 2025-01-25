@@ -1,5 +1,6 @@
 <?php
-function get_url() {
+function get_url()
+{
     try {
         $url = (empty($_SERVER['HTTPS']) ? 'http://' : 'https://') . $_SERVER['HTTP_HOST'];
         return $url;

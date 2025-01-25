@@ -37,7 +37,6 @@ if ($_POST) {
         $stmt->bindValue(':pet', $pet, PDO::PARAM_INT);
         $stmt->bindValue(':refrigerator', $refrigerator, PDO::PARAM_INT);
         $stmt->bindValue(':smoking', $smoking, PDO::PARAM_INT);
-
         $stmt->execute();
 
         header('Location: room_list.php');
@@ -48,25 +47,104 @@ if ($_POST) {
 ?>
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>部屋情報追加</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; background-color: #e6f7ff; color: #333; }
-        .container { margin-top: 60px; padding: 20px; background-color: #ffffff; border-radius: 10px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); }
-        .form-group { display: flex; align-items: center; margin-bottom: 15px; }
-        .form-group label { width: 40%; text-align: left; color: #555; padding-right: 20px; }
-        .form-group input, .form-group textarea { flex: 1; max-width: 60%; padding: 10px; box-sizing: border-box; border: 1px solid #d1e9ff; border-radius: 5px; background-color: #f6fbff; color: #333; }
-        .form-group input:focus { outline: none; border-color: #80c8ff; background-color: #eaf5ff; }
-        .buttons { text-align: center; margin-top: 20px; }
-        .buttons button { padding: 10px 20px; font-size: 16px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer; transition: background-color 0.3s; }
-        .buttons button:hover { background-color: #45a049; }
-        .back-button { position: absolute; top: 20px; left: 20px; padding: 10px 20px; font-size: 16px; background-color: #d1e9ff; border: 1px solid #80c8ff; border-radius: 5px; color: #333; cursor: pointer; transition: background-color 0.3s; }
-        .back-button:hover { background-color: #80c8ff; }
-        .title { text-align: center; margin-bottom: 30px; color: #333; }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #e6f7ff;
+            color: #333;
+        }
+
+        .container {
+            margin-top: 60px;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            width: 40%;
+            text-align: left;
+            color: #555;
+            padding-right: 20px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            flex: 1;
+            max-width: 60%;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #d1e9ff;
+            border-radius: 5px;
+            background-color: #f6fbff;
+            color: #333;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #80c8ff;
+            background-color: #eaf5ff;
+        }
+
+        .buttons {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .buttons button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .buttons button:hover {
+            background-color: #45a049;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #d1e9ff;
+            border: 1px solid #80c8ff;
+            border-radius: 5px;
+            color: #333;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .back-button:hover {
+            background-color: #80c8ff;
+        }
+
+        .title {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+        }
     </style>
 </head>
+
 <body>
     <button onclick="history.back()" class="back-button">戻る</button>
     <h1 class="title">部屋情報追加</h1>
@@ -129,4 +207,5 @@ if ($_POST) {
         </form>
     </div>
 </body>
+
 </html>

@@ -42,10 +42,18 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
 if ($user && password_verify($password, $user['USER_PASSWORD'])) {
     // セッションにUSER_IDを保存
     $_SESSION['user_id'] = $user['USER_ID'];
-
-    // ログイン成功後にマイページへリダイレクト
-    header('Location: mypage.html');
-    exit;
+    if ($user['ROLE'] > 1) {
+        $_SESSION['hotel_id'] = $user['ROLE'];
+        // ホテルの場合はホテルページへリダイレクト
+        include_once __DIR__ . '/inc/get_url.php';
+        $url = get_url();
+        header('Location: ' . $url . '/hotel/hotel_main.php');
+        exit;
+    }else{
+        // ログイン成功後にマイページへリダイレクト
+        header('Location: mypage.html');
+        exit;
+    }
 } else {
     // エラーを表示せずにログインページに戻る
     echo '<script>alert("ログインに失敗しました。メールアドレスまたはパスワードが間違っています。"); window.location.href = "login.html";</script>';

@@ -1,20 +1,27 @@
 <?php
 ob_start();
-# MySQLデータベースに接続
-function db_connect() {
-    try {
-        $host = 'mysql.pokapy.com:3307'; // サーバーのドメインとポート番号
-        $dbname = $_ENV['MYSQL_DATABASE'];
-        $username = 'user';
-        $password = $_ENV['MYSQL_ROOT_PASSWORD'];
+function db_connect()
+{
+    static $db = null;
 
-        # 新しいPDOオブジェクトを作成し、MySQLデータベースに接続
-        $db = new PDO("mysql:host={$host};dbname={$dbname};charset=utf8", $username, $password);
-        return $db;
-    } catch (PDOException $e) {
-        echo '接続エラー: ' . $e->getMessage();
-        return false;
+    if ($db === null) {
+        try {
+            $host = 'mysql.pokapy.com:3307';
+            $dbname = $_ENV['MYSQL_DATABASE'];
+            $username = 'user';
+            $password = $_ENV['MYSQL_ROOT_PASSWORD'];
+
+            $db = new PDO("mysql:host={$host};dbname={$dbname};charset=utf8", $username, $password, [
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                PDO::ATTR_PERSISTENT => true,
+            ]);
+        } catch (PDOException $e) {
+            error_log('Database connection error: ' . $e->getMessage());
+            return false;
+        }
     }
+
+    return $db;
 }
 ?>
-
