@@ -1,17 +1,16 @@
 <?php
-session_start();
-ob_start();
+include_once(__DIR__ . '/../inc/is_login.php');
+include_once(__DIR__ . '/../inc/get_url.php');
 include_once(__DIR__ . '/../inc/db.php');
+ob_start();
+$url = get_url();
 $db = db_connect();
 if ($db === false) {
-    header('Location: error.php');
-    exit;
+    // DB接続エラーの場合
+    header('Location: '. $url . '/err.php?err_msg=DB接続エラーです');
 }
-
 if ($_POST) {
     try {
-        $_SESSION["email"] = "k022@2";
-        $email = $_SESSION["email"];
         $hotel_name = $_POST['hotel_name'];
         $postal_code = $_POST['postal_code'];
         $address = $_POST['address'];
@@ -39,7 +38,7 @@ if ($_POST) {
                     EMAIL = :email2,
                     HOTEL_EXPLAIN = :description,
                     HOTEL_IMAGE = :img_name
-                WHERE EMAIL = :email";
+                WHERE HOTEL_ID = :hotel_id";
 
         $stmt = $db->prepare($sql);
         $stmt->bindValue(':hotel_name', $hotel_name, PDO::PARAM_STR);
@@ -50,26 +49,23 @@ if ($_POST) {
         $stmt->bindValue(':email2', $email2, PDO::PARAM_STR);
         $stmt->bindValue(':description', $description, PDO::PARAM_STR);
         $stmt->bindValue(':img_name', $img_name, PDO::PARAM_STR);
-        $stmt->bindValue(':email', $email, PDO::PARAM_STR);
+        $stmt->bindValue(':hotel_id', $_SESSION["hotel_id"], PDO::PARAM_STR);
 
         $stmt->execute();
 
-        $_SESSION["email"] = $email2;
         header('Location: hotel_main.php');
     } catch (PDOException $e) {
         echo 'エラー: ' . $e->getMessage();
     }
 } else {
     try {
-        $_SESSION["email"] = "k022@2";
-        $email = $_SESSION["email"];
-        $sql = 'SELECT * FROM HOTEL WHERE email = :email';
+        $sql = 'SELECT * FROM HOTEL WHERE HOTEL_ID = :hotel_id';
         $stmt = $db->prepare($sql);
-        $stmt->bindValue(':email', $email, PDO::PARAM_STR);
+        $stmt->bindValue(':hotel_id', $_SESSION["hotel_id"], PDO::PARAM_STR);
         $stmt->execute();
         $hotel = $stmt->fetch();
         if (!$hotel) {
-            header('Location: hotel_list.php');
+            header('Location: hotel_.php');
             exit;
         }
         $hotel_name = $hotel['HOTEL_NAME'];
@@ -80,37 +76,142 @@ if ($_POST) {
         $email2 = $hotel['EMAIL'];
         $description = $hotel['HOTEL_EXPLAIN'];
         $photo = $hotel['HOTEL_IMAGE'];
-
     } catch (PDOException $e) {
-        echo ''. $e->getMessage();
+        echo '' . $e->getMessage();
     }
 }
 ?>
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>登録情報更新</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; background-color: #e6f7ff; color: #333; }
-        .container { margin-top: 60px; padding: 20px; background-color: #ffffff; border-radius: 10px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); }
-        .form-group { display: flex; align-items: center; margin-bottom: 15px; }
-        .form-group label { width: 40%; text-align: left; color: #555; padding-right: 20px; }
-        .form-group input, .form-group textarea { flex: 1; max-width: 60%; padding: 10px; box-sizing: border-box; border: 1px solid #d1e9ff; border-radius: 5px; background-color: #f6fbff; color: #333; }
-        .form-group textarea { resize: none; }
-        .form-group input:focus { outline: none; border-color: #80c8ff; background-color: #eaf5ff; }
-        .buttons { text-align: center; margin-top: 20px; }
-        .buttons button { padding: 10px 20px; font-size: 16px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer; transition: background-color 0.3s; }
-        .buttons button:hover { background-color: #45a049; }
-        .back-button { position: absolute; top: 20px; left: 20px; padding: 10px 20px; font-size: 16px; background-color: #d1e9ff; border: 1px solid #80c8ff; border-radius: 5px; color: #333; cursor: pointer; transition: background-color 0.3s; }
-        .back-button:hover { background-color: #80c8ff; }
-        .title { text-align: center; margin-bottom: 30px; color: #333; }
-        .popup { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: white; padding: 20px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); border-radius: 10px; z-index: 1000; }
-        .popup button { padding: 10px 20px; font-size: 16px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer; margin-right: 10px; }
-        .popup button:hover { background-color: #45a049; }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #e6f7ff;
+            color: #333;
+        }
+
+        .container {
+            margin-top: 60px;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            width: 40%;
+            text-align: left;
+            color: #555;
+            padding-right: 20px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            flex: 1;
+            max-width: 60%;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #d1e9ff;
+            border-radius: 5px;
+            background-color: #f6fbff;
+            color: #333;
+        }
+
+        .form-group textarea {
+            resize: none;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #80c8ff;
+            background-color: #eaf5ff;
+        }
+
+        .buttons {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .buttons button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .buttons button:hover {
+            background-color: #45a049;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #d1e9ff;
+            border: 1px solid #80c8ff;
+            border-radius: 5px;
+            color: #333;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .back-button:hover {
+            background-color: #80c8ff;
+        }
+
+        .title {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            z-index: 1000;
+        }
+
+        .popup button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        .popup button:hover {
+            background-color: #45a049;
+        }
     </style>
 </head>
+
 <body>
     <button onclick="history.back()" class="back-button">戻る</button>
     <h1 class="title">登録情報更新</h1>
@@ -156,21 +257,21 @@ if ($_POST) {
         </form>
     </div>
     <script>
-    function Check() {
-        event.preventDefault();
-        var form = document.getElementById('update-form');
-        const postalCode = document.getElementById('postal-code').value;
-        const building = document.getElementById('building').value;
-        const address = document.getElementById('address').value;
-        const phone = document.getElementById('phone').value;
-        const email = document.getElementById('email').value;
-        const hotelName = document.getElementById('hotel-name').value;
-        const hotelPhoto = document.getElementById('hotel-photo').files[0];
-        const hotelExplain = document.getElementById('hotel-explain').value;
+        function Check() {
+            event.preventDefault();
+            var form = document.getElementById('update-form');
+            const postalCode = document.getElementById('postal-code').value;
+            const building = document.getElementById('building').value;
+            const address = document.getElementById('address').value;
+            const phone = document.getElementById('phone').value;
+            const email = document.getElementById('email').value;
+            const hotelName = document.getElementById('hotel-name').value;
+            const hotelPhoto = document.getElementById('hotel-photo').files[0];
+            const hotelExplain = document.getElementById('hotel-explain').value;
 
-        const popup = document.createElement('div');
-        popup.className = 'popup';
-        popup.innerHTML = `
+            const popup = document.createElement('div');
+            popup.className = 'popup';
+            popup.innerHTML = `
             <p>更新しますか？</p>
             <p>郵便番号: ${postalCode}</p>
             <p>住所: ${address}</p>
@@ -183,16 +284,18 @@ if ($_POST) {
             <button id="confirm-yes">はい</button>
             <button id="confirm-no">いいえ</button>
         `;
-        document.body.appendChild(popup);
+            document.body.appendChild(popup);
 
-        document.getElementById('confirm-yes').addEventListener('click', function() {
-            form.submit();
-        });
+            document.getElementById('confirm-yes').addEventListener('click', function() {
+                form.submit();
+            });
 
-        document.getElementById('confirm-no').addEventListener('click', function() {
-            document.body.removeChild(popup);
-        });
-    }
+            document.getElementById('confirm-no').addEventListener('click', function() {
+                document.body.removeChild(popup);
+            });
+        }
     </script>
 </body>
+
 </html>
+<?php ob_end_flush(); ?>
