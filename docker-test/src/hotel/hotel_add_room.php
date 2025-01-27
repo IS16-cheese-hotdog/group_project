@@ -40,7 +40,7 @@ if ($_POST) {
         $stmt->bindValue(':smoking', $smoking, PDO::PARAM_INT);
         $stmt->execute();
 
-        header('Location: room_list.php');
+        header('Location: hotel_room.php');
     } catch (PDOException $e) {
         echo 'エラー: ' . $e->getMessage();
     }
