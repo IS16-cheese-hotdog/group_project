@@ -1,4 +1,5 @@
 <?php
+include_once __DIR__ . '/../inc/is_login.php';
 session_start();
 ob_start();
 include_once(__DIR__ . '/../inc/db.php');

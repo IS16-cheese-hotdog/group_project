@@ -1,3 +1,5 @@
+<?php
+include_once __DIR__ . '/../inc/is_login.php'; ?>
 <!DOCTYPE html>
 <html lang="ja">
 
