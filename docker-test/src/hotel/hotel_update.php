@@ -1,13 +1,14 @@
 <?php
 include_once(__DIR__ . '/../inc/is_login.php');
-ob_start();
+include_once(__DIR__ . '/../inc/get_url.php');
 include_once(__DIR__ . '/../inc/db.php');
+ob_start();
+$url = get_url();
 $db = db_connect();
 if ($db === false) {
-    header('Location: error.php');
-    exit;
+    // DB接続エラーの場合
+    header('Location: '. $url . '/err.php?err_msg=DB接続エラーです');
 }
-
 if ($_POST) {
     try {
         $hotel_name = $_POST['hotel_name'];
@@ -64,7 +65,7 @@ if ($_POST) {
         $stmt->execute();
         $hotel = $stmt->fetch();
         if (!$hotel) {
-            header('Location: hotel_list.php');
+            header('Location: hotel_.php');
             exit;
         }
         $hotel_name = $hotel['HOTEL_NAME'];

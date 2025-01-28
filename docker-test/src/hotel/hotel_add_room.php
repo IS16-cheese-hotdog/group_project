@@ -1,4 +1,5 @@
 <?php
+include_once __DIR__ . '/../inc/is_login.php';
 session_start();
 ob_start();
 include_once(__DIR__ . '/../inc/db.php');
@@ -39,7 +40,7 @@ if ($_POST) {
         $stmt->bindValue(':smoking', $smoking, PDO::PARAM_INT);
         $stmt->execute();
 
-        header('Location: room_list.php');
+        header('Location: hotel_room.php');
     } catch (PDOException $e) {
         echo 'エラー: ' . $e->getMessage();
     }
