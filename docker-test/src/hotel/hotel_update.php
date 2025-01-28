@@ -7,7 +7,7 @@ $url = get_url();
 $db = db_connect();
 if ($db === false) {
     // DB接続エラーの場合
-    header('Location: '. $url . '/err.php?err_msg=DB接続エラーです');
+    header('Location: ' . $url . '/err.php?err_msg=DB接続エラーです');
 }
 if ($_POST) {
     try {
