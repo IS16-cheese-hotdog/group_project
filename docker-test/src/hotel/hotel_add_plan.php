@@ -18,9 +18,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $plan_meal = $_POST['plan-meal'];
     $hotel_id = $_SESSION['hotel_id'];
 
-    $sql = 'INSERT INTO PLAN (PLAN_NAME, PLAN_EXPLAIN, CHARGE, CHILD_CHARGE, INFANT_CHARGE, ROOM_ID, HOTEL_ID, EAT) VALUES (:plan_name, :plan_description, :plan_price, :child_price, :infant_price, :room_id, :hotel_id, :plan_meal)';
+    $sql = 'INSERT INTO PLAN (PLAN_NAME, , MAX_PEOPLE, PLAN_EXPLAIN, CHARGE, CHILD_CHARGE, INFANT_CHARGE, ROOM_ID, HOTEL_ID, EAT) VALUES (:plan_name, , :max_people, :plan_description, :plan_price, :child_price, :infant_price, :room_id, :hotel_id, :plan_meal)';
     $stmt = $db->prepare($sql);
     $stmt->bindParam(':plan_name', $plan_name);
+    $stmt->bindParam(':max_people', $plan_description);
     $stmt->bindParam(':plan_description', $plan_description);
     $stmt->bindParam(':plan_price', $plan_price);
     $stmt->bindParam(':child_price', $child_price);
@@ -245,6 +246,9 @@ $stmt->execute();
                 <label for="plan-description">プラン説明:</label>
                 <textarea id="plan-description" name="plan-description" rows="4" placeholder="プランの詳細を記入してください" required></textarea>
             </div>
+            <div class="form-group">
+                <label for="max-people">最大人数:</label>
+                <input type="number" id="max-people" name="max-people" placeholder="例: 4" required min="1">
             <div class="form-group">
                 <label for="plan-price">大人価格 (円):</label>
                 <input type="number" id="plan-price" name="plan-price" placeholder="例: 12000" required min="0">
