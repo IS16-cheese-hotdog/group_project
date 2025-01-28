@@ -106,4 +106,4 @@
             <a href="hotel_room.php">部屋情報更新</a>
         </div>
     </div>
-<?php include_once __DIR__ . '/../inc/footer.php'; ?>
+    <?php include_once __DIR__ . '/../inc/footer.php'; ?>

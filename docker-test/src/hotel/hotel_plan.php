@@ -198,7 +198,13 @@ $plans = $stmt->fetchAll();
                     details.style.display = 'block';
                 }
             });
+            deleteButton.addEventListener('click', (event) => {
+            const confirmDelete = confirm('本当にこのプランを削除しますか？');
+            if (!confirmDelete) {
+                event.preventDefault(); // 削除をキャンセル
+            }
         });
+    });
     </script>
 
 </html>
