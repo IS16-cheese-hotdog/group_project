@@ -1,13 +1,14 @@
 <?php
 include_once __DIR__ . '/../inc/is_login.php';
-include_once __DIR__ . '/../inc/get_url.php'; 
+include_once __DIR__ . '/../inc/get_url.php';
+include_once __DIR__ . '/../inc/checkFacility.php';
 include_once __DIR__ . '/../inc/db.php';
 
 $url = get_url();
 $db = db_connect();
 if ($db === false) {
     // DB接続エラーの場合
-    header('Location: '. $url . '/err.php?err_msg=DB接続エラーです');
+    header('Location: ' . $url . '/err.php?err_msg=DB接続エラーです');
 }
 
 // 削除処理
@@ -25,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_plan_id'])) {
 }
 
 // ホテルプランの一覧を取得
-$sql = 'SELECT PLAN.*, ROOM.ROOM_NAME FROM PLAN JOIN ROOM ON PLAN.room_id = ROOM.room_id WHERE PLAN.hotel_id = :hotel_id';
+$sql = 'SELECT PLAN.*, ROOM.ROOM_NAME, ROOM.BED_NUMBER FROM PLAN JOIN ROOM ON PLAN.room_id = ROOM.room_id WHERE PLAN.hotel_id = :hotel_id';
 $hotel_id = $_SESSION['hotel_id'];
 $stmt = $db->prepare($sql);
 $stmt->bindParam(':hotel_id', $hotel_id);
@@ -174,8 +175,11 @@ $plans = $stmt->fetchAll();
                 <p><?= htmlspecialchars($plan['PLAN_NAME'], ENT_QUOTES, 'UTF-8') ?></p>
                 <div class="details">
                     <p>部屋名: <?= htmlspecialchars($plan['ROOM_NAME'], ENT_QUOTES, 'UTF-8') ?></p>
-                    <p>料金: ¥<?= htmlspecialchars($plan['CHARGE'], ENT_QUOTES, 'UTF-8') ?>/泊</p>
-                    <p>最大人数: <?= htmlspecialchars($plan["MAX_PEOPLE"], ENT_QUOTES, 'UTF-8') ?>人</p>
+                    <p>大人料金: ¥<?= htmlspecialchars($plan['CHARGE'], ENT_QUOTES, 'UTF-8') ?>/泊</p>
+                    <p>子供料金: ¥<?= htmlspecialchars($plan['CHILD_CHARGE'], ENT_QUOTES, 'UTF-8') ?>/泊</p>
+                    <p>乳幼児料金: ¥<?= htmlspecialchars($plan['INFANT_CHARGE'], ENT_QUOTES, 'UTF-8') ?>/泊</p>
+                    <p>最大人数: <?= htmlspecialchars($plan["BED_NUMBER"], ENT_QUOTES, 'UTF-8') ?>人</p>
+                    <p>食事: <?= htmlspecialchars(checkFacility($plan['EAT']), ENT_QUOTES, 'UTF-8') ?></p>
                     <p>説明: <?= htmlspecialchars($plan["PLAN_EXPLAIN"], ENT_QUOTES, 'UTF-8') ?></p>
                 </div>
                 <form method="post" style="display:inline;">
@@ -187,24 +191,24 @@ $plans = $stmt->fetchAll();
     </ul>
 </body>
 <script>
-        document.querySelectorAll('li').forEach(item => {
-            const details = item.querySelector('.details');
-            const deleteButton = item.querySelector('.delete-button');
+    document.querySelectorAll('li').forEach(item => {
+        const details = item.querySelector('.details');
+        const deleteButton = item.querySelector('.delete-button');
 
-            item.addEventListener('click', () => {
-                if (details.style.display === 'block') {
-                    details.style.display = 'none';
-                } else {
-                    details.style.display = 'block';
-                }
-            });
-            deleteButton.addEventListener('click', (event) => {
+        item.addEventListener('click', () => {
+            if (details.style.display === 'block') {
+                details.style.display = 'none';
+            } else {
+                details.style.display = 'block';
+            }
+        });
+        deleteButton.addEventListener('click', (event) => {
             const confirmDelete = confirm('本当にこのプランを削除しますか？');
             if (!confirmDelete) {
                 event.preventDefault(); // 削除をキャンセル
             }
         });
     });
-    </script>
+</script>
 
 </html>

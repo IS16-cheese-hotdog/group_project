@@ -49,7 +49,11 @@ if ($user && password_verify($password, $user['USER_PASSWORD'])) {
         $url = get_url();
         header('Location: ' . $url . '/hotel/hotel_main.php');
         exit;
-    }else{
+    }else if ($user['ROLE'] == 1) {
+        // 管理者の場合は管理者ページへリダイレクト
+        header('Location: admin.html');
+        exit;
+    } else {
         // ログイン成功後にマイページへリダイレクト
         header('Location: mypage.html');
         exit;

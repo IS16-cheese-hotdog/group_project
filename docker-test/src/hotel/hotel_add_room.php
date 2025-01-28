@@ -21,8 +21,21 @@ if ($_POST) {
         $refrigerator = $_POST['refrigerator'];
         $smoking = $_POST['smoking'];
 
-        $sql = "INSERT INTO ROOM (HOTEL_ID, ROOM_NAME, BED_NUMBER, BATHROOM, DRYER, TV, WI_FI, PET, REFRIGERATOR, SMOKING) VALUES
-                (:hotel_id, :room_name, :bed_number, :bathroom, :dryer, :tv, :wifi, :pet, :refrigerator, :smoking)";
+        // ファイルアップロードの処理
+        $img = null; // デフォルト値を設定
+        if (isset($_FILES["room-photo"]) && $_FILES["room-photo"]["error"] === UPLOAD_ERR_OK) {
+            $img_name = uniqid(mt_rand(), true) . '.' . pathinfo($_FILES["room-photo"]["name"], PATHINFO_EXTENSION);
+            $upload_path = __DIR__ . '/../uploads/room/' . $img_name;
+
+            if (move_uploaded_file($_FILES["room-photo"]["tmp_name"], $upload_path)) {
+                $img = $img_name; // アップロード成功時にファイル名を保存
+            } else {
+                throw new Exception('ファイルのアップロードに失敗しました。');
+            }
+        }
+
+        $sql = "INSERT INTO ROOM (HOTEL_ID, ROOM_NAME, BED_NUMBER, BATHROOM, DRYER, TV, WI_FI, PET, REFRIGERATOR, SMOKING, ROOM_PHOTO) VALUES
+                (:hotel_id, :room_name, :bed_number, :bathroom, :dryer, :tv, :wifi, :pet, :refrigerator, :smoking, :img)";
 
         $stmt = $db->prepare($sql);
         $stmt->bindValue(':hotel_id', $hotel_id, PDO::PARAM_INT);
@@ -35,14 +48,14 @@ if ($_POST) {
         $stmt->bindValue(':pet', $pet, PDO::PARAM_INT);
         $stmt->bindValue(':refrigerator', $refrigerator, PDO::PARAM_INT);
         $stmt->bindValue(':smoking', $smoking, PDO::PARAM_INT);
+        $stmt->bindValue(':img', $img, PDO::PARAM_STR);
         $stmt->execute();
 
         header('Location: hotel_room.php');
     } catch (PDOException $e) {
         echo 'エラー: ' . $e->getMessage();
-        include_once(__DIR__ . '/../inc/get_url.php');
-        $url = get_url();
-        header("Location: " . $url . "/error.php?err_msg=部屋情報の追加に失敗しました。");
+    } catch (Exception $e) {
+        echo 'エラー: ' . $e->getMessage();
     }
 }
 ?>
@@ -150,7 +163,7 @@ if ($_POST) {
     <button onclick="history.back()" class="back-button">戻る</button>
     <h1 class="title">部屋情報追加</h1>
     <div class="container">
-        <form method="post" id="insert-form">
+        <form method="post" id="insert-form" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="room-name">部屋名:</label>
                 <input type="text" id="room-name" name="room_name" required>
@@ -193,6 +206,11 @@ if ($_POST) {
                 <label>喫煙:</label>
                 <label><input type="radio" name="smoking" value="1" required> 可</label>
                 <label><input type="radio" name="smoking" value="0" required> 不可</label>
+            </div>
+            <div class="form-group">
+                <label for="room-photo">部屋写真:</label>
+                <input type="file" id="room-photo" name="room-photo" accept="image/*">
+
             </div>
             <div class="buttons">
                 <button type="submit">追加</button>
