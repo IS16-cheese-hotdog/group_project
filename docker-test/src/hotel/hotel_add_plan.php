@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $sql = 'INSERT INTO PLAN (PLAN_NAME, , MAX_PEOPLE, PLAN_EXPLAIN, CHARGE, CHILD_CHARGE, INFANT_CHARGE, ROOM_ID, HOTEL_ID, EAT) VALUES (:plan_name, , :max_people, :plan_description, :plan_price, :child_price, :infant_price, :room_id, :hotel_id, :plan_meal)';
     $stmt = $db->prepare($sql);
     $stmt->bindParam(':plan_name', $plan_name);
-    $stmt->bindParam(':max_people', $plan_description);
+    $stmt->bindParam(':max_people', $max_people);
     $stmt->bindParam(':plan_description', $plan_description);
     $stmt->bindParam(':plan_price', $plan_price);
     $stmt->bindParam(':child_price', $child_price);
