@@ -1,40 +1,48 @@
 <?php
 include_once __DIR__ . '/../inc/is_login.php';
 ob_start();
-include_once(__DIR__ . '/../inc/db.php');
-$db = db_connect();
-if ($db === false) {
-    header('Location: error.php');
-    exit;
-}
+include_once __DIR__ . '/../inc/db.php';
 
-if ($_POST) {
-    try {
-        $hotel_id = $_SESSION["hotel_id"];
-        $room_name = $_POST['room_name'];
-        $bed_number = $_POST['bed_number'];
-        $bathroom = $_POST['bathroom'];
-        $dryer = $_POST['dryer'];
-        $tv = $_POST['tv'];
-        $wifi = $_POST['wifi'];
-        $pet = $_POST['pet'];
-        $refrigerator = $_POST['refrigerator'];
-        $smoking = $_POST['smoking'];
+try {
+    $db = db_connect();
+    if ($db === false) {
+        throw new Exception('Database connection failed.');
+    }
 
-        // ファイルアップロードの処理
-        $img = null; // デフォルト値を設定
-        if (isset($_FILES["room-photo"]) && $_FILES["room-photo"]["error"] === UPLOAD_ERR_OK) {
-            $img_name = uniqid(mt_rand(), true) . '.' . pathinfo($_FILES["room-photo"]["name"], PATHINFO_EXTENSION);
-            $upload_path = __DIR__ . '/../uploads/room/' . $img_name;
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $hotel_id = $_SESSION['hotel_id'] ?? null;
+        $room_name = $_POST['room_name'] ?? null;
+        $bed_number = (int) $_POST['bed_number'];
+        $bathroom = (int) $_POST['bathroom'];
+        $dryer = (int) $_POST['dryer'];
+        $tv = (int) $_POST['tv'];
+        $wifi = (int) $_POST['wifi'];
+        $pet = (int) $_POST['pet'];
+        $refrigerator = (int) $_POST['refrigerator'];
+        $smoking = (int) $_POST['smoking'];
 
-            if (move_uploaded_file($_FILES["room-photo"]["tmp_name"], $upload_path)) {
-                $img = $img_name; // アップロード成功時にファイル名を保存
-            } else {
-                throw new Exception('ファイルのアップロードに失敗しました。');
-            }
+        // Validate inputs
+        if (!$hotel_id || !$room_name) {
+            throw new Exception('ホテルIDまたは部屋名が不正です。');
         }
 
-        $sql = "INSERT INTO ROOM (HOTEL_ID, ROOM_NAME, BED_NUMBER, BATHROOM, DRYER, TV, WI_FI, PET, REFRIGERATOR, SMOKING, ROOM_PHOTO) VALUES
+        // File upload handling
+        $img = null; // Default value
+        if (isset($_FILES['room-photo']) && $_FILES['room-photo']['error'] === UPLOAD_ERR_OK) {
+            $img_ext = pathinfo($_FILES['room-photo']['name'], PATHINFO_EXTENSION);
+            $img_name = uniqid(mt_rand(), true) . '.' . $img_ext;
+            
+            $upload_path = __DIR__ . '/../uploads/room/' . $img_name;
+
+            if (!move_uploaded_file($_FILES['room-photo']['tmp_name'], $upload_path)) {
+                throw new Exception('ファイルのアップロードに失敗しました。');
+            }
+            $img = $img_name;
+        }
+
+        $sql = "INSERT INTO ROOM 
+                (HOTEL_ID, ROOM_NAME, BED_NUMBER, BATHROOM, DRYER, TV, WI_FI, PET, REFRIGERATOR, SMOKING, ROOM_PHOTO) 
+                VALUES 
                 (:hotel_id, :room_name, :bed_number, :bathroom, :dryer, :tv, :wifi, :pet, :refrigerator, :smoking, :img)";
 
         $stmt = $db->prepare($sql);
@@ -52,115 +60,22 @@ if ($_POST) {
         $stmt->execute();
 
         header('Location: hotel_room.php');
-    } catch (PDOException $e) {
-        echo 'エラー: ' . $e->getMessage();
-    } catch (Exception $e) {
-        echo 'エラー: ' . $e->getMessage();
+        exit;
     }
+} catch (PDOException $e) {
+    echo 'データベースエラー: ' . htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8');
+} catch (Exception $e) {
+    echo 'エラー: ' . htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8');
 }
+
+include_once __DIR__ . '/../inc/header.php';
 ?>
-<!DOCTYPE html>
-<html lang="ja">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>部屋情報追加</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #e6f7ff;
-            color: #333;
-        }
-
-        .container {
-            margin-top: 60px;
-            padding: 20px;
-            background-color: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .form-group {
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            width: 40%;
-            text-align: left;
-            color: #555;
-            padding-right: 20px;
-        }
-
-        .form-group input,
-        .form-group textarea {
-            flex: 1;
-            max-width: 60%;
-            padding: 10px;
-            box-sizing: border-box;
-            border: 1px solid #d1e9ff;
-            border-radius: 5px;
-            background-color: #f6fbff;
-            color: #333;
-        }
-
-        .form-group input:focus {
-            outline: none;
-            border-color: #80c8ff;
-            background-color: #eaf5ff;
-        }
-
-        .buttons {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .buttons button {
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .buttons button:hover {
-            background-color: #45a049;
-        }
-
-        .back-button {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color: #d1e9ff;
-            border: 1px solid #80c8ff;
-            border-radius: 5px;
-            color: #333;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .back-button:hover {
-            background-color: #80c8ff;
-        }
-
-        .title {
-            text-align: center;
-            margin-bottom: 30px;
-            color: #333;
-        }
-    </style>
+    <link rel="stylesheet" href="./css/hotel_add_room.css">
 </head>
 
 <body>
-    <button onclick="history.back()" class="back-button">戻る</button>
     <h1 class="title">部屋情報追加</h1>
     <div class="container">
         <form method="post" id="insert-form" enctype="multipart/form-data">
@@ -210,20 +125,17 @@ if ($_POST) {
             <div class="form-group">
                 <label for="room-photo">部屋写真:</label>
                 <input type="file" id="room-photo" name="room-photo" accept="image/*">
-
             </div>
             <div class="buttons">
                 <button type="submit">追加</button>
             </div>
         </form>
     </div>
-</body>
-<script>
-    document.getElementById('insert-form').addEventListener('submit', function(e) {
-        if (!window.confirm('この内容で登録しますか？')) {
-            e.preventDefault();
-        }
-    });
-</script>
-
-</html>
+    <script>
+        document.getElementById('insert-form').addEventListener('submit', function(e) {
+            if (!confirm('この内容で登録しますか？')) {
+                e.preventDefault();
+            }
+        });
+    </script>
+<?php include_once __DIR__ . '/../inc/footer.php'; ?>

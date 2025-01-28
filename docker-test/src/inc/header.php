@@ -1,3 +1,8 @@
+<?php
+if (php_sapi_name() === 'cli') {
+    die("このスクリプトはWebサーバーを介して実行してください。");
+}
+?>
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -5,79 +10,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ホテル予約</title>
-    <style>
-        header {
-            position: relative;
-            background-color: #3e5060;
-            /* より落ち着いた色 */
-            padding: 20px 40px;
-        }
-
-        .buttons {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .buttons button {
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .buttons button:hover {
-            background-color: #45a049;
-        }
-
-        .back-button {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color: #d1e9ff;
-            border: 1px solid #80c8ff;
-            border-radius: 5px;
-            color: #333;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .back-button:hover {
-            background-color: #80c8ff;
-        }
-
-        .site-name {
-            color: #ffffff;
-            /* 白文字 */
-            font-size: 1.5em;
-            /* フォントサイズを少し大きく */
-            font-weight: bold;
-            /* 太字 */
-            text-align: center;
-        }
-
-        footer {
-            background-color: #3e5060;
-            /* 一貫した色味 */
-            color: white;
-            text-align: center;
-            padding: 20px;
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-        }
-    </style>
+    <link rel="stylesheet" href="/inc/css/header.css">
 </head>
 
 <body>
-    <header>
-        <div>
-            <button onclick="history.back()" class="back-button">戻る</button>
-            <div class="site-name">サイト名(仮)</div>
+<header>
+    <div>
+        <button onclick="history.back()" class="back-button">戻る</button>
+        <div class="site-name">
+            <a href="/" style="color: #ffffff; text-decoration: none;">サイト名(仮)</a>
         </div>
-    </header>
+        <?php if (isset($_SESSION['user_id'])) : ?>
+            <div class="buttons">
+                <?php if($_SESSION["user_id"] == 1) : ?>
+                    <button onclick="location.href='/admin/admin_main.php'" class="mypage-button">マイページ</button>
+                <?php elseif($_SESSION["user_id"] >= 2): ?>
+                    <button onclick="location.href='/hotel/hotel_main.php'" class="mypage-button">マイページ</button>
+                <?php else : ?>
+                    <button onclick="location.href='/user/user_main.php'" class="mypage-button">マイページ</button>
+                <?php endif; ?>
+            </div>
+        <?php elseif (!isset($_SESSION['user_id'])) : ?>
+            <div class="buttons">
+                <button onclick="location.href='/login.html'" class="mypage-button">ログイン</button>
+            </div>
+        <?php endif; ?>
+    </div>
+</header>
