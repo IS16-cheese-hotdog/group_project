@@ -1,0 +1,74 @@
+body, html {
+    margin: 0;
+    padding: 0;
+}
+
+header, footer {
+    background-color: #3e5060;
+    color: white;
+    text-align: center;
+    padding: 20px 40px;
+    position: relative;
+}
+
+.buttons, .buttons button, .mypage-button, .back-button {
+    display: inline-block;
+    text-align: center;
+    margin-top: 0px;
+}
+
+.buttons button, .mypage-button, .back-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.buttons button, .mypage-button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+}
+
+.buttons button:hover, .mypage-button:hover {
+    background-color: #45a049;
+}
+
+.back-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background-color: #d1e9ff;
+    border: 1px solid #80c8ff;
+    color: #333;
+}
+
+.back-button:hover {
+    background-color: #80c8ff;
+}
+
+.site-name  {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-top: 0; /* remove default margins for easier positioning */
+}
+
+.site-name a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.mypage-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+footer {
+    position: sticky;
+    bottom: 0;
+    top: 100vh;
+    margin-top: 120px;
+    
+}
