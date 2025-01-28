@@ -10,8 +10,7 @@ if ($db === false) {
 
 if ($_POST) {
     try {
-        $room_id = $_POST['room_id'];
-        $hotel_id = $_POST['hotel_id'];
+        $hotel_id = $_SESSION["hotel_id"];
         $room_name = $_POST['room_name'];
         $bed_number = $_POST['bed_number'];
         $bathroom = $_POST['bathroom'];
@@ -22,11 +21,10 @@ if ($_POST) {
         $refrigerator = $_POST['refrigerator'];
         $smoking = $_POST['smoking'];
 
-        $sql = "INSERT INTO ROOM (ROOM_ID, HOTEL_ID, ROOM_NAME, BED_NUMBER, BATHROOM, DRYER, TV, WI_FI, PET, REFRIGERATOR, SMOKING) VALUES
-                (:room_id, :hotel_id, :room_name, :bed_number, :bathroom, :dryer, :tv, :wifi, :pet, :refrigerator, :smoking)";
+        $sql = "INSERT INTO ROOM (HOTEL_ID, ROOM_NAME, BED_NUMBER, BATHROOM, DRYER, TV, WI_FI, PET, REFRIGERATOR, SMOKING) VALUES
+                (:hotel_id, :room_name, :bed_number, :bathroom, :dryer, :tv, :wifi, :pet, :refrigerator, :smoking)";
 
         $stmt = $db->prepare($sql);
-        $stmt->bindValue(':room_id', $room_id, PDO::PARAM_INT);
         $stmt->bindValue(':hotel_id', $hotel_id, PDO::PARAM_INT);
         $stmt->bindValue(':room_name', $room_name, PDO::PARAM_STR);
         $stmt->bindValue(':bed_number', $bed_number, PDO::PARAM_INT);
@@ -39,9 +37,12 @@ if ($_POST) {
         $stmt->bindValue(':smoking', $smoking, PDO::PARAM_INT);
         $stmt->execute();
 
-        header('Location: room_list.php');
+        header('Location: hotel_add_room.php');
     } catch (PDOException $e) {
         echo 'エラー: ' . $e->getMessage();
+        include_once(__DIR__ . '/../inc/get_url.php');
+        $url = get_url();
+        header("Location: " . $url . "/error.php?err_msg=部屋情報の追加に失敗しました。");
     }
 }
 ?>
@@ -150,14 +151,6 @@ if ($_POST) {
     <h1 class="title">部屋情報追加</h1>
     <div class="container">
         <form method="post" id="insert-form">
-            <div class="form-group">
-                <label for="room-id">部屋ID:</label>
-                <input type="number" id="room-id" name="room_id" required>
-            </div>
-            <div class="form-group">
-                <label for="hotel-id">ホテルID:</label>
-                <input type="number" id="hotel-id" name="hotel_id" required>
-            </div>
             <div class="form-group">
                 <label for="room-name">部屋名:</label>
                 <input type="text" id="room-name" name="room_name" required>

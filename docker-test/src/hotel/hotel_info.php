@@ -1,11 +1,5 @@
 <?php include_once __DIR__ . '/../inc/is_login.php'; ?>
-<!DOCTYPE html>
-<html lang="ja">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ホテル情報更新</title>
+<?php include_once __DIR__ . '/../inc/header.php'; ?>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -111,10 +105,5 @@
             <a href="hotel_plan.php">プラン情報変更</a>
             <a href="hotel_room.php">部屋情報更新</a>
         </div>
-        <div class="link-container">
-            <button onclick="history.back()" class="back-button">戻る</button>
-        </div>
     </div>
-</body>
-
-</html>
+<?php include_once __DIR__ . '/../inc/footer.php'; ?>
