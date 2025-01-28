@@ -1,3 +1,37 @@
+<?php
+include_once __DIR__ . '/../inc/is_login.php';
+include_once __DIR__ . '/../inc/get_url.php'; 
+include_once __DIR__ . '/../inc/db.php';
+
+$url = get_url();
+$db = db_connect();
+if ($db === false) {
+    // DB接続エラーの場合
+    header('Location: '. $url . '/err.php?err_msg=DB接続エラーです');
+}
+
+// 削除処理
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_plan_id'])) {
+    $delete_plan_id = $_POST['delete_plan_id'];
+    $delete_sql = 'DELETE FROM PLAN WHERE plan_id = :plan_id';
+    $delete_stmt = $db->prepare($delete_sql);
+    $delete_stmt->bindParam(':plan_id', $delete_plan_id, PDO::PARAM_INT);
+    if ($delete_stmt->execute()) {
+        header('Location: ' . $url . '/hotel_plan.php');
+        exit;
+    } else {
+        echo '<p style="color:red;">削除に失敗しました。</p>';
+    }
+}
+
+// ホテルプランの一覧を取得
+$sql = 'SELECT PLAN.*, ROOM.ROOM_NAME FROM PLAN JOIN ROOM ON PLAN.room_id = ROOM.room_id WHERE PLAN.hotel_id = :hotel_id';
+$hotel_id = $_SESSION['hotel_id'];
+$stmt = $db->prepare($sql);
+$stmt->bindParam(':hotel_id', $hotel_id);
+$stmt->execute();
+$plans = $stmt->fetchAll();
+?>
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -5,7 +39,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ホテルプラン一覧</title>
-
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -136,43 +169,24 @@
     <h1>ホテルプラン一覧</h1>
     <a href="hotel_add_plan.php" class="add-button">プランを追加</a>
     <ul>
-        <li>
-            朝食付きプラン
-            <button class="delete-button">削除</button>
-            <div class="details">
-                <p>内容: 朝食バイキング付き</p>
-                <p>料金: ¥8,000/泊</p>
-                <p>条件: 1泊2日以上の宿泊</p>
-            </div>
-        </li>
-        <li>
-            ディナー付きプラン
-            <button class="delete-button">削除</button>
-            <div class="details">
-                <p>内容: 高級ディナー付き</p>
-                <p>料金: ¥15,000/泊</p>
-                <p>条件: 2泊以上の宿泊</p>
-            </div>
-        </li>
-        <li>
-            スペシャルプラン
-            <button class="delete-button">削除</button>
-            <div class="details">
-                <p>内容: 朝食・夕食・スパ利用券付き</p>
-                <p>料金: ¥20,000/泊</p>
-                <p>条件: 連泊割引あり</p>
-            </div>
-        </li>
-        <li>
-            長期滞在プラン
-            <button class="delete-button">削除</button>
-            <div class="details">
-                <p>内容: 長期滞在向け特別割引</p>
-                <p>料金: ¥5,000/泊</p>
-            </div>
-        </li>
+        <?php foreach ($plans as $plan) : ?>
+            <li>
+                <p><?= htmlspecialchars($plan['PLAN_NAME'], ENT_QUOTES, 'UTF-8') ?></p>
+                <div class="details">
+                    <p>部屋名: <?= htmlspecialchars($plan['ROOM_NAME'], ENT_QUOTES, 'UTF-8') ?></p>
+                    <p>料金: ¥<?= htmlspecialchars($plan['CHARGE'], ENT_QUOTES, 'UTF-8') ?>/泊</p>
+                    <p>最大人数: <?= htmlspecialchars($plan["MAX_PEOPLE"], ENT_QUOTES, 'UTF-8') ?>人</p>
+                    <p>説明: <?= htmlspecialchars($plan["PLAN_EXPLAIN"], ENT_QUOTES, 'UTF-8') ?></p>
+                </div>
+                <form method="post" style="display:inline;">
+                    <input type="hidden" name="delete_plan_id" value="<?= htmlspecialchars($plan['PLAN_ID'], ENT_QUOTES, 'UTF-8') ?>">
+                    <button type="submit" class="delete-button">削除</button>
+                </form>
+            </li>
+        <?php endforeach; ?>
     </ul>
-    <script>
+</body>
+<script>
         document.querySelectorAll('li').forEach(item => {
             const details = item.querySelector('.details');
             const deleteButton = item.querySelector('.delete-button');
@@ -184,15 +198,7 @@
                     details.style.display = 'block';
                 }
             });
-
-            deleteButton.addEventListener('click', (event) => {
-                event.stopPropagation(); // リストアイテムのクリックイベントを無効化
-                if (confirm('このプランを削除しますか？')) {
-                    item.remove(); // プランを削除
-                }
-            });
         });
     </script>
-</body>
 
 </html>
