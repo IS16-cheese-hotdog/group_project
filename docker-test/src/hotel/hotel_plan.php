@@ -178,7 +178,7 @@ $plans = $stmt->fetchAll();
                     <p>大人料金: ¥<?= htmlspecialchars($plan['CHARGE'], ENT_QUOTES, 'UTF-8') ?>/泊</p>
                     <p>子供料金: ¥<?= htmlspecialchars($plan['CHILD_CHARGE'], ENT_QUOTES, 'UTF-8') ?>/泊</p>
                     <p>乳幼児料金: ¥<?= htmlspecialchars($plan['INFANT_CHARGE'], ENT_QUOTES, 'UTF-8') ?>/泊</p>
-                    <p>最大人数: <?= htmlspecialchars($plan["BED_NUMBER"], ENT_QUOTES, 'UTF-8') ?>人</p>
+                    <p>最大人数: <?= htmlspecialchars($plan['MAX_PEOPLE'], ENT_QUOTES, 'UTF-8') ?>人</p>
                     <p>食事: <?= htmlspecialchars(checkFacility($plan['EAT']), ENT_QUOTES, 'UTF-8') ?></p>
                     <p>説明: <?= htmlspecialchars($plan["PLAN_EXPLAIN"], ENT_QUOTES, 'UTF-8') ?></p>
                 </div>

@@ -218,5 +218,12 @@ if ($_POST) {
         </form>
     </div>
 </body>
+<script>
+    document.getElementById('insert-form').addEventListener('submit', function(e) {
+        if (!window.confirm('この内容で登録しますか？')) {
+            e.preventDefault();
+        }
+    });
+</script>
 
 </html>
