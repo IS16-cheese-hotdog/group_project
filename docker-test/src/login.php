@@ -31,6 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // セッションにUSER_IDを保存
         $_SESSION['user_id'] = $user['USER_ID'];
 
+
         // ログイン成功後にマイページへリダイレクト
         header('Location: mypage.html');
         exit;

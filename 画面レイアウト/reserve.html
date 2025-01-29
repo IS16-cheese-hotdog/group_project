@@ -10,22 +10,26 @@
             font-family: Arial, sans-serif;
             justify-content: center;
             align-items: center;
+            background-color: #e6f7ff; /* ライトブルー背景 */
             height: 100vh;
             margin: 0;
         }
         .container {
             display: flex;
             width: 80%;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
         }
         .left {
             width: 60%;
             padding: 20px;
+            background-color: #ffffff;
         }
         .right {
             width: 40%;
             padding: 20px;
-            background-color: #f0f0f0;
+            background-color: #ffffff; /* ホワイト背景 */
         }
         .form-group {
             margin-bottom: 15px;
@@ -36,29 +40,49 @@
         }
         input {
             width: 100%;
-            padding: 8px;
+            padding: 10px;
+            border: 1px solid #b3d8ff;
+            border-radius: 6px;
+            background-color: #f9fcff;
             box-sizing: border-box;
+        }
+        input:focus {
+            border-color: #007BFF;
+            outline: none;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
         }
         .back-button {
             position: absolute;
             top: 10px;
             left: 10px;
         }
+        .back-button button {
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .back-button button:hover {
+            background-color: #0056b3;
+        }
         .reserve-button {
             margin-top: 20px;
         }
         .reserve-button button {
             width: 100%;
-            padding: 10px;
-            background-color: #4CAF50;
+            padding: 12px;
+            background-color: #007BFF; /* ボタン色 */
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 6px;
             cursor: pointer;
             font-size: 16px;
         }
         .reserve-button button:hover {
-            background-color: #45a049;
+            background-color: #0056b3; /* ホバーカラー */
         }
     </style>
 </head>
