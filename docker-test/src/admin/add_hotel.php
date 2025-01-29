@@ -92,7 +92,7 @@
 <body>
     <div class="header">
         <a href="admin2.html" class="back-button">戻る</a>
-        <h1>会員登録</h1>
+        <h1>ホテル追加</h1>
     </div>
 
     <form action="/submit_registration" method="post">

@@ -77,11 +77,11 @@
     <div class="container">
         <h1>管理者用ページ</h1>
         <div class="tabs">
-            <div class="tab" onclick="window.location.href='admin_1.html'">会員管理</div>
-            <div class="tab" onclick="window.location.href='admin_2.html'">ホテル管理</div>
+            <div class="tab" onclick="window.location.href='admin_user_manager.php'">会員管理</div>
+            <div class="tab" onclick="window.location.href='admin_hotel_manager.php'">ホテル管理</div>
         </div>
         <div class="link-container">
-            <a href="login.html">ログアウト</a>
+            <a href="login.php">ログアウト</a>
         </div>
         <div id="info" class="tab-content">
             <h2>登録情報確認</h2>
