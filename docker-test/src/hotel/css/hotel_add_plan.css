@@ -1,0 +1,159 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #e6f7ff;
+    /* ライトブルー背景 */
+    margin: 0;
+    padding: 0;
+}
+
+.title {
+    text-align: center;
+    color: #007BFF;
+    font-size: 24px;
+    margin: 60px 0 30px;
+}
+
+.container {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 20px 30px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #007BFF;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea,
+.form-group button {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #b3d8ff;
+    border-radius: 6px;
+    background-color: #f9fcff;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: #007BFF;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.add-button {
+    text-align: center;
+}
+
+.add-button button {
+    padding: 12px 20px;
+    font-size: 16px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.add-button button:hover {
+    background-color: #0056b3;
+}
+
+.popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #ffffff;
+    padding: 20px 30px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.popup button {
+    padding: 10px 20px;
+    margin: 10px;
+    font-size: 14px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.popup button:hover {
+    background-color: #0056b3;
+}
+
+.review-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #ffffff;
+    padding: 20px 30px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    border-radius: 10px;
+    text-align: center;
+    width: 90%;
+    max-width: 500px;
+}
+
+.review-popup p {
+    margin: 10px 0;
+}
+
+.review-popup button {
+    padding: 10px 20px;
+    margin: 10px;
+    background-color: #28a745;
+}
+
+.review-popup button:hover {
+    background-color: #218838;
+}
+
+.review-popup .edit-button {
+    background-color: #ffc107;
+}
+
+.review-popup .edit-button:hover {
+    background-color: #e0a800;
+}
+
+.review-popup .delete-button {
+    background-color: #dc3545;
+}
+
+.review-popup .delete-button:hover {
+    background-color: #c82333;
+}
+
+
+
+.radio-group {
+    display: flex;
+    gap: 20px;
+    /* ラジオボタン間の余白 */
+}
+
+.radio-group label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    /* ラジオボタンとテキストの間隔 */
+}

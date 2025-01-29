@@ -1,4 +1,4 @@
-<?php include_once __DIR__ . '/../inc/is_login.php';
+<?php include_once __DIR__ . '/../inc/is_hotel.php';
 include_once __DIR__ . '/../inc/db.php';
 $db = db_connect();
 if ($db === false) {
@@ -44,196 +44,10 @@ $stmt = $db->prepare($sql);
 $stmt->bindParam(':hotel_id', $hotel_id);
 $stmt->execute();
 ?>
-
-
-<!DOCTYPE html>
-<html lang="ja">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ホテルプラン追加</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #e6f7ff;
-            /* ライトブルー背景 */
-            margin: 0;
-            padding: 0;
-        }
-
-        .back-button {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            padding: 10px 20px;
-            font-size: 14px;
-            background-color: #007BFF;
-            color: #fff;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-
-        .back-button:hover {
-            background-color: #0056b3;
-        }
-
-        .title {
-            text-align: center;
-            color: #007BFF;
-            font-size: 24px;
-            margin: 60px 0 30px;
-        }
-
-        .container {
-            max-width: 700px;
-            margin: 0 auto;
-            padding: 20px 30px;
-            background-color: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            color: #007BFF;
-        }
-
-        .form-group input,
-        .form-group select,
-        .form-group textarea,
-        .form-group button {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #b3d8ff;
-            border-radius: 6px;
-            background-color: #f9fcff;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            border-color: #007BFF;
-            outline: none;
-            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-        }
-
-        .buttons {
-            text-align: center;
-        }
-
-        .buttons button {
-            padding: 12px 20px;
-            font-size: 16px;
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-
-        .buttons button:hover {
-            background-color: #0056b3;
-        }
-
-        .popup {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: #ffffff;
-            padding: 20px 30px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            z-index: 1000;
-            border-radius: 10px;
-            text-align: center;
-        }
-
-        .popup button {
-            padding: 10px 20px;
-            margin: 10px;
-            font-size: 14px;
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-
-        .popup button:hover {
-            background-color: #0056b3;
-        }
-
-        .review-popup {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: #ffffff;
-            padding: 20px 30px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            z-index: 1000;
-            border-radius: 10px;
-            text-align: center;
-            width: 90%;
-            max-width: 500px;
-        }
-
-        .review-popup p {
-            margin: 10px 0;
-        }
-
-        .review-popup button {
-            padding: 10px 20px;
-            margin: 10px;
-            background-color: #28a745;
-        }
-
-        .review-popup button:hover {
-            background-color: #218838;
-        }
-
-        .review-popup .edit-button {
-            background-color: #ffc107;
-        }
-
-        .review-popup .edit-button:hover {
-            background-color: #e0a800;
-        }
-
-        .review-popup .delete-button {
-            background-color: #dc3545;
-        }
-
-        .review-popup .delete-button:hover {
-            background-color: #c82333;
-        }
-
-
-
-        .radio-group {
-            display: flex;
-            gap: 20px;
-            /* ラジオボタン間の余白 */
-        }
-
-        .radio-group label {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            /* ラジオボタンとテキストの間隔 */
-        }
-    </style>
-</head>
 <?php include_once __DIR__ . '/../inc/header.php'; ?>
-
+<head>
+    <link rel="stylesheet" href="./css/hotel_add_plan.css">
+</head>
 <body>
     <h1 class="title">ホテルプラン追加</h1>
     <div class="container">
@@ -277,7 +91,7 @@ $stmt->execute();
                     <label><input type="radio" name="plan-meal" value="0" required> なし</label>
                 </div>
             </div>
-            <div class="buttons">
+            <div class="add-button">
                 <button type="submit" onclick="Check()">追加</button>
             </div>
         </form>
@@ -290,6 +104,4 @@ $stmt->execute();
             }
         }
     </script>
-</body>
-
-</html>
+<?php include_once __DIR__ . '/../inc/footer.php'; ?>
