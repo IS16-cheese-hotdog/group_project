@@ -122,7 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
             <button type="submit">ログイン</button>
         </form>
-        <a class="register-link" href="add.html">新規会員登録はこちら</a>
+        <a class="register-link" href="add.php">新規会員登録はこちら</a>
         <a class="register-link" href="main.html">メインページに戻る</a>
     </div>
 </body>

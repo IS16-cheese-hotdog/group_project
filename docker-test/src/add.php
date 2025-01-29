@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($stmt->execute()) {
         // 登録成功時はログインページへリダイレクト
-        header('Location: login.html');
+        header('Location: login.php');
         exit;
     } else {
         die('会員登録に失敗しました。');
@@ -134,7 +134,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body>
     <div class="header">
-        <a href="login.html" class="back-button">戻る</a>
+        <a href="login.php" class="back-button">戻る</a>
         <h1>会員登録</h1>
     </div>
     <form action="" method="post">
