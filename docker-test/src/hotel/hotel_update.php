@@ -1,5 +1,5 @@
 <?php
-include_once(__DIR__ . '/../inc/is_login.php');
+include_once(__DIR__ . '/../inc/is_hotel.php');
 include_once(__DIR__ . '/../inc/get_url.php');
 include_once(__DIR__ . '/../inc/db.php');
 
@@ -18,6 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // 入力値の取得とバリデーション
         $hotel_name = trim($_POST['hotel_name'] ?? '');
         $postal_code = trim($_POST['postal_code'] ?? '');
+        $prefecture = trim($_POST['prefecture'] ?? '');
         $address = trim($_POST['address'] ?? '');
         $building_name = trim($_POST['building_name'] ?? '');
         $phone_number = trim($_POST['phone_number'] ?? '');
@@ -25,40 +26,71 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $description = trim($_POST['hotel_explain'] ?? '');
         $img_name = $_FILES['hotel_photo']['name'] ?? '';
 
+        // 必須項目のバリデーション
+        if (empty($hotel_name) || empty($postal_code) || empty($prefecture) || empty($address) || empty($phone_number) || empty($email2)) {
+            throw new Exception('必須項目をすべて入力してください。');
+        }
+
+        // メールアドレスの形式チェック
+        if (!filter_var($email2, FILTER_VALIDATE_EMAIL)) {
+            throw new Exception('正しいメールアドレスを入力してください。');
+        }
+
+        // 郵便番号の形式チェック（日本の郵便番号フォーマット 例: 123-4567）
+        if (!preg_match('/^\d{7}$/', $postal_code)) {
+            throw new Exception('郵便番号の形式が正しくありません (例: 1234567)。');
+        }
+
+        // 電話番号の形式チェック（例: 090-1234-5678 または 03-1234-5678）
+        if (!preg_match('/^0\d{1,4}-\d{1,4}-\d{4}$/', $phone_number)) {
+            throw new Exception('電話番号の形式が正しくありません (例: 090-1234-5678)。');
+        }
+
         // ファイルアップロード処理
         if (!empty($img_name)) {
-            $img_name = uniqid(mt_rand(), true) . '.' . pathinfo($img_name, PATHINFO_EXTENSION);
+            $allowed_extensions = ['jpg', 'jpeg', 'png', 'gif'];
+            $file_extension = strtolower(pathinfo($img_name, PATHINFO_EXTENSION));
+            $mime_type = mime_content_type($_FILES['hotel_photo']['tmp_name']);
+
+            if (!in_array($file_extension, $allowed_extensions) || strpos($mime_type, 'image') === false) {
+                throw new Exception('画像ファイル（JPG, JPEG, PNG, GIF）のみアップロード可能です。');
+            }
+
+            $img_name = uniqid(mt_rand(), true) . '.' . $file_extension;
             $upload_path = __DIR__ . '/../uploads/hotel/' . $img_name;
 
-            if (move_uploaded_file($_FILES['hotel_photo']['tmp_name'], $upload_path) === false) {
-                throw new Exception('画像のアップロードに失敗しました');
+            if (!move_uploaded_file($_FILES['hotel_photo']['tmp_name'], $upload_path)) {
+                throw new Exception('画像のアップロードに失敗しました。');
             }
         } else {
             $img_name = $_POST['current_image'] ?? '';
         }
 
         // SQL更新クエリ
-        $sql = "UPDATE HOTEL SET
-                    HOTEL_NAME = :hotel_name,
-                    ZIP = :postal_code,
-                    ADDRESS = :address,
-                    BUILDING_NAME = :building_name,
-                    PHONE_NUMBER = :phone_number,
-                    EMAIL = :email2,
-                    HOTEL_EXPLAIN = :description,
-                    HOTEL_IMAGE = :img_name
-                WHERE HOTEL_ID = :hotel_id";
+        $sql = "UPDATE HOTEL , EMAIL , USER SET
+                    HOTEL.HOTEL_NAME = :hotel_name,
+                    HOTEL.ZIP = :postal_code,
+                    HOTEL.PREFECTURE = :prefecture,
+                    HOTEL.ADDRESS = :address,
+                    HOTEL.BUILDING_NAME = :building_name,
+                    HOTEL.PHONE_NUMBER = :phone_number,
+                    EMAIL.EMAIL = :email2,
+                    HOTEL.HOTEL_EXPLAIN = :description,
+                    HOTEL.HOTEL_IMAGE = :img_name
+                WHERE HOTEL.HOTEL_ID = :hotel_id
+                AND EMAIL.USER_ID = USER.USER_ID";
 
         $stmt = $db->prepare($sql);
         $stmt->bindValue(':hotel_name', $hotel_name, PDO::PARAM_STR);
         $stmt->bindValue(':postal_code', $postal_code, PDO::PARAM_STR);
+        $stmt->bindValue(':prefecture', $prefecture, PDO::PARAM_STR);
         $stmt->bindValue(':address', $address, PDO::PARAM_STR);
         $stmt->bindValue(':building_name', $building_name, PDO::PARAM_STR);
         $stmt->bindValue(':phone_number', $phone_number, PDO::PARAM_STR);
         $stmt->bindValue(':email2', $email2, PDO::PARAM_STR);
         $stmt->bindValue(':description', $description, PDO::PARAM_STR);
         $stmt->bindValue(':img_name', $img_name, PDO::PARAM_STR);
-        $stmt->bindValue(':hotel_id', $_SESSION['hotel_id'], PDO::PARAM_STR);
+        $stmt->bindValue(':hotel_id', $_SESSION['hotel_id'], PDO::PARAM_INT);
 
         $stmt->execute();
 
@@ -70,9 +102,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 } else {
     // GETリクエストでホテル情報を取得
     try {
-        $sql = 'SELECT * FROM HOTEL WHERE HOTEL_ID = :hotel_id';
+        $sql = 'SELECT USER.USER_ID, HOTEL.*, EMAIL.EMAIL FROM HOTEL LEFT JOIN USER ON USER.ROLE = HOTEL.HOTEL_ID LEFT JOIN EMAIL ON EMAIL.USER_ID = USER.USER_ID WHERE HOTEL.HOTEL_ID = :hotel_id';
         $stmt = $db->prepare($sql);
-        $stmt->bindValue(':hotel_id', $_SESSION['hotel_id'], PDO::PARAM_STR);
+        $stmt->bindValue(':hotel_id', $_SESSION['hotel_id'], PDO::PARAM_INT);
         $stmt->execute();
         $hotel = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -84,6 +116,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // 変数に値を格納
         $hotel_name = $hotel['HOTEL_NAME'];
         $postal_code = $hotel['ZIP'];
+        $prefecture = $hotel['PREFECTURE'];
         $address = $hotel['ADDRESS'];
         $building_name = $hotel['BUILDING_NAME'];
         $phone_number = $hotel['PHONE_NUMBER'];
@@ -111,6 +144,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <label for="postal-code">郵便番号:</label>
                 <input type="text" id="postal-code" name="postal_code" value="<?php echo htmlspecialchars($postal_code, ENT_QUOTES, 'UTF-8'); ?>">
             </div>
+            <div class="form-group">
+                <label for="prefecture">都道府県:</label>
+                <select id="prefecture" name="prefecture">
+                    <?php
+                    $prefectures = [
+                        "北海道", "青森県", "岩手県", "宮城県", "秋田県", "山形県", "福島県",
+                        "茨城県", "栃木県", "群馬県", "埼玉県", "千葉県", "東京都", "神奈川県",
+                        "新潟県", "富山県", "石川県", "福井県", "山梨県", "長野県", "岐阜県",
+                        "静岡県", "愛知県", "三重県", "滋賀県", "京都府", "大阪府", "兵庫県",
+                        "奈良県", "和歌山県", "鳥取県", "島根県", "岡山県", "広島県", "山口県",
+                        "徳島県", "香川県", "愛媛県", "高知県", "福岡県", "佐賀県", "長崎県",
+                        "熊本県", "大分県", "宮崎県", "鹿児島県", "沖縄県"
+                    ];
+
+                    foreach ($prefectures as $pref) {
+                        $selected = ($pref === $prefecture) ? 'selected' : '';
+                        echo "<option value=\"$pref\" $selected>$pref</option>";
+                    }
+            ?>
+        </select>
+    </div>
+
             <div class="form-group">
                 <label for="address">住所:</label>
                 <input type="text" id="address" name="address" value="<?php echo htmlspecialchars($address, ENT_QUOTES, 'UTF-8'); ?>">

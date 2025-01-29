@@ -1,4 +1,4 @@
-<?php include_once __DIR__ . '/../inc/is_login.php'; ?>
+<?php include_once __DIR__ . '/../inc/is_hotel.php'; ?>
 <?php include_once __DIR__ . '/../inc/header.php'; ?>
 <head>
     <link rel="stylesheet" href="./css/hotel_main.css">

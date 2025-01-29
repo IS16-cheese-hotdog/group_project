@@ -1,5 +1,5 @@
 <?php
-include_once __DIR__ . '/../inc/is_login.php';
+include_once __DIR__ . '/../inc/is_hotel.php';
 include_once __DIR__ . '/../inc/get_url.php';
 include_once __DIR__ . '/../inc/checkFacility.php';
 include_once __DIR__ . '/../inc/db.php';

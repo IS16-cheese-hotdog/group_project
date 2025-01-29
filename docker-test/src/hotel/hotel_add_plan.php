@@ -1,4 +1,4 @@
-<?php include_once __DIR__ . '/../inc/is_login.php';
+<?php include_once __DIR__ . '/../inc/is_hotel.php';
 include_once __DIR__ . '/../inc/db.php';
 $db = db_connect();
 if ($db === false) {
