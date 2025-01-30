@@ -101,69 +101,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="ja">
 
 <head>
+    <link rel="stylesheet" href="./css/add_hotel.css">
+</head>
+
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ホテル追加</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #e6f7ff;
-            margin: 0;
-            padding: 0;
-        }
-
-        .header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background-color: #007BFF;
-            padding: 10px 20px;
-            color: #fff;
-        }
-
-        .header h1 {
-            margin: 0;
-            font-size: 20px;
-            text-align: center;
-            flex-grow: 1;
-        }
-
-        form {
-            max-width: 400px;
-            margin: 40px auto;
-            padding: 20px 30px;
-            border-radius: 10px;
-            background-color: #ffffff;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: #007BFF;
-        }
-
-        input,
-        button,
-        textarea {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 15px;
-            border: 1px solid #b3d8ff;
-            border-radius: 6px;
-            background-color: #f9fcff;
-        }
-
-        button {
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-    </style>
 </head>
 
 <body>

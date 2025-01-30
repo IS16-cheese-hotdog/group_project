@@ -99,83 +99,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 <!DOCTYPE html>
 <html lang="ja">
+
+<head>
+    <link rel="stylesheet" href="./css/hotel_add_plan.css">
+</head>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>会員登録</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #e6f7ff;
-            margin: 0;
-            padding: 0;
-        }
-        .header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 10px 20px;
-            color: #01579b;
-        }
-        .header h1 {
-            margin: 0;
-            font-size: 20px;
-            text-align: center;
-            flex-grow: 1;
-        }
-        .back-button {
-            background-color: #0056b3;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            padding: 10px 20px;
-            text-decoration: none;
-            font-size: 14px;
-            white-space: nowrap;
-            cursor: pointer;
-        }
-        .back-button:hover {
-            background-color: #00408a;
-        }
-        form {
-            max-width: 400px;
-            margin: 40px auto;
-            padding: 20px 30px;
-            border-radius: 10px;
-            background-color: #ffffff;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: #007BFF;
-        }
-        input, select, button {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 15px;
-            border: 1px solid #b3d8ff;
-            border-radius: 6px;
-            background-color: #f9fcff;
-        }
-        input:focus, select:focus {
-            border-color: #007BFF;
-            outline: none;
-            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-        }
-        button {
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-    </style>
 </head>
 <body>
     <div class="header">

@@ -37,6 +37,10 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
 }
 ?>
 
+<head>
+    <link rel="stylesheet" href="./css/admin_user_manager.css">
+</head>
+
 <?php include_once __DIR__ . '/../inc/header.php';?>
     <h1>ユーザー情報</h1>
     <main>
