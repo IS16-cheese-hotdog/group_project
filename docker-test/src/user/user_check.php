@@ -36,7 +36,7 @@ include_once __DIR__ . '/../inc/header.php';?>
             <th>乳幼児</th>
             <th>合計金額</th>
             <th>詳細</th>
-            <th>キャンセル</th>
+            <th>評価</th>
         </tr>
     </thead>
     <tbody>
@@ -59,9 +59,9 @@ include_once __DIR__ . '/../inc/header.php';?>
                     </form>
                 </td>
                 <td>
-                    <form action="reservation_cancel.php" method="post">
+                    <form action="review.php" method="post">
                         <input type="hidden" name="reservation_id" value="<?php echo htmlspecialchars($reservation['RESERVATION_ID'], ENT_QUOTES, 'UTF-8'); ?>">
-                        <input type="submit" value="キャンセル">
+                        <input type="submit" value="評価する">
                     </form>
             </tr>
         <?php endforeach; ?>
