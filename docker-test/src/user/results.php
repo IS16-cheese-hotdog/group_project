@@ -16,9 +16,9 @@ try {
 $conditions = [];
 $params = [];
 
-if (!empty($_POST['address'])) {
-    $conditions[] = "HOTEL.ADDRESS LIKE :address";
-    $params[':address'] = '%' . $_POST['address'] . '%';
+if (!empty($_POST['prefecture'])) {
+    $conditions[] = "HOTEL.PREFECTURE LIKE :prefecture";
+    $params[':prefecture'] = '%' . $_POST['prefecture'] . '%';
 }
 
 if (!empty($_POST['max_people'])) {
@@ -51,6 +51,7 @@ foreach (['bathroom', 'dryer', 'tv', 'wi_fi', 'pet', 'smoking', 'refrigerator'] 
 $query = "SELECT 
             HOTEL.HOTEL_ID AS hotel_id,
             HOTEL.HOTEL_NAME AS hotel_name, 
+            PLAN.PLAN_ID AS plan_id,
             PLAN.PLAN_NAME AS plan_name, 
             PLAN.PLAN_EXPLAIN AS plan_explain 
           FROM HOTEL 
@@ -92,7 +93,7 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <td><?= htmlspecialchars($row['plan_explain'], ENT_QUOTES, 'UTF-8') ?></td>
                     <td>
                         <form action="detail.php" method="post">
-                            <input type="hidden" name="hotel_id" value="<?= htmlspecialchars($row['hotel_id'], ENT_QUOTES, 'UTF-8') ?>">
+                            <input type="hidden" name="plan_id" value="<?= htmlspecialchars($row['plan_id'], ENT_QUOTES, 'UTF-8') ?>">
                             <button type="submit">詳細を見る</button>
                         </form>
                     </td>

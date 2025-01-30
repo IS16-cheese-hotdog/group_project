@@ -13,12 +13,12 @@ try {
     die('データベース接続に失敗しました: ' . $e->getMessage());
 }
 // POSTデータがない場合は検索ページにリダイレクト
-if ($_SERVER['REQUEST_METHOD'] !== 'POST' || empty($_POST['hotel_name'])) {
+if ($_SERVER['REQUEST_METHOD'] !== 'POST' || empty($_POST['plan_id'])) {
     header('Location: search.php');
     exit;
 }
 
-$hotel_id = $_POST['hotel_id'];
+$plan_id = $_POST['plan_id'];
 
 // データベースから詳細情報を取得
 $query = "SELECT HOTEL.HOTEL_NAME AS hotel_name, 
@@ -29,15 +29,14 @@ HOTEL.HOTEL_EXPLAIN AS hotel_explain, PLAN.CHARGE AS charge,
 PLAN.PLAN_NAME AS plan_name, PLAN.PLAN_EXPLAIN AS plan_explain,
 PLAN.EAT AS eat, ROOM.WI_FI AS wi_fi, ROOM.PET AS pet,
 ROOM.SMOKING AS smoking
-          FROM HOTEL 
-          LEFT JOIN PLAN ON HOTEL.HOTEL_ID = PLAN.HOTEL_ID
+          FROM PLAN
+          LEFT JOIN HOTEL ON HOTEL.HOTEL_ID = PLAN.HOTEL_ID
           LEFT JOIN ROOM ON PLAN.HOTEL_ID = ROOM.HOTEL_ID
-          WHERE HOTEL.HOTEL_ID = :hotel_id";
+          WHERE PLAN.PLAN_ID = :plan_id";
 $stmt = $pdo->prepare($query);
-$stmt->bindValue(':hotel_id', $hotel_id, PDO::PARAM_INT);
+$stmt->bindValue(':plan_id', $plan_id, PDO::PARAM_INT);
 $stmt->execute();
 $detail = $stmt->fetch(PDO::FETCH_ASSOC);
-var_dump($_POST['hotel_id']); 
 ?>
 
 <!DOCTYPE html>
