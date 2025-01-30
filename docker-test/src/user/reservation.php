@@ -13,7 +13,7 @@ try {
     die('データベース接続に失敗しました: ' . $e->getMessage());
 }
 // POSTデータがない場合は検索ページにリダイレクト
-if ($_SERVER['REQUEST_METHOD'] !== 'POST' || empty($_POST['hotel_name'])) {
+if ($_SERVER['REQUEST_METHOD'] !== 'POST' || empty($_POST['hotel_id'])) {
     header('Location: search.php');
     exit;
 }

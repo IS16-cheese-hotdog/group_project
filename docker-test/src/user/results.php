@@ -16,9 +16,9 @@ try {
 $conditions = [];
 $params = [];
 
-if (!empty($_POST['address'])) {
-    $conditions[] = "HOTEL.ADDRESS LIKE :address";
-    $params[':address'] = '%' . $_POST['address'] . '%';
+if (!empty($_POST['prefecture'])) {
+    $conditions[] = "HOTEL.PREFECTURE LIKE :prefecture";
+    $params[':prefecture'] = '%' . $_POST['prefecture'] . '%';
 }
 
 if (!empty($_POST['max_people'])) {
