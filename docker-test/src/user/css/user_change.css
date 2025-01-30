@@ -1,0 +1,54 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #e1f5fe; /* 背景色 (青系) */
+}
+.container {
+    margin: 60px auto;
+    max-width: 800px; /* 幅を広げる */
+    padding: 30px; /* 内側の余白を広げる */
+    background-color: #ffffff; /* 背景色 (白) */
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 影 (黒) */
+}
+.form-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+.form-group label {
+    width: 40%;
+    font-weight: bold;
+    color: #333333; /* ラベルの文字色 (黒) */
+}
+.form-group input {
+    flex: 1;
+    padding: 12px;
+    border: 1px solid #90caf9; /* 入力欄の枠線 (青系) */
+    border-radius: 5px;
+    font-size: 16px;
+    color: #333; /* 文字色 (黒) */
+    background-color: #ffffff; /* 入力欄の背景色 (白) */
+}
+.form-group input:focus {
+    border-color: #1e88e5; /* フォーカス時の枠線 (青系) */
+    background-color: #ffffff; /* フォーカス時背景色 (白) */
+}
+.buttons {
+    text-align: center;
+    margin-top: 20px;
+}
+.buttons button {
+    padding: 12px 24px;
+    font-size: 18px;
+    background-color: #1976d2; /* ボタン背景色 (青系) */
+    color: #ffffff; /* ボタン文字色 (白) */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+.buttons button:hover {
+    background-color: #1565c0; /* ホバー時の色 (青系) */
+}

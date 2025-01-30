@@ -75,6 +75,11 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>検索結果</title>
 </head>
+
+<head>
+    <link rel="stylesheet" href="./css/results.css">
+</head>
+
 <body>
     <h1>検索結果</h1>
     <?php if ($results): ?>

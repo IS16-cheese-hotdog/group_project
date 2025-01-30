@@ -87,75 +87,12 @@ try {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>予約画面</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #e6f7ff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .container {
-            background-color: #ffffff;
-            padding: 20px 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            width: 400px;
-        }
-        h2 {
-            color: #007BFF;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-        }
-        input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #b3d8ff;
-            border-radius: 5px;
-        }
-        input:focus {
-            border-color: #007BFF;
-            outline: none;
-            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-        }
-        button {
-            width: 100%;
-            padding: 12px;
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        .message {
-            margin-top: 15px;
-            padding: 10px;
-            border-radius: 5px;
-            font-size: 14px;
-        }
-        .error {
-            background-color: #f8d7da;
-            color: #721c24;
-        }
-        .success {
-            background-color: #d4edda;
-            color: #155724;
-        }
-    </style>
 </head>
+
+<head>
+    <link rel="stylesheet" href="./css/reserve.css">
+</head>
+
 <body>
     <div class="container">
         <h2>予約フォーム</h2>

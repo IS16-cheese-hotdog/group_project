@@ -60,61 +60,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 <?php include_once(__DIR__ . "/../inc/header.php"); ?>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #e6f7ff;
-            margin: 0;
-            padding: 0;
-        }
 
-        h1 {
-            margin: 0;
-            font-size: 20px;
-            text-align: center;
-            flex-grow: 1;
-        }
-        
-        form {
-            max-width: 400px;
-            margin: 40px auto;
-            padding: 20px 30px;
-            border-radius: 10px;
-            background-color: #ffffff;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: #007BFF;
-        }
-        input, select, .submit-button {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 15px;
-            border: 1px solid #b3d8ff;
-            border-radius: 6px;
-            background-color: #f9fcff;
-        }
-        input:focus, select:focus {
-            border-color: #007BFF;
-            outline: none;
-            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-        }
-        button .submit-button {
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        button:hover .submit-button {
-            background-color: #0056b3;
-        }
-    </style>
 </head>
+
+<head>
+    <link rel="stylesheet" href="./css/add.css">
+</head>
+
 <body>
     <h1 >会員登録</h1>
     <form action="" method="post">
