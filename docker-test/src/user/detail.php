@@ -39,17 +39,24 @@ $stmt->bindValue(':plan_id', $plan_id, PDO::PARAM_INT);
 $stmt->execute();
 $detail = $stmt->fetch(PDO::FETCH_ASSOC);
 
+$sql = "SELECT * FROM PLAN WHERE HOTEL_ID = (SELECT HOTEL_ID FROM PLAN WHERE PLAN_ID = :plan_id)";
+$stmt2 = $pdo->prepare($sql); // query() → prepare()
+$stmt2->bindValue(":plan_id", $plan_id, PDO::PARAM_INT); // バインド処理を修正
+$stmt2->execute();
+$plans = $stmt2->fetchAll(PDO::FETCH_ASSOC);
 if (!$detail) {
     die('該当するホテルが見つかりませんでした。');
 }
 
-function displayAvailability($value) {
+function displayAvailability($value)
+{
     return $value === "1" ? "あり" : "なし";
 }
 ?>
 
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -60,6 +67,7 @@ function displayAvailability($value) {
             padding: 0;
             background-color: #e6f7ff;
         }
+
         .back-button {
             position: absolute;
             top: 20px;
@@ -72,9 +80,11 @@ function displayAvailability($value) {
             border-radius: 5px;
             font-size: 16px;
         }
+
         .back-button:hover {
             background-color: #0056b3;
         }
+
         .container {
             width: 85%;
             margin: 40px auto;
@@ -83,22 +93,26 @@ function displayAvailability($value) {
             border-radius: 10px;
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
         }
+
         h2 {
             color: #333;
             font-size: 24px;
             margin-bottom: 10px;
             font-weight: bold;
         }
+
         p {
             line-height: 1.6;
             font-size: 16px;
             color: #555;
         }
+
         .hotel-photos {
             display: flex;
             gap: 20px;
             margin-top: 30px;
         }
+
         .hotel-photos img {
             width: 240px;
             height: auto;
@@ -107,9 +121,11 @@ function displayAvailability($value) {
             cursor: pointer;
             transition: transform 0.3s ease;
         }
+
         .hotel-photos img:hover {
             transform: scale(1.05);
         }
+
         .reservation-button {
             display: block;
             width: 200px;
@@ -124,9 +140,58 @@ function displayAvailability($value) {
             border-radius: 8px;
             cursor: pointer;
         }
+
         .reservation-button:hover {
             background-color: #0056b3;
         }
+
+        .plan-list {
+            list-style: none;
+            padding: 0;
+            margin-top: 30px;
+        }
+
+        .plan-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: #f1f1f1;
+    margin-bottom: 15px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.plan-list li:hover {
+    background-color: #66b3ff;
+    color: white;
+    transform: scale(1.02);
+}
+
+.plan-list span {
+    font-size: 18px;
+    color: #333;
+    flex: 1;
+}
+
+.plan-list .price {
+    font-size: 18px;
+    font-weight: bold;
+    color: #007bff;
+    text-align: center;
+    min-width: 150px; /* 幅を固定 */
+}
+
+.plan-list button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
     </style>
 </head>
 <?php include_once(__DIR__ . '/../inc/header.php'); ?>
@@ -148,11 +213,22 @@ function displayAvailability($value) {
         <p><strong>ペット可:</strong> <?= displayAvailability($detail['pet']) ?></p>
         <p><strong>喫煙:</strong> <?= displayAvailability($detail['smoking']) ?></p>
 
-        <form action="reservation.php" method="post">
-            <input type="hidden" name="plan_id" value="<?= htmlspecialchars($detail['plan_id'], ENT_QUOTES, 'UTF-8') ?>">
-            <button type="submit" class="reservation-button">予約する</button>
-        </form>
-    </div>
+        <div class="hotel-info">
+            <h2>プラン一覧</h2>
+            <ul class="plan-list">
+                <?php foreach ($plans as $plan): ?>
+                    <li>
+                        <span><?= htmlspecialchars($plan['PLAN_NAME'], ENT_QUOTES, 'UTF-8') ?></span>
+                        <span class="price">¥<?= number_format(htmlspecialchars($plan['CHARGE'], ENT_QUOTES, 'UTF-8')) ?></span>
+                        <form action="reservation.php" method="post" style="display:inline;">
+                            <input type="hidden" name="plan_id" value="<?= htmlspecialchars($plan['PLAN_ID'], ENT_QUOTES, 'UTF-8') ?>">
+                            <button type="submit">予約する</button>
+                        </form>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
 </body>
+
 </html>
 <?php include_once(__DIR__ . '/../inc/footer.php'); ?>
