@@ -53,25 +53,12 @@ function displayAvailability($value) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ホテル情報</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
             background-color: #e6f7ff;
-        }
-        header {
-            background-color: #333;
-            color: #fff;
-            padding: 20px 0;
-            text-align: center;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            position: relative;
-        }
-        header h1 {
-            font-size: 36px;
-            font-weight: bold;
         }
         .back-button {
             position: absolute;
@@ -142,11 +129,9 @@ function displayAvailability($value) {
         }
     </style>
 </head>
+<?php include_once(__DIR__ . '/../inc/header.php'); ?>
+
 <body>
-    <header>
-        <h1>ホテル情報</h1>
-        <button class="back-button" onclick="window.history.back()">戻る</button>
-    </header>
     <div class="container">
         <div class="hotel-photos">
             <img src="IMG_0119.JPG" alt="ホテルの外観">
@@ -170,3 +155,4 @@ function displayAvailability($value) {
     </div>
 </body>
 </html>
+<?php include_once(__DIR__ . '/../inc/footer.php'); ?>
