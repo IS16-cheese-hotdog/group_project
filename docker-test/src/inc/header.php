@@ -32,7 +32,7 @@ if (php_sapi_name() === 'cli') {
             </div>
         <?php elseif (!isset($_SESSION['user_id'])) : ?>
             <div class="buttons">
-                <button onclick="location.href='/login.html'" class="mypage-button">ログイン</button>
+                <button onclick="location.href='/login.php'" class="mypage-button">ログイン</button>
             </div>
         <?php endif; ?>
     </div>
