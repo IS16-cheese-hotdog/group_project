@@ -24,7 +24,8 @@ $query = "SELECT HOTEL.HOTEL_NAME AS hotel_name,
 HOTEL.ADDRESS AS hotel_address, PLAN.PLAN_ID AS plan_id, HOTEL.HOTEL_ID AS hotel_id,
 HOTEL.PHONE_NUMBER AS phone_number, HOTEL.PREFECTURE AS prefecture,
 HOTEL.BUILDING_NAME AS building_name, 
-HOTEL.HOTEL_EXPLAIN AS hotel_explain, PLAN.CHARGE AS charge,
+HOTEL.HOTEL_EXPLAIN AS hotel_explain,
+PLAN.CHARGE AS charge, PLAN.CHILD_CHARGE AS child_charge, PLAN.INFANT_CHARGE AS infant_charge,
 PLAN.PLAN_NAME AS plan_name, PLAN.PLAN_EXPLAIN AS plan_explain,
 PLAN.EAT AS eat, ROOM.WI_FI AS wi_fi, ROOM.PET AS pet,
 ROOM.SMOKING AS smoking
@@ -114,73 +115,80 @@ $detail = $stmt->fetch(PDO::FETCH_ASSOC);
     </style>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const checkinDateInput = document.getElementById('room_start_date');
-            const checkoutDateInput = document.getElementById('room_end_date');
-            const adultsInput = document.getElementById('adults');
-            const childrenInput = document.getElementById('children');
-            const infantsInput = document.getElementById('infants');
-            const totalAmountDisplay = document.getElementById('total-amount');
-            const checkinDisplay = document.getElementById('checkin-date');
-            const checkoutDisplay = document.getElementById('checkout-date');
-            const adultsDisplay = document.getElementById('adult-count');
-            const childrenDisplay = document.getElementById('children-count');
-            const infantsDisplay = document.getElementById('infant-count');
-            
-            const chargePerNight = <?= $detail['charge'] ?>;  // プランの料金をPHPで埋め込む
+    const checkinDateInput = document.getElementById('room_start_date');
+    const checkoutDateInput = document.getElementById('room_end_date');
+    const adultsInput = document.getElementById('adults');
+    const childrenInput = document.getElementById('children');
+    const infantsInput = document.getElementById('infants');
+    const totalAmountDisplay = document.getElementById('total-amount');
+    const checkinDisplay = document.getElementById('checkin-date');
+    const checkoutDisplay = document.getElementById('checkout-date');
+    const adultsDisplay = document.getElementById('adult-count');
+    const childrenDisplay = document.getElementById('children-count');
+    const infantsDisplay = document.getElementById('infant-count');
 
-            const today = new Date().toISOString().split('T')[0];
-            checkinDateInput.setAttribute('min', today);
+    // PHPから渡された料金
+    const chargePerNight = <?= $detail['charge'] ?>;  // 大人の宿泊料金
+    const chargeChild = <?= $detail["child_charge"] ?>;  // 子供の宿泊料金
+    const chargeInfant = <?= $detail["infant_charge"] ?>;  // 乳幼児の宿泊料金
 
-            checkinDateInput.addEventListener('input', function() {
-                const checkinDate = checkinDateInput.value;
-                checkoutDateInput.setAttribute('min', checkinDate);
-                updateDisplay();
-                calculateTotalAmount();
-            });
+    const today = new Date().toISOString().split('T')[0];
+    checkinDateInput.setAttribute('min', today);
 
-            checkoutDateInput.addEventListener('input', function() {
-                updateDisplay();
-                calculateTotalAmount();
-            });
+    checkinDateInput.addEventListener('input', function() {
+        const checkinDate = checkinDateInput.value;
+        checkoutDateInput.setAttribute('min', checkinDate);
+        updateDisplay();
+        calculateTotalAmount();
+    });
 
-            adultsInput.addEventListener('input', function() {
-                updateDisplay();
-                calculateTotalAmount();
-            });
+    checkoutDateInput.addEventListener('input', function() {
+        updateDisplay();
+        calculateTotalAmount();
+    });
 
-            childrenInput.addEventListener('input', function() {
-                updateDisplay();
-                calculateTotalAmount();
-            });
+    adultsInput.addEventListener('input', function() {
+        updateDisplay();
+        calculateTotalAmount();
+    });
 
-            infantsInput.addEventListener('input', function() {
-                updateDisplay();
-                calculateTotalAmount();
-            });
+    childrenInput.addEventListener('input', function() {
+        updateDisplay();
+        calculateTotalAmount();
+    });
 
-            function updateDisplay() {
-                checkinDisplay.textContent = checkinDateInput.value || '未選択';
-                checkoutDisplay.textContent = checkoutDateInput.value || '未選択';
-                adultsDisplay.textContent = adultsInput.value || 0;
-                childrenDisplay.textContent = childrenInput.value || 0;
-                infantsDisplay.textContent = infantsInput.value || 0;
-            }
+    infantsInput.addEventListener('input', function() {
+        updateDisplay();
+        calculateTotalAmount();
+    });
 
-            function calculateTotalAmount() {
-                const checkinDate = new Date(checkinDateInput.value);
-                const checkoutDate = new Date(checkoutDateInput.value);
-                if (checkinDate && checkoutDate && checkinDate < checkoutDate) {
-                    const nights = (checkoutDate - checkinDate) / (1000 * 3600 * 24);
-                    const adults = parseInt(adultsInput.value) || 0;
-                    const children = parseInt(childrenInput.value) || 0;
-                    const infants = parseInt(infantsInput.value) || 0;
+    function updateDisplay() {
+        checkinDisplay.textContent = checkinDateInput.value || '未選択';
+        checkoutDisplay.textContent = checkoutDateInput.value || '未選択';
+        adultsDisplay.textContent = adultsInput.value || 0;
+        childrenDisplay.textContent = childrenInput.value || 0;
+        infantsDisplay.textContent = infantsInput.value || 0;
+    }
 
-                    const totalGuests = adults + children + infants;
-                    const totalAmount = chargePerNight * nights * totalGuests;
-                    totalAmountDisplay.textContent = '¥' + totalAmount.toLocaleString();
-                }
-            }
-        });
+    function calculateTotalAmount() {
+        const checkinDate = new Date(checkinDateInput.value);
+        const checkoutDate = new Date(checkoutDateInput.value);
+        if (checkinDate && checkoutDate && checkinDate < checkoutDate) {
+            const nights = (checkoutDate - checkinDate) / (1000 * 3600 * 24);
+            const adults = parseInt(adultsInput.value) || 0;
+            const children = parseInt(childrenInput.value) || 0;
+            const infants = parseInt(infantsInput.value) || 0;
+
+            const totalAdultsAmount = chargePerNight * nights * adults;
+            const totalChildrenAmount = chargeChild * nights * children;
+            const totalInfantAmount = chargeInfant * nights * infants;
+
+            const totalAmount = totalAdultsAmount + totalChildrenAmount + totalInfantAmount;
+
+            totalAmountDisplay.textContent = '¥' + totalAmount.toLocaleString();
+        }
+    }
+});
     </script>
 </head>
 <body>

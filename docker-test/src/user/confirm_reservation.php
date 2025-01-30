@@ -1,59 +1,34 @@
 <?php
-session_start();
+include_once __DIR__ . '/../inc/is_login.php';
+include_once __DIR__ . '/../inc/db.php';
 
-$host = 'mysql.pokapy.com:3307';
-$dbname = 'php-docker-db';
-$username = 'user'; // データベースユーザー名
-$password = 'password'; // データベースパスワード
-
+$db = db_connect();
 try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $plan_id = $_POST["plan_id"];
+    $user_id = $_SESSION["user_id"];
+    $reservation_date = date('Y-m-d');
+    $room_start_date = $_POST["room_start_date"];
+    $room_end_date = $_POST["room_end_date"];
+    $adults = $_POST["adults"];
+    $childs = $_POST["children"];
+    $infants = $_POST["infants"];
+
+    $sql = "INSERT INTO RESERVATION (USER_ID, PLAN_ID, RESERVATION_DATE, ROOM_START_DATE, ROOM_END_DATE, ADULT, KID, INFANT) VALUES (:user_id, :plan_id, :reservation_date, :room_start_date, :room_end_date, :adults, :childs, :infants)";
+    $result = $db->prepare($sql);
+    $result->bindParam(":plan_id", $plan_id,PDO::PARAM_INT);
+    $result->bindParam(":user_id", $user_id,PDO::PARAM_INT);
+    $result->bindParam(":reservation_date", $reservation_date, PDO::PARAM_STR);
+    $result->bindParam(":room_start_date", $room_start_date,PDO::PARAM_STR);
+    $result->bindParam(":room_end_date", $room_end_date,PDO::PARAM_STR);
+    $result->bindParam(":adults", $adults,PDO::PARAM_INT);
+    $result->bindParam(":childs", $childs,PDO::PARAM_INT);
+    $result->bindParam(":infants", $infants,PDO::PARAM_INT);
+    if($result->execute()){
+        echo "<script>alert('予約が完了しました'); window.location.href='user_check.php';</script>";
+}
+else{ 
+    echo "<script>alert('予約に失敗しました'); window.location.href='user_check.php';</script>";
+}
 } catch (PDOException $e) {
     die('データベース接続に失敗しました: ' . $e->getMessage());
 }
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: search.php');
-    exit;
-}
-
-$_SESSION['reservation'] = $_POST;
-
-
-$query = "SELECT PLAN.PLAN_ID AS plan_id,
-        PLAN.PLAN_NAME AS plan_name,
-        HOTEL.HOTEL_ID AS hotel_id,
-        HOTEL.HOTEL_NAME AS hotel_name
-          FROM PLAN
-          LEFT JOIN HOTEL ON HOTEL.HOTEL_ID = PLAN.HOTEL_ID
-          WHERE PLAN.PLAN_ID = :plan_id";
-$stmt = $pdo->prepare($query);
-$stmt->bindValue(':plan_id', $_POST["plan_id"], PDO::PARAM_INT);
-$stmt->execute();
-$detail = $stmt->fetch(PDO::FETCH_ASSOC);
-?>
-
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <title>予約内容確認</title>
-</head>
-<body>
-    <h1>予約内容確認</h1>
-    <p><strong>ホテル名:</strong> <?= htmlspecialchars($detail['hotel_name'], ENT_QUOTES, 'UTF-8') ?></p>
-    <p><strong>プラン名:</strong> <?= htmlspecialchars($detail['plan_name'], ENT_QUOTES, 'UTF-8') ?></p>
-    <p><strong>チェックイン日:</strong> <?= htmlspecialchars($_POST['room_start_date'], ENT_QUOTES, 'UTF-8') ?></p>
-    <p><strong>宿泊終了日:</strong> <?= htmlspecialchars($_POST['room_end_date'], ENT_QUOTES, 'UTF-8') ?></p>
-    <p><strong>大人の人数:</strong> <?= htmlspecialchars($_POST['adults'], ENT_QUOTES, 'UTF-8') ?></p>
-    <p><strong>子供の人数:</strong> <?= htmlspecialchars($_POST['children'], ENT_QUOTES, 'UTF-8') ?></p>
-    <p><strong>乳幼児の人数:</strong> <?= htmlspecialchars($_POST['infants'], ENT_QUOTES, 'UTF-8') ?></p>
-
-    <form action="save_reservation.php" method="post">
-        <input type="hidden" name="plan_id" value="<?= htmlspecialchars($_POST['plan_id'] ?? '', ENT_QUOTES, 'UTF-8') ?>">        
-        <input type="hidden" name="hotel_id" value="<?= htmlspecialchars($detail['hotel_id']?? '', ENT_QUOTES, 'UTF-8') ?>">
-        <button type="submit">予約を確定する</button>
-    </form>
-    <a href="reservation.php">戻る</a>
-</body>
-</html>

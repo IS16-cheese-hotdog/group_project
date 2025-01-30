@@ -24,10 +24,11 @@ $query = "SELECT HOTEL.HOTEL_NAME AS hotel_name,
 HOTEL.ADDRESS AS hotel_address, PLAN.PLAN_ID AS plan_id,
 HOTEL.PHONE_NUMBER AS phone_number, HOTEL.HOTEL_ID AS hotel_id,
 EMAIL.EMAIL AS email, HOTEL.BUILDING_NAME AS building_name, 
-HOTEL.HOTEL_EXPLAIN AS hotel_explain, PLAN.CHARGE AS charge,
+HOTEL.HOTEL_EXPLAIN AS hotel_explain, HOTEL.HOTEL_IMAGE AS hotel_image,
+PLAN.CHARGE AS charge,
 PLAN.PLAN_NAME AS plan_name, PLAN.PLAN_EXPLAIN AS plan_explain,
 PLAN.EAT AS eat, ROOM.WI_FI AS wi_fi, ROOM.PET AS pet,
-ROOM.SMOKING AS smoking
+ROOM.SMOKING AS smoking, ROOM.ROOM_PHOTO AS room_photo
 FROM PLAN
 LEFT JOIN HOTEL ON HOTEL.HOTEL_ID = PLAN.HOTEL_ID
 LEFT JOIN ROOM ON PLAN.ROOM_ID = ROOM.ROOM_ID 
@@ -39,7 +40,7 @@ $stmt->bindValue(':plan_id', $plan_id, PDO::PARAM_INT);
 $stmt->execute();
 $detail = $stmt->fetch(PDO::FETCH_ASSOC);
 
-$sql = "SELECT * FROM PLAN WHERE HOTEL_ID = (SELECT HOTEL_ID FROM PLAN WHERE PLAN_ID = :plan_id)";
+$sql = "SELECT PLAN.*, ROOM.ROOM_PHOTO FROM PLAN LEFT JOIN ROOM ON ROOM.ROOM_ID = PLAN.ROOM_ID WHERE PLAN.HOTEL_ID = (SELECT HOTEL_ID FROM PLAN WHERE PLAN_ID = :plan_id)";
 $stmt2 = $pdo->prepare($sql); // query() → prepare()
 $stmt2->bindValue(":plan_id", $plan_id, PDO::PARAM_INT); // バインド処理を修正
 $stmt2->execute();
@@ -146,14 +147,13 @@ function displayAvailability($value)
         }
 
         .plan-list {
-            list-style: none;
-            padding: 0;
-            margin-top: 30px;
-        }
+    list-style: none;
+    padding: 0;
+    margin-top: 30px;
+}
 
-        .plan-list li {
+.plan-item {
     display: flex;
-    justify-content: space-between;
     align-items: center;
     padding: 15px;
     border-radius: 8px;
@@ -162,27 +162,50 @@ function displayAvailability($value)
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.plan-list li:hover {
+.plan-item:hover {
     background-color: #66b3ff;
     color: white;
     transform: scale(1.02);
 }
 
-.plan-list span {
-    font-size: 18px;
-    color: #333;
+.plan-info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
     flex: 1;
 }
 
-.plan-list .price {
+.room-photo {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.plan-details {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.plan-name {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+}
+
+.price {
     font-size: 18px;
     font-weight: bold;
     color: #007bff;
-    text-align: center;
-    min-width: 150px; /* 幅を固定 */
 }
 
-.plan-list button {
+.reservation-form {
+    display: inline-block;
+    margin-left: auto;
+}
+
+.reservation-form button {
     background-color: #007bff;
     color: #fff;
     border: none;
@@ -192,6 +215,10 @@ function displayAvailability($value)
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
+
+.reservation-form button:hover {
+    background-color: #0056b3;
+}
     </style>
 </head>
 <?php include_once(__DIR__ . '/../inc/header.php'); ?>
@@ -199,8 +226,7 @@ function displayAvailability($value)
 <body>
     <div class="container">
         <div class="hotel-photos">
-            <img src="./../img/IMG_0119.JPG" alt="ホテルの外観">
-            <img src="./../img/IMG_2185.JPG" alt="ホテルの内観">
+        <img src="/uploads/hotel/<?= htmlspecialchars($detail['hotel_image'], ENT_QUOTES, 'UTF-8') ?>" alt="ホテルの外観">
         </div>
 
         <h2><?= htmlspecialchars($detail['hotel_name'], ENT_QUOTES, 'UTF-8') ?></h2>
@@ -214,20 +240,28 @@ function displayAvailability($value)
         <p><strong>喫煙:</strong> <?= displayAvailability($detail['smoking']) ?></p>
 
         <div class="hotel-info">
-            <h2>プラン一覧</h2>
-            <ul class="plan-list">
-                <?php foreach ($plans as $plan): ?>
-                    <li>
-                        <span><?= htmlspecialchars($plan['PLAN_NAME'], ENT_QUOTES, 'UTF-8') ?></span>
+    <h2>プラン一覧</h2>
+    <ul class="plan-list">
+        <?php foreach ($plans as $plan): ?>
+            <li class="plan-item">
+                <div class="plan-info">
+                    <!-- プランの写真 -->
+                    <img src="/uploads/room/<?= htmlspecialchars($plan['ROOM_PHOTO'], ENT_QUOTES, 'UTF-8') ?>" alt="部屋の写真" class="room-photo">
+                    
+                    <div class="plan-details">
+                        <span class="plan-name"><?= htmlspecialchars($plan['PLAN_NAME'], ENT_QUOTES, 'UTF-8') ?></span>
                         <span class="price">¥<?= number_format(htmlspecialchars($plan['CHARGE'], ENT_QUOTES, 'UTF-8')) ?></span>
-                        <form action="reservation.php" method="post" style="display:inline;">
-                            <input type="hidden" name="plan_id" value="<?= htmlspecialchars($plan['PLAN_ID'], ENT_QUOTES, 'UTF-8') ?>">
-                            <button type="submit">予約する</button>
-                        </form>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
-        </div>
+                    </div>
+                </div>
+                
+                <form action="reservation.php" method="post" class="reservation-form">
+                    <input type="hidden" name="plan_id" value="<?= htmlspecialchars($plan['PLAN_ID'], ENT_QUOTES, 'UTF-8') ?>">
+                    <button type="submit">予約する</button>
+                </form>
+            </li>
+        <?php endforeach; ?>
+    </ul>
+</div>
 </body>
 
 </html>

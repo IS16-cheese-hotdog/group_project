@@ -1,4 +1,7 @@
-<?php include_once __DIR__ . '/../inc/header.php'; ?>
+<?
+session_start();
+
+include_once __DIR__ . '/../inc/header.php'; ?>
     <link rel="stylesheet" href="style.css">
 <body>
     <h1>ホテル検索フォーム</h1>
