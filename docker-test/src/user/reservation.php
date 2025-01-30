@@ -107,112 +107,84 @@ $detail = $stmt->fetch(PDO::FETCH_ASSOC);
         .reserve-button button:hover {
             background-color: #0056b3;
         }
-    </style>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const checkinDateInput = document.getElementById('room_start_date');
-            const checkoutDateInput = document.getElementById('room_end_date');
-            const today = new Date().toISOString().split('T')[0]; // 今日の日付をISOフォーマットに変換
-
-            checkinDateInput.setAttribute('min', today); // チェックイン日制限
-
-            // チェックイン日が変更されたときにチェックアウト日の制限を設定
-            checkinDateInput.addEventListener('input', function() {
-                const checkinDate = checkinDateInput.value;
-                checkoutDateInput.setAttribute('min', checkinDate); // チェックイン日以降の日付に制限
-            });
-        });
-    </script>
-</head>
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>予約画面</title>
-    <style>
-        body {
-            display: flex;
-            font-family: Arial, sans-serif;
-            justify-content: center;
-            align-items: center;
-            background-color: #e6f7ff;
-            height: 100vh;
-            margin: 0;
-        }
-        .container {
-            display: flex;
-            width: 80%;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            border-radius: 10px;
-            overflow: hidden;
-        }
-        .left {
-            width: 60%;
-            padding: 20px;
-            background-color: #ffffff;
-        }
-        .right {
-            width: 40%;
-            padding: 20px;
-            background-color: #ffffff;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-        }
-        input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #b3d8ff;
-            border-radius: 6px;
-            background-color: #f9fcff;
-            box-sizing: border-box;
-        }
-        input:focus {
-            border-color: #007BFF;
-            outline: none;
-            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-        }
-        .reserve-button {
-            margin-top: 20px;
-        }
-        .reserve-button button {
-            width: 100%;
-            padding: 12px;
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        .reserve-button button:hover {
-            background-color: #0056b3;
-        }
         .error-message {
             color: red;
             margin-top: 10px;
         }
     </style>
     <script>
-        function validateDates() {
-            const checkinDate = document.getElementById('room_start_date').value;
-            const checkoutDate = document.getElementById('room_end_date').value;
-            if (checkinDate && checkoutDate && checkinDate === checkoutDate) {
-                document.getElementById('error-message').textContent = 'チェックイン日とチェックアウト日が同じです。日付を再確認してください。';
-                return false;
+        document.addEventListener('DOMContentLoaded', function() {
+            const checkinDateInput = document.getElementById('room_start_date');
+            const checkoutDateInput = document.getElementById('room_end_date');
+            const adultsInput = document.getElementById('adults');
+            const childrenInput = document.getElementById('children');
+            const infantsInput = document.getElementById('infants');
+            const totalAmountDisplay = document.getElementById('total-amount');
+            const checkinDisplay = document.getElementById('checkin-date');
+            const checkoutDisplay = document.getElementById('checkout-date');
+            const adultsDisplay = document.getElementById('adult-count');
+            const childrenDisplay = document.getElementById('children-count');
+            const infantsDisplay = document.getElementById('infant-count');
+            
+            const chargePerNight = <?= $detail['charge'] ?>;  // プランの料金をPHPで埋め込む
+
+            const today = new Date().toISOString().split('T')[0];
+            checkinDateInput.setAttribute('min', today);
+
+            checkinDateInput.addEventListener('input', function() {
+                const checkinDate = checkinDateInput.value;
+                checkoutDateInput.setAttribute('min', checkinDate);
+                updateDisplay();
+                calculateTotalAmount();
+            });
+
+            checkoutDateInput.addEventListener('input', function() {
+                updateDisplay();
+                calculateTotalAmount();
+            });
+
+            adultsInput.addEventListener('input', function() {
+                updateDisplay();
+                calculateTotalAmount();
+            });
+
+            childrenInput.addEventListener('input', function() {
+                updateDisplay();
+                calculateTotalAmount();
+            });
+
+            infantsInput.addEventListener('input', function() {
+                updateDisplay();
+                calculateTotalAmount();
+            });
+
+            function updateDisplay() {
+                checkinDisplay.textContent = checkinDateInput.value || '未選択';
+                checkoutDisplay.textContent = checkoutDateInput.value || '未選択';
+                adultsDisplay.textContent = adultsInput.value || 0;
+                childrenDisplay.textContent = childrenInput.value || 0;
+                infantsDisplay.textContent = infantsInput.value || 0;
             }
-            return true;
-        }
+
+            function calculateTotalAmount() {
+                const checkinDate = new Date(checkinDateInput.value);
+                const checkoutDate = new Date(checkoutDateInput.value);
+                if (checkinDate && checkoutDate && checkinDate < checkoutDate) {
+                    const nights = (checkoutDate - checkinDate) / (1000 * 3600 * 24);
+                    const adults = parseInt(adultsInput.value) || 0;
+                    const children = parseInt(childrenInput.value) || 0;
+                    const infants = parseInt(infantsInput.value) || 0;
+
+                    const totalGuests = adults + children + infants;
+                    const totalAmount = chargePerNight * nights * totalGuests;
+                    totalAmountDisplay.textContent = '¥' + totalAmount.toLocaleString();
+                }
+            }
+        });
     </script>
 </head>
 <body>
     <div class="container">
-        <!-- 左側（フォーム部分） -->
         <div class="left">
             <h2>予約フォーム</h2>
             <form action="confirm_reservation.php" method="post" onsubmit="return validateDates()">
@@ -250,14 +222,16 @@ $detail = $stmt->fetch(PDO::FETCH_ASSOC);
             </form>
         </div>
 
-        <!-- 右側（ホテル情報） -->
         <div class="right">
             <h2>ホテル情報</h2>
             <p><strong>ホテル名:</strong> <?= htmlspecialchars($detail['hotel_name'], ENT_QUOTES, 'UTF-8') ?></p>
             <p><strong>プラン名:</strong> <?= htmlspecialchars($detail['plan_name'], ENT_QUOTES, 'UTF-8') ?></p>
-            <p><strong>料金:</strong> ¥<?= number_format($detail['charge']) ?> / 泊</p>
-            <p><strong>所在地:</strong> <?= htmlspecialchars($detail['hotel_address'], ENT_QUOTES, 'UTF-8') ?></p>
-            <p><strong>説明:</strong> <?= nl2br(htmlspecialchars($detail['hotel_explain'], ENT_QUOTES, 'UTF-8')) ?></p>
+            <p><strong>チェックイン日:</strong> <span id="checkin-date">未選択</span></p>
+            <p><strong>チェックアウト日:</strong> <span id="checkout-date">未選択</span></p>
+            <p><strong>大人:</strong> <span id="adult-count">0</span> 人</p>
+            <p><strong>子供:</strong> <span id="children-count">0</span> 人</p>
+            <p><strong>乳幼児:</strong> <span id="infant-count">0</span> 人</p>
+            <p><strong>合計金額:</strong> <span id="total-amount">¥0</span></p>
         </div>
     </div>
 </body>
