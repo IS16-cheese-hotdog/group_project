@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>情報更新</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            text-align: center;
+        }
+        h1 {
+            font-size: 1.8em;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        input, textarea, button {
+            width: 100%;
+            padding: 10px;
+            font-size: 1em;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+        button {
+            background-color: #5cbce6;
+            color: #ffffff;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #499ab3;
+        }
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #005c99;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 id="page-title">情報更新</h1>
+        <form id="form-container" action="" method="post">
+            <div id="plan-fields" class="hidden">
+                <label for="plan-name">プラン名:</label>
+                <input type="text" id="plan-name" name="plan-name">
+
+                <label for="plan-desc">プラン説明:</label>
+                <textarea id="plan-desc" name="plan-desc" rows="4"></textarea>
+
+                <label for="plan-price">料金:</label>
+                <input type="number" id="plan-price" name="plan-price">
+            </div>
+
+            <div id="room-fields" class="hidden">
+                <label for="room-name">部屋名:</label>
+                <input type="text" id="room-name" name="room-name">
+
+                <label for="room-capacity">定員:</label>
+                <input type="number" id="room-capacity" name="room-capacity">
+
+                <label for="room-desc">部屋説明:</label>
+                <textarea id="room-desc" name="room-desc" rows="4"></textarea>
+            </div>
+
+            <button type="submit" id="submit-button">更新</button>
+        </form>
+        <a href="hotel.html">戻る</a>
+    </div>
+
+    <script>
+        // URLからクエリパラメータを取得
+        const urlParams = new URLSearchParams(window.location.search);
+        const type = urlParams.get('type');
+
+        // 要素の参照を取得
+        const pageTitle = document.getElementById('page-title');
+        const formContainer = document.getElementById('form-container');
+        const planFields = document.getElementById('plan-fields');
+        const roomFields = document.getElementById('room-fields');
+        const submitButton = document.getElementById('submit-button');
+
+        // 分岐ロジック
+        if (type === 'plan') {
+            pageTitle.textContent = 'プラン情報変更';
+            formContainer.action = 'plan_submit.html';
+            planFields.classList.remove('hidden');
+        } else if (type === 'room') {
+            pageTitle.textContent = '部屋情報更新';
+            formContainer.action = 'room_submit.html';
+            roomFields.classList.remove('hidden');
+        } else {
+            pageTitle.textContent = 'エラー: 不正なタイプ';
+            submitButton.disabled = true;
+        }
+    </script>
+</body>
+</html>

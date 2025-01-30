@@ -18,8 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_room_id'])) {
     $delete_stmt = $db->prepare($delete_sql);
     $delete_stmt->bindParam(':room_id', $delete_room_id, PDO::PARAM_INT);
     if ($delete_stmt->execute()) {
-        $url = get_url();
-        header('Location: ' . $url . '/hotel/hotel_room.php');
+        header("Location: " . $_SERVER['PHP_SELF']);
         exit;
     } else {
         echo '<p style="color:red;">削除に失敗しました。</p>';

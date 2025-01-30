@@ -39,12 +39,9 @@ $stmt->execute();
 $detail = $stmt->fetch(PDO::FETCH_ASSOC);
 ?>
 
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <title>予約情報入力</title>
-</head>
+<?php include_once __DIR__ . '/../inc/header.php'; ?>
+<link rel="stylesheet" href="./css/detail.css">
+
 <body>
     <h1>予約情報を入力</h1>
     <p><strong>ホテル名:</strong> <?= htmlspecialchars($detail['hotel_name'], ENT_QUOTES, 'UTF-8') ?></p>

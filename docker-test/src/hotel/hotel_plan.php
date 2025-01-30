@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['delete_plan_id'])) {
     $delete_stmt->bindParam(':plan_id', $delete_plan_id, PDO::PARAM_INT);
 
     if ($delete_stmt->execute()) {
-        header('Location: ' . $url . '/hotel_plan.php');
+        header("Location: " . $_SERVER['PHP_SELF']);
         exit;
     } else {
         echo '<p style="color:red;">削除に失敗しました。</p>';
@@ -37,16 +37,9 @@ $stmt->bindParam(':hotel_id', $hotel_id, PDO::PARAM_INT);
 $stmt->execute();
 $plans = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
-
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ホテルプラン一覧</title>
-    <link rel="stylesheet" href="./css/hotel_plan.css">
-</head>
 <?php include_once __DIR__ . '/../inc/header.php'; ?>
+<link rel="stylesheet" href="./css/hotel_plan.css">
+
 <body>
     <h1>ホテルプラン一覧</h1>
     <a href="hotel_add_plan.php" class="add-button">プランを追加</a>
