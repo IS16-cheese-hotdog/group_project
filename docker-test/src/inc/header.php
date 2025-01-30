@@ -22,12 +22,12 @@ if (php_sapi_name() === 'cli') {
         </div>
         <?php if (isset($_SESSION['user_id'])) : ?>
             <div class="buttons">
-                <?php if($_SESSION["user_id"] == 1) : ?>
+                <?php if(isset($_SESSION['admin_id'])) : ?>
                     <button onclick="location.href='/admin/admin_main.php'" class="mypage-button">マイページ</button>
-                <?php elseif($_SESSION["user_id"] >= 2): ?>
+                <?php elseif(isset($_SESSION['hotel_id'])) : ?>
                     <button onclick="location.href='/hotel/hotel_main.php'" class="mypage-button">マイページ</button>
                 <?php else : ?>
-                    <button onclick="location.href='/user/user_main.php'" class="mypage-button">マイページ</button>
+                    <button onclick="location.href='/user/mypage.php'" class="mypage-button">マイページ</button>
                 <?php endif; ?>
             </div>
         <?php elseif (!isset($_SESSION['user_id'])) : ?>

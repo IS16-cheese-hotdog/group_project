@@ -5,7 +5,7 @@ session_start();
 if (!isset($_SESSION['user_id'])) {
     // 未ログインの場合
     $url = get_url();
-    header('Location: ' . $url . '/login.html');
+    header('Location: ' . $url . '/login.php');
     exit;
 }
 ?>

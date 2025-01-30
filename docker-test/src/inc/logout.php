@@ -17,6 +17,6 @@ if (ini_get("session.use_cookies")) {
 
 session_destroy();
 $url = get_url();
-header('Location: ' . $url . '/login.html');
+header('Location: ' . $url . '/login.php');
 exit;
 ?>

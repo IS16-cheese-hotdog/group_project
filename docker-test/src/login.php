@@ -1,9 +1,19 @@
 <?php
 session_start();
-
+if (isset($_SESSION["admin_id"])) {
+    header('Location: /admin/admin_main.php');
+    exit;
+} else if (isset($_SESSION["hotel_id"])) {
+    header('Location: /hotel/hotel_main.php');
+    exit;
+} else if (isset($_SESSION["user_id"])) {
+    header('Location: /user/mypage.php');
+    exit;
+}
 // データベース接続設定
 include_once("./inc/db.php");
 $pdo = db_connect();
+$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 // CLI経由での実行を防ぐ
 if (php_sapi_name() === 'cli') {
@@ -14,7 +24,7 @@ if (php_sapi_name() === 'cli') {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // フォームデータの取得とトリム
     $email = trim($_POST['email'] ?? '');
-    $password = trim($_POST['password'] ?? '');
+    $password = $_POST['password'];
 
     // 入力チェック
     if (empty($email) || empty($password)) {
@@ -22,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // ユーザー情報の取得
-    $stmt = $pdo->prepare('SELECT * FROM USER WHERE EMAIL_ADDRESS = :email');
+    $stmt = $pdo->prepare('SELECT USER.*, EMAIL.EMAIL FROM USER LEFT JOIN EMAIL ON USER.USER_ID = EMAIL.USER_ID WHERE EMAIL.EMAIL = :email');
     $stmt->bindParam(':email', $email, PDO::PARAM_STR);
     $stmt->execute();
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -30,14 +40,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($user && password_verify($password, $user['USER_PASSWORD'])) {
         // セッションにUSER_IDを保存
         $_SESSION['user_id'] = $user['USER_ID'];
-
-
-        // ログイン成功後にマイページへリダイレクト
-        header('Location: mypage.html');
-        exit;
+        if ($user['ROLE'] == 1) {
+            $_SESSION['admin_id'] = $user['ROLE'];
+            // 管理者の場合は管理者ページへリダイレクト
+            header('Location: /admin/admin_main.php');
+            exit;
+        } else if ($user['ROLE'] >= 2) {
+            $_SESSION['hotel_id'] = $user['ROLE'];
+            // ホテルの場合はホテルページへリダイレクト
+            header('Location: /hotel/hotel_main.php');
+            exit;
+        } else {
+            // ログイン成功後にマイページへリダイレクト
+            header('Location: /user/mypage.php');
+            exit;
+        }
     } else {
         // エラーを表示せずにログインページに戻る
-        echo '<script>alert("ログインに失敗しました。メールアドレスまたはパスワードが間違っています。"); window.location.href = "login.html";</script>';
+        echo '<script>alert("ログインに失敗しました。メールアドレスまたはパスワードが間違っています。"); window.location.href = "login.php";</script>';
         exit;
     }
 }
@@ -114,7 +134,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     <div class="login-container">
         <h2>ログイン</h2>
-        <form action="login.php" method="post">
+        <form action="" method="post">
             <label for="email">メールアドレス:</label>
             <input type="email" id="email" name="email" required>
         
@@ -123,8 +143,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
             <button type="submit">ログイン</button>
         </form>
-        <a class="register-link" href="add.php">新規会員登録はこちら</a>
-        <a class="register-link" href="main.html">メインページに戻る</a>
+        <a class="register-link" href="./user/add.php">新規会員登録はこちら</a>
+        <a class="register-link" href="./index.php">メインページに戻る</a>
     </div>
 </body>
 </html>
