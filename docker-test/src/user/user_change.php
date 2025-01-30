@@ -1,28 +1,13 @@
 <?php
-session_start();
-
-$host = 'mysql.pokapy.com:3307';
-$dbname = 'php-docker-db';
-$username = 'user';
-$password = 'password';
-
-try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die('データベース接続に失敗しました: ' . $e->getMessage());
-}
-
-// セッションからログイン中のユーザーIDを取得
-if (!isset($_SESSION['user_id'])) {
-    die('ログインしていません。ログインページに戻ってください。');
-}
-
+include_once __DIR__ . '/../inc/db.php';
+include_once __DIR__ . '/../inc/is_login.php';
 $user_id = $_SESSION['user_id'];
+
+$pdo = db_connect();
 
 // 初期表示: データベースから現在の登録情報を取得
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    $stmt = $pdo->prepare('SELECT * FROM USER WHERE USER_ID = :user_id');
+    $stmt = $pdo->prepare('SELECT USER.* , EMAIL.EMAIL FROM USER LEFT JOIN EMAIL ON USER.USER_ID = EMAIL.USER_ID WHERE USER.USER_ID = :user_id');
     $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
     $stmt->execute();
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -35,6 +20,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 // 更新処理
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // フォームから送信されたデータを取得
+    try{
+    $pdo->beginTransaction();
+
     $name = trim($_POST['name']);
     $birthdate = trim($_POST['birthdate']);
     $newEmail = trim($_POST['email']);
@@ -47,8 +35,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // メールアドレスが変更された場合の重複チェック
-    if ($newEmail !== $user['EMAIL_ADDRESS']) {
-        $stmt = $pdo->prepare('SELECT COUNT(*) FROM USER WHERE EMAIL_ADDRESS = :email');
+    if ($newEmail !== $user['EMAIL']) {
+        $stmt = $pdo->prepare('SELECT COUNT(*) FROM EMAIL WHERE EMAIL = :email');
         $stmt->bindParam(':email', $newEmail, PDO::PARAM_STR);
         $stmt->execute();
         if ($stmt->fetchColumn() > 0) {
@@ -60,34 +48,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt = $pdo->prepare('
         UPDATE USER 
         SET USER_NAME = :name, 
-            DATE_OF_BIRTH = :birthdate, 
-            EMAIL_ADDRESS = :newEmail, 
+            DATE_OF_BIRTH = :birthdate,  
             ADDRESS = :address, 
             GENDER = :gender 
         WHERE USER_ID = :user_id
     ');
     $stmt->bindParam(':name', $name, PDO::PARAM_STR);
     $stmt->bindParam(':birthdate', $birthdate, PDO::PARAM_STR);
-    $stmt->bindParam(':newEmail', $newEmail, PDO::PARAM_STR);
     $stmt->bindParam(':address', $address, PDO::PARAM_STR);
     $stmt->bindParam(':gender', $gender, PDO::PARAM_STR);
     $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+    $stmt->execute();
 
-    if ($stmt->execute()) {
-        echo '<script>alert("更新が完了しました！"); window.location.href = "mypage.html";</script>';
-        exit;
-    } else {
-        die('更新に失敗しました。');
-    }
+    // EMAIL テーブルを更新
+    $stmt = $pdo->prepare('
+        UPDATE EMAIL 
+        SET EMAIL = :email 
+        WHERE USER_ID = :user_id');
+    $stmt->bindParam(':email', $newEmail, PDO::PARAM_STR);
+    $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+    $stmt->execute();
+
+    $pdo->commit();
+    echo '<script>alert("更新が完了しました！"); window.location.href = "mypage.html";</script>';
+} catch (PDOException $e) {
+    $pdo->rollBack();
+    die('エラーが発生しました。');
+    
+}
 }
 ?>
-
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>登録情報更新</title>
+<?php include_once __DIR__ . '/../inc/header.php'; ?>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -159,7 +150,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
             <div class="form-group">
                 <label for="email">メール:</label>
-                <input type="email" id="email" name="email" value="<?= htmlspecialchars($user['EMAIL_ADDRESS'] ?? '') ?>" required>
+                <input type="email" id="email" name="email" value="<?= htmlspecialchars($user['EMAIL'] ?? '') ?>" required>
             </div>
             <div class="form-group">
                 <label for="address">住所:</label>
@@ -179,6 +170,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         </form>
     </div>
-</body>
-</html>
-
+<?php include_once __DIR__ . '/../inc/footer.php'; ?>

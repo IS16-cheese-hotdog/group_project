@@ -1,6 +1,5 @@
 <?php
-session_start();
-ob_start();
+include_once(__DIR__ ."/../inc/is_admin.php");
 include_once(__DIR__ . '/../inc/db.php');
 
 // データベース接続
@@ -9,56 +8,33 @@ if ($db === false) {
     // エラーメッセージを表示
     die('<div style="color: red; font-weight: bold;">データベース接続に失敗しました。管理者に連絡してください。</div>');
 }
-/**
- * ホテル名をキーとしてホテル情報を取得する関数
- *
- * @param PDO $db PDOインスタンス
- * @param string $hotel_name ホテル名
- * @return array|null ホテル情報 (連想配列)、または null
- */
-function get_hotel_by_name($db, $hotel_name) {
-    try {
-        $sql = "SELECT HOTEL_ID, ZIP, ADDRESS, EMAIL, PHONE_NUMBER, HOTEL_NAME, 
-                       BUILDING_NAME, HOTEL_EXPLAIN, HOTEL_IMAGE
-                FROM HOTEL
-                WHERE HOTEL_NAME = :hotel_name LIMIT 1";
-        $stmt = $db->prepare($sql);
-        $stmt->bindParam(':hotel_name', $hotel_name, PDO::PARAM_STR);
-        $stmt->execute();
-        $hotel = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $hotel ?: null;
-    } catch (PDOException $e) {
-        error_log("データベースエラー: " . $e->getMessage());
-        return null;
-    }
-}
 
-/**
- * ホテル情報を削除する関数
- *
- * @param PDO $db PDOインスタンス
- * @param string $hotel_name ホテル名
- * @return bool 削除成功時は true、失敗時は false
- */
-function delete_hotel_by_name($db, $hotel_name) {
+if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+    $stmt = $db->query('SELECT HOTEL.*, EMAIL.EMAIL FROM HOTEL LEFT JOIN USER ON HOTEL.HOTEL_ID = USER.ROLE LEFT JOIN EMAIL ON USER.USER_ID = EMAIL.USER_ID');
+    $hotels = $stmt->fetchAll();
+} else if ($_SERVER['delete_hotel_id'] == 'POST') {
     try {
-        $sql = "DELETE FROM HOTEL WHERE HOTEL_NAME = :hotel_name";
-        $stmt = $db->prepare($sql);
-        $stmt->bindParam(':hotel_name', $hotel_name, PDO::PARAM_STR);
-        return $stmt->execute();
+        $db->beginTransaction();
+        $stmt = $db->prepare('DELETE FROM HOTEL WHERE HOTEL_ID = :hotel_id');
+        $stmt->bindParam(':hotel_id', $_POST['hotel_id'], PDO::PARAM_INT);
+        $stmt->execute();
+
+        $stmt = $db->prepare('DELETE FROM ROOM WHERE HOTEL_ID = :hotel_id');
+        $stmt->bindParam(':hotel_id', $_POST['hotel_id'], PDO::PARAM_INT);
+        $stmt->execute();
+
+        $db->commit();
+
+        header('Location: ' . $_SERVER['PHP_SELF']);
     } catch (PDOException $e) {
-        error_log("データベースエラー: " . $e->getMessage());
-        return false;
+        $db->rollBack();
+        echo '<div style="color: red; font-weight: bold;">エラー: ' . $e->getMessage() . '</div>';
     }
+
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ホテル管理ページ</title>
+<?php include_once(__DIR__ . '/../inc/header.php'); ?>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -160,42 +136,26 @@ function delete_hotel_by_name($db, $hotel_name) {
             <button onclick="location.href='admin.php'">管理画面に戻る</button>
         </div>
 
-        <?php
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['hotel_name'])) {
-            $hotel_name = trim($_POST['hotel_name']);
-            $hotel = get_hotel_by_name($db, $hotel_name);
+        <?php if (isset($hotels)): ?>
+            <?php foreach ($hotels as $hotel): ?>
+                <div class="hotel-info">
+                    <h2><?php echo $hotel['HOTEL_NAME']; ?></h2>
+                    <p>ホテルID: <?php echo $hotel['HOTEL_ID']; ?></p>
+                    <p>住所: <?php echo $hotel['ADDRESS']; ?></p>
+                    <p>電話番号: <?php echo $hotel['PHONE_NUMBER']; ?></p>
+                    <p>メールアドレス: <?php echo $hotel['EMAIL']; ?></p>
+                    <div class="button-group">
+                        <form action="admin_hotel_update.php" method="POST">
+                            <input type="hidden" name="hotel_id" value="<?php echo $hotel['HOTEL_ID']; ?>">
+                            <button type="submit">編集</button>
+                        </form>
+                        <form method="POST" style="display: inline-block;">
+                            <input type="hidden" name="hotel_id" value="<?php echo $hotel['HOTEL_ID']; ?>">
+                            <button type="submit" name="delete_hotel_id">削除</button>
+                        </form>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        <?php endif; ?>
 
-            if ($hotel) {
-                echo '<div class="hotel-info">';
-                echo "<h2>ホテル情報</h2>";
-                echo "<p><strong>ホテルID:</strong> " . htmlspecialchars($hotel['HOTEL_ID']) . "</p>";
-                echo "<p><strong>郵便番号:</strong> " . htmlspecialchars($hotel['ZIP']) . "</p>";
-                echo "<p><strong>住所:</strong> " . htmlspecialchars($hotel['ADDRESS']) . "</p>";
-                echo "<p><strong>メールアドレス:</strong> " . htmlspecialchars($hotel['EMAIL']) . "</p>";
-                echo "<p><strong>電話番号:</strong> " . htmlspecialchars($hotel['PHONE_NUMBER']) . "</p>";
-                echo "<p><strong>ホテル名:</strong> " . htmlspecialchars($hotel['HOTEL_NAME']) . "</p>";
-                echo "<p><strong>建物名:</strong> " . htmlspecialchars($hotel['BUILDING_NAME']) . "</p>";
-                echo "<p><strong>ホテル説明:</strong> " . htmlspecialchars($hotel['HOTEL_EXPLAIN']) . "</p>";
-                echo "<p><strong>ホテル画像:</strong> " . htmlspecialchars($hotel['HOTEL_IMAGE']) . "</p>";
-                echo '<form method="POST" style="margin-top: 20px;">
-                        <input type="hidden" name="delete_hotel_name" value="' . htmlspecialchars($hotel_name) . '">
-                        <button type="submit" style="background-color: #f44336; color: white;">ホテルを削除</button>
-                      </form>';
-                echo '</div>';
-            } else {
-                echo '<div class="error-message">指定されたホテルは見つかりませんでした。</div>';
-            }
-        }
-
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_hotel_name'])) {
-            $hotel_name = trim($_POST['delete_hotel_name']);
-            if (delete_hotel_by_name($db, $hotel_name)) {
-                echo '<div class="success-message">ホテル情報を削除しました。</div>';
-            } else {
-                echo '<div class="error-message">削除に失敗しました。再試行してください。</div>';
-            }
-        }
-        ?>
-    </div>
-</body>
-</html>
+<?php include_once(__DIR__ . '/../inc/footer.php'); ?>

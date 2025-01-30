@@ -1,9 +1,7 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>マイページ</title>
+<?php
+include_once(__DIR__ . '/../inc/is_login.php'); 
+include_once(__DIR__ . '/../inc/header.php');
+?>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -132,12 +130,12 @@
             </div>
         </div>
         <div class="tabs">
-            <div class="tab" onclick="window.location.href='user_check.html'">予約確認</div>
+            <div class="tab" onclick="window.location.href='user_check.php'">予約確認</div>
             <div class="tab" onclick="window.location.href='user_change.php'">登録情報更新</div>
-            <div class="tab" onclick="window.location.href='search.html?from=mypage'">検索</div> <!-- 'mypage' から来たことを示す -->
+            <div class="tab" onclick="window.location.href='search.php?from=mypage'">検索</div> <!-- 'mypage' から来たことを示す -->
         </div>
         <div class="link-container">
-            <a href="login.html">ログアウト</a>
+            <a href="/inc/logout.php">ログアウト</a>
         </div>
         <div id="info" class="tab-content">
             <h2>登録情報確認</h2>
@@ -160,7 +158,7 @@
             document.body.appendChild(popup);
 
             document.getElementById('confirm-yes').addEventListener('click', function() {
-                window.location.href = 'main.html';
+                window.location.href = 'main.php';
             });
 
             document.getElementById('confirm-no').addEventListener('click', function() {
@@ -177,22 +175,5 @@
                 notificationContainer.appendChild(p);
             });
         }
-
-        function fetchReservations() {
-            fetch('reserve.html')
-                .then(response => response.json())
-                .then(data => {
-                    updateNotifications(data);
-                })
-                .catch(error => console.error('Error fetching reservations:', error));
-        }
-
-        // クエリパラメータでどこから来たかを判別
-        const params = new URLSearchParams(window.location.search);
-        const fromPage = params.get('from');
-        if (fromPage === 'mypage') {
-            alert('マイページから来ました');
-        }
     </script>
-</body>
-</html>
+<?php include_once(__DIR__ . '/../inc/footer.php'); ?>

@@ -1,6 +1,6 @@
 <?php
 session_start();
-include_once("./inc/db.php");
+include_once(__DIR__ . "/../inc/db.php");
 $pdo = db_connect();
 
 // 会員登録処理
@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // メールアドレスの重複チェック
-    $stmt = $pdo->prepare('SELECT COUNT(*) FROM USER WHERE EMAIL_ADDRESS = :email');
+    $stmt = $pdo->prepare('SELECT COUNT(*) FROM EMAIL WHERE EMAIL = :email');
     $stmt->bindParam(':email', $email, PDO::PARAM_STR);
     $stmt->execute();
     if ($stmt->fetchColumn() > 0) {
@@ -30,32 +30,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $hashedPassword = password_hash($passwordInput, PASSWORD_DEFAULT);
 
     // ユーザーをデータベースに挿入
+    $pdo->beginTransaction();
     $stmt = $pdo->prepare(
-        'INSERT INTO USER (USER_NAME, EMAIL_ADDRESS, ADDRESS, DATE_OF_BIRTH, GENDER, USER_PASSWORD) 
-        VALUES (:name, :email, :address, :dob, :gender, :password)'
+        'INSERT INTO USER (USER_NAME, ADDRESS, DATE_OF_BIRTH, GENDER, USER_PASSWORD) 
+        VALUES (:name, :address, :dob, :gender, :password)'
     );
     $stmt->bindParam(':name', $userName, PDO::PARAM_STR);
-    $stmt->bindParam(':email', $email, PDO::PARAM_STR);
     $stmt->bindParam(':address', $address, PDO::PARAM_STR);
     $stmt->bindParam(':dob', $dob, PDO::PARAM_STR);
     $stmt->bindParam(':gender', $gender, PDO::PARAM_STR);
     $stmt->bindParam(':password', $hashedPassword, PDO::PARAM_STR);
+    $stmt->execute();
+
+    $user_id = $pdo->lastInsertId();
+    // メールアドレスの登録
+    $stmt = $pdo->prepare('INSERT INTO EMAIL (EMAIL, USER_ID) VALUES (:email, :user_id)');
+    $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+    $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
 
     if ($stmt->execute()) {
         // 登録成功時はログインページへリダイレクト
-        header('Location: login.html');
+        $pdo->commit();
+        $_SESSION['user_id'] = $user_id;
+        header('Location: mypage.php');
         exit;
     } else {
         die('会員登録に失敗しました。');
     }
 }
 ?>
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>会員登録</title>
+<?php include_once(__DIR__ . "/../inc/header.php"); ?>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -63,33 +67,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             margin: 0;
             padding: 0;
         }
-        .header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 10px 20px;
-            color: #01579b;
-        }
-        .header h1 {
+
+        h1 {
             margin: 0;
             font-size: 20px;
             text-align: center;
             flex-grow: 1;
         }
-        .back-button {
-            background-color: #0056b3;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            padding: 10px 20px;
-            text-decoration: none;
-            font-size: 14px;
-            white-space: nowrap;
-            cursor: pointer;
-        }
-        .back-button:hover {
-            background-color: #00408a;
-        }
+        
         form {
             max-width: 400px;
             margin: 40px auto;
@@ -104,7 +89,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             font-weight: bold;
             color: #007BFF;
         }
-        input, select, button {
+        input, select, .submit-button {
             width: 100%;
             padding: 12px;
             margin-bottom: 15px;
@@ -117,7 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             outline: none;
             box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
         }
-        button {
+        button .submit-button {
             background-color: #007BFF;
             color: white;
             border: none;
@@ -125,16 +110,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             cursor: pointer;
             font-size: 16px;
         }
-        button:hover {
+        button:hover .submit-button {
             background-color: #0056b3;
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <a href="login.html" class="back-button">戻る</a>
-        <h1>会員登録</h1>
-    </div>
+    <h1 >会員登録</h1>
     <form action="" method="post">
         <label for="name">氏名:</label>
         <input type="text" id="name" name="name" required>
@@ -152,8 +134,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </select>
         <label for="password">パスワード:</label>
         <input type="password" id="password" name="password" required>
-        <button type="submit">送信</button>
+        <button type="submit" class="submit-button">送信</button>
     </form>
-</body>
-</html>
-
+<?php include_once(__DIR__ . "/../inc/footer.php"); ?>

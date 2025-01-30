@@ -1,4 +1,1 @@
-<?php
-$form = $_POST["name"];
-echo $form;
-?>
+<a href="/inc/logout.php">ログアウト</a>

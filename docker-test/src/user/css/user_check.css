@@ -1,0 +1,32 @@
+.reservations {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.reservations th,
+.reservations td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+
+.reservations th {
+    background-color: #d9f0ff;
+    /* ヘッダー背景 */
+    color: #005073;
+}
+
+.reservations td {
+    background-color: #ffffff;
+}
+
+.reservations tr:nth-child(even) td {
+    background-color: #f4fbff;
+    /* 偶数行 */
+}
+
+.reservations tr:hover td {
+    background-color: #d9f0ff;
+    /* ホバー効果 */
+}

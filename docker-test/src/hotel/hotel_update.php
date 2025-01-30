@@ -109,7 +109,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $hotel = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if (!$hotel) {
-            header('Location: hotel_.php');
+            header('Location: hotel_main.php');
             exit;
         }
 

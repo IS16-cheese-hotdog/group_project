@@ -1,9 +1,10 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>マイページ</title>
+<?php
+include_once __DIR__ . '/../inc/is_admin.php';
+
+
+?>
+
+<?php include_once __DIR__ . '/../inc/header.php'; ?>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -81,33 +82,11 @@
             <div class="tab" onclick="window.location.href='admin_hotel_manager.php'">ホテル管理</div>
         </div>
         <div class="link-container">
-            <a href="login.php">ログアウト</a>
+            <a href="/inc/logout.php">ログアウト</a>
         </div>
         <div id="info" class="tab-content">
             <h2>登録情報確認</h2>
             <!-- 登録情報確認の内容 -->
         </div>
     </div>
-
-    <script>
-        function showTab(tabId) {
-            const contents = document.querySelectorAll('.tab-content');
-            contents.forEach(content => content.classList.remove('active'));
-            document.getElementById(tabId).classList.add('active');
-        }
-
-        function checkReservations() {
-            const reservations = []; // ここに予約データを取得するロジックを追加
-            const reservationStatus = document.getElementById('reservation-status');
-            if (reservations.length > 0) {
-                reservationStatus.innerHTML = '<p>1ヵ月以内の予約があります。</p>';
-            } else {
-                reservationStatus.innerHTML = '<p>予約はありません。</p>';
-            }
-        }
-
-        // ページ読み込み時に予約状況を確認
-        window.onload = checkReservations;
-    </script>
-</body>
-</html>
+<?php include_once __DIR__ . '/../inc/footer.php'; ?>
