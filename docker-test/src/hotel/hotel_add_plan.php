@@ -1,9 +1,12 @@
-<?php include_once __DIR__ . '/../inc/is_hotel.php';
-include_once __DIR__ . '/../inc/db.php';
+<?php include_once(__DIR__ . '/../inc/is_hotel.php');
+include_once(__DIR__ . '/../inc/db.php');
+include_once(__DIR__ . '/../inc/get_url.php');
 $db = db_connect();
+
 if ($db === false) {
-    include_once __DIR__ . '/../inc/get_url.php';
-    header('Location: ' . get_url() . '/err.php?err_msg=DB接続エラーです');
+
+    $url =  get_url();
+    header('Location: ' . $url . '/err.php?err_msg=DB接続エラーです');
     exit;
 }
 
@@ -11,6 +14,7 @@ if ($db === false) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $plan_name = $_POST['plan-name'];
     $plan_description = $_POST['plan-description'];
+    $max_people = $_POST["max-people"];
     $plan_price = $_POST['plan-price'];
     $child_price = $_POST['child-price'];
     $infant_price = $_POST['infant-price'];
@@ -18,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $plan_meal = $_POST['plan-meal'];
     $hotel_id = $_SESSION['hotel_id'];
 
-    $sql = 'INSERT INTO PLAN (PLAN_NAME, , MAX_PEOPLE, PLAN_EXPLAIN, CHARGE, CHILD_CHARGE, INFANT_CHARGE, ROOM_ID, HOTEL_ID, EAT) VALUES (:plan_name, , :max_people, :plan_description, :plan_price, :child_price, :infant_price, :room_id, :hotel_id, :plan_meal)';
+    $sql = 'INSERT INTO PLAN (PLAN_NAME, MAX_PEOPLE, PLAN_EXPLAIN, CHARGE, CHILD_CHARGE, INFANT_CHARGE, ROOM_ID, HOTEL_ID, EAT) VALUES (:plan_name, :max_people, :plan_description, :plan_price, :child_price, :infant_price, :room_id, :hotel_id, :plan_meal)';
     $stmt = $db->prepare($sql);
     $stmt->bindParam(':plan_name', $plan_name);
     $stmt->bindParam(':max_people', $max_people);

@@ -3,3 +3,7 @@
 <a href="/user/mypage.php">ユーザー</a>
 <a href="/test/poka.php">テスト</a>
 <a href="/inc/logout.php">ログアウト</a>
+
+
+<?php
+var_dump($_SERVER);

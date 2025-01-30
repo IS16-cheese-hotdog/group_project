@@ -24,6 +24,7 @@ $plan_id = $_POST['plan_id'];
 $query = "SELECT HOTEL.HOTEL_NAME AS hotel_name,
 HOTEL.ADDRESS AS hotel_address, PLAN.PLAN_ID AS plan_id,
 HOTEL.PHONE_NUMBER AS phone_number,HOTEL.HOTEL_ID AS hotel_id,
+HOTEL.HOTEL_IMAGE AS hotel_image,
 EMAIL.EMAIL AS email, HOTEL.BUILDING_NAME AS building_name, 
 HOTEL.HOTEL_EXPLAIN AS hotel_explain, PLAN.CHARGE AS charge,
 PLAN.PLAN_NAME AS plan_name, PLAN.PLAN_EXPLAIN AS plan_explain,
@@ -46,34 +47,31 @@ if (!$detail) {
 }
 
 // 0/1 を「あり」「なし」に変換する関数
-function displayAvailability($value) {
+function displayAvailability($value)
+{
     return $value === "1" ? "あり" : "なし";
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <link rel="stylesheet" href="style.css">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>詳細情報</title>
+<?php include_once __DIR__ . '/../inc/header.php'; ?>
+<link rel="stylesheet" href="./css/detail.css">
+
 </head>
+
 <body>
     <h1>詳細情報</h1>
+    <img src="/uploads/hotel/<?= htmlspecialchars($detail['hotel_image'], ENT_QUOTES, 'UTF-8') ?>" alt="ホテル画像">
     <p><strong>ホテル名:</strong> <?= htmlspecialchars($detail['hotel_name'], ENT_QUOTES, 'UTF-8') ?></p>
+    <p><strong>住所:</strong> <?= htmlspecialchars($detail['hotel_address'], ENT_QUOTES, 'UTF-8') ?></p>
     <p><strong>プラン名:</strong> <?= htmlspecialchars($detail['plan_name'], ENT_QUOTES, 'UTF-8') ?></p>
     <p><strong>料金:</strong> <?= htmlspecialchars($detail['charge'], ENT_QUOTES, 'UTF-8') ?></p>
-    <p><strong>住所:</strong> <?= htmlspecialchars($detail['hotel_address'], ENT_QUOTES, 'UTF-8') ?></p>
-    <p><strong>e-mail:</strong> <?=htmlspecialchars($detail['email'], ENT_QUOTES, 'UTF-8') ?></p>
+    <p><strong>e-mail:</strong> <?= htmlspecialchars($detail['email'], ENT_QUOTES, 'UTF-8') ?></p>
     <p><strong>食事:</strong> <?= displayAvailability($detail['eat']) ?></p>
     <p><strong>Wi-Fi:</strong> <?= displayAvailability($detail['wi_fi']) ?></p>
     <p><strong>ペット可:</strong> <?= displayAvailability($detail['pet']) ?></p>
     <p><strong>喫煙:</strong> <?= displayAvailability($detail['smoking']) ?></p>
     <form action="reservation.php" method="post">
-    <input type="hidden" name="plan_id" value="<?= htmlspecialchars($detail['plan_id'] ?? '', ENT_QUOTES, 'UTF-8') ?>">
-    <button type="submit">予約</button>
-</form>
-    <a href="search.php">戻る</a>
-</body>
-</html>
+        <input type="hidden" name="plan_id" value="<?= htmlspecialchars($detail['plan_id'] ?? '', ENT_QUOTES, 'UTF-8') ?>">
+        <button type="submit" class="submit-button">予約</button>
+    </form>
+<?php include_once __DIR__ . '/../inc/footer.php'; ?>

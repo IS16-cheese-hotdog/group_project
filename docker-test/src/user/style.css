@@ -56,7 +56,8 @@ label[for] {
 }
 
 /* ボタン */
-button {
+.search-button {
+    
     width: 100%;
     padding: 12px;
     margin-top: 20px;
@@ -70,7 +71,7 @@ button {
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-button:hover {
+.search-button:hover {
     background-color: #0277bd;
     transform: scale(1.05);
 }

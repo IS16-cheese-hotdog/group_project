@@ -1,12 +1,5 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
+<?php include_once __DIR__ . '/../inc/header.php'; ?>
     <link rel="stylesheet" href="style.css">
-
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ホテル検索フォーム</title>
-</head>
 <body>
     <h1>ホテル検索フォーム</h1>
     <form action="results.php" method="post">
@@ -70,7 +63,6 @@
         <input type="radio" name="refrigerator" value="0" id="refrigerator_no">
         <label for="refrigerator_no">不可</label><br>
 
-        <button type="submit">検索</button>
+        <button type="submit" class="search-button">検索</button>
     </form>
-</body>
-</html>
+<?php include_once __DIR__ . '/../inc/footer.php'; ?>
