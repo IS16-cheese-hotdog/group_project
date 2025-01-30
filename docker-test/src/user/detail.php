@@ -199,8 +199,8 @@ function displayAvailability($value)
 <body>
     <div class="container">
         <div class="hotel-photos">
-            <img src="IMG_0119.JPG" alt="ホテルの外観">
-            <img src="IMG_0120.JPG" alt="ホテルの内観">
+            <img src="./../img/IMG_0119.JPG" alt="ホテルの外観">
+            <img src="./../img/IMG_2185.JPG" alt="ホテルの内観">
         </div>
 
         <h2><?= htmlspecialchars($detail['hotel_name'], ENT_QUOTES, 'UTF-8') ?></h2>
