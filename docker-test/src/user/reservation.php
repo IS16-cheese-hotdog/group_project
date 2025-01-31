@@ -189,13 +189,20 @@ $detail = $stmt->fetch(PDO::FETCH_ASSOC);
         }
     }
 });
+
+        document.getElementById('insert-form').addEventListener('submit', function(e) {
+            if (!confirm('この内容でしますか？')) {
+                e.preventDefault();
+            }
+        });
+
     </script>
 </head>
 <body>
     <div class="container">
         <div class="left">
             <h2>予約フォーム</h2>
-            <form action="confirm_reservation.php" method="post" onsubmit="return validateDates()">
+            <form action="confirm_reservation.php" method="post"  id="insert-form" onsubmit="return validateDates()">
                 <input type="hidden" name="hotel_name" value="<?= htmlspecialchars($detail['hotel_name'], ENT_QUOTES, 'UTF-8') ?>">
                 <input type="hidden" name="plan_name" value="<?= htmlspecialchars($detail['plan_name'], ENT_QUOTES, 'UTF-8') ?>">
                 <input type="hidden" name="plan_id" value="<?= htmlspecialchars($detail['plan_id'], ENT_QUOTES, 'UTF-8') ?>">        
@@ -225,7 +232,7 @@ $detail = $stmt->fetch(PDO::FETCH_ASSOC);
                 </div>
                 <div id="error-message" class="error-message"></div>
                 <div class="form-group reserve-button">
-                    <button type="submit">予約を確認</button>
+                    <button type="submit" onclick="se">予約</button>
                 </div>
             </form>
         </div>
