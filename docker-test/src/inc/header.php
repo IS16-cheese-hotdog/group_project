@@ -2,6 +2,12 @@
 if (php_sapi_name() === 'cli') {
     die("このスクリプトはWebサーバーを介して実行してください。");
 }
+$excluded_pages = [
+    "/index.php",
+    "/hotel/hotel_main.php",
+    "/user/mypage.php",
+    "/admin/admin_main.php"
+];
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -16,7 +22,9 @@ if (php_sapi_name() === 'cli') {
 <body>
 <header>
     <div>
+    <?php if (!in_array($_SERVER["DOCUMENT_URI"], $excluded_pages)) : ?>
         <button onclick="history.back()" class="back-button">戻る</button>
+    <?php endif; ?>
         <div class="site-name">
             <a href="/" style="color: #ffffff; text-decoration: none;">サイト名(仮)</a>
         </div>
@@ -32,7 +40,7 @@ if (php_sapi_name() === 'cli') {
             </div>
         <?php elseif (!isset($_SESSION['user_id'])) : ?>
             <div class="buttons">
-                <button onclick="location.href='/login.html'" class="mypage-button">ログイン</button>
+                <button onclick="location.href='/login.php'" class="mypage-button">ログイン</button>
             </div>
         <?php endif; ?>
     </div>

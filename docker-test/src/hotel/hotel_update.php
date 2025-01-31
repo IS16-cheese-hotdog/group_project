@@ -65,20 +65,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             $img_name = $_POST['current_image'] ?? '';
         }
-
+        $db->beginTransaction();
         // SQL更新クエリ
-        $sql = "UPDATE HOTEL , EMAIL , USER SET
+        $sql = "UPDATE HOTEL SET
                     HOTEL.HOTEL_NAME = :hotel_name,
                     HOTEL.ZIP = :postal_code,
                     HOTEL.PREFECTURE = :prefecture,
                     HOTEL.ADDRESS = :address,
                     HOTEL.BUILDING_NAME = :building_name,
                     HOTEL.PHONE_NUMBER = :phone_number,
-                    EMAIL.EMAIL = :email2,
                     HOTEL.HOTEL_EXPLAIN = :description,
                     HOTEL.HOTEL_IMAGE = :img_name
-                WHERE HOTEL.HOTEL_ID = :hotel_id
-                AND EMAIL.USER_ID = USER.USER_ID";
+                WHERE HOTEL.HOTEL_ID = :hotel_id";
+
 
         $stmt = $db->prepare($sql);
         $stmt->bindValue(':hotel_name', $hotel_name, PDO::PARAM_STR);
@@ -87,12 +86,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->bindValue(':address', $address, PDO::PARAM_STR);
         $stmt->bindValue(':building_name', $building_name, PDO::PARAM_STR);
         $stmt->bindValue(':phone_number', $phone_number, PDO::PARAM_STR);
-        $stmt->bindValue(':email2', $email2, PDO::PARAM_STR);
         $stmt->bindValue(':description', $description, PDO::PARAM_STR);
         $stmt->bindValue(':img_name', $img_name, PDO::PARAM_STR);
         $stmt->bindValue(':hotel_id', $_SESSION['hotel_id'], PDO::PARAM_INT);
-
         $stmt->execute();
+
+        $sql = "UPDATE EMAIL SET EMAIL = :email WHERE USER_ID = :user_id";
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(":user_id", $_SESSION["user_id"], PDO::PARAM_INT);
+        $stmt->bindValue(":email", $email2, PDO::PARAM_STR);
+        $stmt->execute();
+
+        $db->commit();
 
         header('Location: hotel_main.php');
         exit;

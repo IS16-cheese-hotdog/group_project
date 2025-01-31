@@ -65,7 +65,7 @@ button:hover {
 }
 
 /* メッセージ（結果なしの時） */
-p {
+.no-result {
     text-align: center;
     font-size: 16px;
     color: #555;

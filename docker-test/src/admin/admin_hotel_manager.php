@@ -12,15 +12,15 @@ if ($db === false) {
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     $stmt = $db->query('SELECT HOTEL.*, EMAIL.EMAIL FROM HOTEL LEFT JOIN USER ON HOTEL.HOTEL_ID = USER.ROLE LEFT JOIN EMAIL ON USER.USER_ID = EMAIL.USER_ID');
     $hotels = $stmt->fetchAll();
-} else if ($_SERVER['delete_hotel_id'] == 'POST') {
+} else if ($_SERVER['REQUEST_METHOD'] == 'POST'&& isset($_POST['delete_hotel_id'])) {
     try {
         $db->beginTransaction();
         $stmt = $db->prepare('DELETE FROM HOTEL WHERE HOTEL_ID = :hotel_id');
-        $stmt->bindParam(':hotel_id', $_POST['hotel_id'], PDO::PARAM_INT);
+        $stmt->bindParam(':hotel_id', $_POST["delete_hotel_id"], PDO::PARAM_INT);
         $stmt->execute();
 
         $stmt = $db->prepare('DELETE FROM ROOM WHERE HOTEL_ID = :hotel_id');
-        $stmt->bindParam(':hotel_id', $_POST['hotel_id'], PDO::PARAM_INT);
+        $stmt->bindParam(':hotel_id', $_POST['delete_hotel_id'], PDO::PARAM_INT);
         $stmt->execute();
 
         $db->commit();
@@ -149,8 +149,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                             <input type="hidden" name="hotel_id" value="<?php echo $hotel['HOTEL_ID']; ?>">
                             <button type="submit">編集</button>
                         </form>
-                        <form method="POST" style="display: inline-block;">
-                            <input type="hidden" name="hotel_id" value="<?php echo $hotel['HOTEL_ID']; ?>">
+                        <form acrion="" method="POST" style="display: inline-block;">
+                            <input type="hidden" name="delete_hotel_id" value="<?php echo $hotel['HOTEL_ID']; ?>">
                             <button type="submit" name="delete_hotel_id">削除</button>
                         </form>
                     </div>

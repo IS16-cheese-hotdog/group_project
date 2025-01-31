@@ -37,24 +37,6 @@ h1 {
     /* ホバー時に濃いブルー */
 }
 
-.back-button {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    text-decoration: none;
-    color: #0056b3;
-    /* ブルー系 */
-    background: #f1f1f1;
-    padding: 12px;
-    border-radius: 8px;
-    font-size: 16px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.back-button:hover {
-    background: #e1e1e1;
-}
-
 ul {
     list-style-type: none;
     padding: 0;

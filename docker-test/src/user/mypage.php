@@ -66,31 +66,6 @@ include_once(__DIR__ . '/../inc/header.php');
             margin-top: 20px;
             flex-wrap: wrap;
         }
-        .popup {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: rgba(255, 255, 255, 0.9);
-            color: #333;
-            padding: 30px;
-            border-radius: 8px;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-        }
-        .popup button {
-            margin-top: 10px;
-            padding: 10px 20px;
-            background-color: #d32f2f; /* 赤色 */
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        .popup button:hover {
-            background-color: #c62828;
-        }
         .notification-wrapper {
             margin-top: 20px;
             padding: 20px;
@@ -101,21 +76,6 @@ include_once(__DIR__ . '/../inc/header.php');
         .notification h2 {
             margin-top: 0;
             color: #01579b;
-        }
-        #withdraw-tab {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #d32f2f; /* 赤色 */
-            color: white;
-            padding: 15px 30px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s, transform 0.2s;
-        }
-        #withdraw-tab:hover {
-            background-color: #c62828;
-            transform: scale(1.1);
         }
     </style>
 </head>
@@ -132,40 +92,17 @@ include_once(__DIR__ . '/../inc/header.php');
         <div class="tabs">
             <div class="tab" onclick="window.location.href='user_check.php'">予約確認</div>
             <div class="tab" onclick="window.location.href='user_change.php'">登録情報更新</div>
-            <div class="tab" onclick="window.location.href='search.php?from=mypage'">検索</div> <!-- 'mypage' から来たことを示す -->
+            <div class="tab" onclick="window.location.href='search.php?from=mypage'">検索</div> 
         </div>
         <div class="link-container">
             <a href="/inc/logout.php">ログアウト</a>
         </div>
         <div id="info" class="tab-content">
             <h2>登録情報確認</h2>
-            <!-- 登録情報確認の内容 -->
         </div>
     </div>
 
-    <div id="withdraw-tab">退会</div>
-
     <script>
-        document.getElementById('withdraw-tab').onclick = function(event) {
-            event.preventDefault();
-            const popup = document.createElement('div');
-            popup.className = 'popup';
-            popup.innerHTML = ` 
-                <p>本当に退会しますか？</p>
-                <button id="confirm-yes">はい</button>
-                <button id="confirm-no">いいえ</button>
-            `;
-            document.body.appendChild(popup);
-
-            document.getElementById('confirm-yes').addEventListener('click', function() {
-                window.location.href = 'main.php';
-            });
-
-            document.getElementById('confirm-no').addEventListener('click', function() {
-                document.body.removeChild(popup);
-            });
-        };
-
         function updateNotifications(data) {
             const notificationContainer = document.querySelector('.notification');
             notificationContainer.innerHTML = '<h2>お知らせ</h2>';

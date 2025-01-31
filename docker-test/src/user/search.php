@@ -1,12 +1,8 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <link rel="stylesheet" href="style.css">
+<?
+session_start();
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ホテル検索フォーム</title>
-</head>
+include_once __DIR__ . '/../inc/header.php'; ?>
+    <link rel="stylesheet" href="style.css">
 <body>
     <h1>ホテル検索フォーム</h1>
     <form action="results.php" method="post">
@@ -34,7 +30,7 @@
         <input type="radio" name="bathroom" value="0" id="bathroom_no">
         <label for="bathroom_no">不可</label><br>
 
-        <label for="dryer">ドライアー:</label>
+        <label for="dryer">ドライヤー:</label>
         <input type="radio" name="dryer" value="1" id="dryer_yes">
         <label for="dryer_yes">可</label>
         <input type="radio" name="dryer" value="0" id="dryer_no">
@@ -70,7 +66,6 @@
         <input type="radio" name="refrigerator" value="0" id="refrigerator_no">
         <label for="refrigerator_no">不可</label><br>
 
-        <button type="submit">検索</button>
+        <button type="submit" class="search-button">検索</button>
     </form>
-</body>
-</html>
+<?php include_once __DIR__ . '/../inc/footer.php'; ?>

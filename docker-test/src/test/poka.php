@@ -1,1 +1,2 @@
-<a href="/inc/logout.php">ログアウト</a>
+<?php
+var_dump($_SERVER);
