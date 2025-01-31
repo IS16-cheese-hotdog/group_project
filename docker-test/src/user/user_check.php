@@ -5,16 +5,19 @@ include_once __DIR__ . '/../inc/checkFacility.php';
 
 $user_id = $_SESSION["user_id"];
 $pdo = db_connect();
+
 try {
-    $pdo->beginTransaction();
-    $stmt = $pdo->prepare('SELECT RESERVATION.*, PLAN.PLAN_NAME, PLAN.HOTEL_ID, PLAN.EAT, PLAN.CHARGE, PLAN.CHILD_CHARGE, PLAN.INFANT_CHARGE, HOTEL.HOTEL_NAME FROM RESERVATION LEFT JOIN PLAN ON PLAN.PLAN_ID = RESERVATION.PLAN_ID LEFT JOIN HOTEL ON HOTEL.HOTEL_ID = PLAN.HOTEL_ID WHERE RESERVATION.USER_ID = :user_id');
+    $stmt = $pdo->prepare('SELECT RESERVATION.*, PLAN.PLAN_NAME, PLAN.HOTEL_ID, PLAN.EAT, PLAN.CHARGE, PLAN.CHILD_CHARGE, PLAN.INFANT_CHARGE, HOTEL.HOTEL_NAME, 
+                           (SELECT COUNT(*) FROM REVIEW WHERE REVIEW.RESERVATION_ID = RESERVATION.RESERVATION_ID) AS REVIEW_COUNT 
+                           FROM RESERVATION 
+                           LEFT JOIN PLAN ON PLAN.PLAN_ID = RESERVATION.PLAN_ID 
+                           LEFT JOIN HOTEL ON HOTEL.HOTEL_ID = PLAN.HOTEL_ID 
+                           WHERE RESERVATION.USER_ID = :user_id');
     $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
     $stmt->execute();
     $reservations = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    $pdo->commit();
 } catch (PDOException $e) {
-    $pdo->rollBack();
-    die('予約情報の取得に失敗しました');
+    die('予約情報の取得に失敗しました: ' . htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8'));
 }
 
 include_once __DIR__ . '/../inc/header.php';
@@ -61,12 +64,16 @@ include_once __DIR__ . '/../inc/header.php';
                 <td><?php echo htmlspecialchars($reservation['ADULT'], ENT_QUOTES, 'UTF-8'); ?></td>
                 <td><?php echo htmlspecialchars($reservation['KID'], ENT_QUOTES, 'UTF-8'); ?></td>
                 <td><?php echo htmlspecialchars($reservation['INFANT'], ENT_QUOTES, 'UTF-8'); ?></td>
-                <td><?php echo htmlspecialchars($total_price, ENT_QUOTES, 'UTF-8'); ?></td>
+                <td><?php echo htmlspecialchars(number_format($total_price), ENT_QUOTES, 'UTF-8'); ?></td>
                 <td>
-                    <form action="review.php" method="post">
-                        <input type="hidden" name="reservation_id" value="<?php echo htmlspecialchars($reservation['RESERVATION_ID'], ENT_QUOTES, 'UTF-8'); ?>">
-                        <input type="submit" value="評価する">
-                    </form>
+                    <?php if ($reservation['REVIEW_COUNT'] > 0): ?>
+                        <p>評価済み</p>
+                    <?php else: ?>
+                        <form action="review.php" method="post">
+                            <input type="hidden" name="reservation_id" value="<?php echo htmlspecialchars($reservation['RESERVATION_ID'], ENT_QUOTES, 'UTF-8'); ?>">
+                            <input type="submit" value="評価する">
+                        </form>
+                    <?php endif; ?>
                 </td>
             </tr>
         <?php endforeach; ?>
