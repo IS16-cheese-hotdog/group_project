@@ -30,7 +30,7 @@ include_once __DIR__ . '/../inc/header.php'; ?>
         <input type="radio" name="bathroom" value="0" id="bathroom_no">
         <label for="bathroom_no">不可</label><br>
 
-        <label for="dryer">ドライアー:</label>
+        <label for="dryer">ドライヤー:</label>
         <input type="radio" name="dryer" value="1" id="dryer_yes">
         <label for="dryer_yes">可</label>
         <input type="radio" name="dryer" value="0" id="dryer_no">
