@@ -227,7 +227,14 @@ function displayAvailability($value)
             <img src="/uploads/hotel/<?= htmlspecialchars($detail['hotel_image'], ENT_QUOTES, 'UTF-8') ?>" alt="ホテルの外観">
         </div>
         <div class="map">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12987.908223971348!2d139.62983112145167!3d35.529564662182565!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60185f1988e87525%3A0x5f7be94b910a1bd6!2z44CSMjIyLTAwMDE!5e0!3m2!1sja!2sjp!4v1738298442420!5m2!1sja!2sjp" width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            <iframe
+                width="600"
+                height="450"
+                style="border:0"
+                loading="lazy"
+                allowfullscreen
+                src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAWEWfVocoq6TtpLX6cRAKUrxAeFBRQ4vs&q=<?= urlencode($detail['hotel_address']) ?>">
+            </iframe>
         </div>
 
 
