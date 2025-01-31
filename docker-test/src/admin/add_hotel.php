@@ -97,14 +97,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 
 
-<!DOCTYPE html>
-<html lang="ja">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ホテル追加</title>
-    <style>
+<?php include_once(__DIR__ . '/../inc/header.php'); ?>
+<style>
         body {
             font-family: Arial, sans-serif;
             background-color: #e6f7ff;
@@ -145,7 +139,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         input,
-        button,
+        .submit-button,
         textarea {
             width: 100%;
             padding: 12px;
@@ -155,7 +149,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             background-color: #f9fcff;
         }
 
-        button {
+        .submit-button {
             background-color: #007BFF;
             color: white;
             border: none;
@@ -164,11 +158,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             font-size: 16px;
         }
     </style>
-</head>
-
-<body>
     <div class="header">
-        <a href="admin2.html" class="back-button">戻る</a>
         <h1>ホテル追加</h1>
     </div>
     <form action="" method="post" enctype="multipart/form-data">
@@ -257,8 +247,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <label for="password">パスワード:</label>
         <input type="password" id="password" name="password" required>
-        <button type="submit">送信</button>
+        <button type="submit" class="submit-button">送信</button>
     </form>
-</body>
-
-</html>
+<?php include_once(__DIR__ . '/../inc/footer.php'); ?>
