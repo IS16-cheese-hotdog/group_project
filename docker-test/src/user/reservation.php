@@ -1,5 +1,5 @@
 <?php
-session_start();
+include_once(__DIR__ . '/../inc/is_login.php');
 
 $host = 'mysql.pokapy.com:3307';
 $dbname = 'php-docker-db';

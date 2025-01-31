@@ -1,5 +1,5 @@
 <?php
-session_start();
+include_once __DIR__ ."/../inc/is_login.php";
 
 // データベース接続情報
 $host = 'mysql.pokapy.com:3307';
@@ -68,10 +68,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit_review'])) {
             $error = "ユーザー情報またはホテル情報が不足しています。";
         } else {
             // レビューをデータベースに登録
-            $sql = "INSERT INTO REVIEW (USER_ID, HOTEL_ID, REVIEW_DATE, REVIEW_RATE, REVIEW_DETAIL) VALUES (:user_id, :hotel_id, NOW(), :rating, :comment)";
+            $sql = "INSERT INTO REVIEW (USER_ID, RESERVATION_ID, REVIEW_DATE, REVIEW_RATE, REVIEW_DETAIL) VALUES (:user_id, :reservation_id,  NOW(), :rating, :comment)";
             $stmt = $pdo->prepare($sql);
             $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
-            $stmt->bindParam(':hotel_id', $hotel_id, PDO::PARAM_INT);
+            $stmt->bindParam(':reservation_id', $reservation_id, PDO::PARAM_INT);
             $stmt->bindParam(':rating', $rating, PDO::PARAM_INT);
             $stmt->bindParam(':comment', $comment, PDO::PARAM_STR);
 
