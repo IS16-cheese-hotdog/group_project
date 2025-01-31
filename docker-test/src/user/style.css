@@ -76,7 +76,31 @@ label[for] {
     transform: scale(1.05);
 }
 
-/* フォームの全体的な要素の間隔調整 */
-form > * {
-    margin-bottom: 10px;
+/* 地域と都道府県のセレクトボックスを統一 */
+.search-container select {
+    width: 100%; /* フォームの他の要素と統一 */
+    padding: 15px; /* ボックスを大きく */
+    margin: 10px 0;
+    border: 2px solid #4682b4; /* 枠の色を青に */
+    border-radius: 8px; /* 角を少し丸く */
+    font-size: 18px; /* 文字サイズを大きく */
+    background-color: white;
+    color: #333;
+}
+
+/* 選択時の強調 */
+.search-container select:focus {
+    border-color: #1e5b91; /* 選択時に濃い青 */
+    outline: none;
+    box-shadow: 0 0 5px rgba(30, 91, 145, 0.5); /* 軽いシャドウで強調 */
+}
+
+/* 地域と都道府県のセレクトを並べる */
+.flex-container {
+    display: flex;
+    gap: 15px; /* 適度な間隔 */
+}
+
+.flex-container select {
+    flex: 1; /* 均等に並ぶ */
 }
